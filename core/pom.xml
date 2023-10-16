@@ -54,6 +54,10 @@
     </properties>
 
     <dependencies>
+		<dependency>
+			<groupId>no.deem.insight</groupId>
+			<artifactId>deem-core</artifactId>
+		</dependency>
 
         <!-- Third-party dependencies -->
         <dependency>

@@ -37,11 +37,14 @@ import org.apache.hop.projects.config.ProjectsConfig;
 import org.apache.hop.projects.config.ProjectsConfigSingleton;
 import org.apache.hop.projects.util.Defaults;
 import org.apache.hop.projects.util.ProjectsUtil;
-
+import org.apache.logging.log4j.util.Strings;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import no.deem.core.query.QueryContext;
+import no.deem.core.query.QueryDateTime;
+import no.deem.core.query.QueryTools;
 
 public class Project extends ConfigFile implements IConfigFile {
 
@@ -215,9 +218,19 @@ public class Project extends ConfigFile implements IConfigFile {
       String realValue = variables.resolve(dataSetsCsvFolder);
       variables.setVariable(ProjectsUtil.VARIABLE_HOP_DATASETS_FOLDER, realValue);
     }
+    
+    // DEEM-MOD
+    QueryContext context = new QueryContext();
+    context.put("time", QueryDateTime.now());
+    context.put("tools", new QueryTools());
+
     for (DescribedVariable variable : getDescribedVariables()) {
       if (variable.getName() != null) {
-        variables.setVariable(variable.getName(), variable.getValue());
+        if (Strings.isNotEmpty(variable.getValue()) && variable.getValue().contains("$time")) { // DEEM-MOD
+          variables.setVariable(variable.getName(), context.parse(variable.getValue())); // DEEM-MOD
+        } else {
+          variables.setVariable(variable.getName(), variable.getValue());
+        }
       }
     }
   }

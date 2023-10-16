@@ -123,6 +123,7 @@ public class KettleConst {
               {"JOB", "WORKFLOW"},
               {"TRANS", "PIPELINE"},
               {"PARENT_JOB", "PARENT_WORKFLOW"},
+              {"CURRENT_JOB", "CURRENT_WORKFLOW"},
               {"GP_JOB", "GP_WORKFLOW"},
               {"ROOT_JOB", "ROOT_WORKFLOW"},
               {"BlockingStep", "BlockingTransform"},
@@ -136,6 +137,8 @@ public class KettleConst {
               // Text File Input deprecated
               {"TextFileInput", "TextFileInput2"},
               {"data-lake-input", "cloud-api-input"},
+              {"IndexedTableOutput", "BulkLoader"},
+              {"mysql-text-loader", "BulkLoader"},
               {"KettleKafkaConsumerInput", "KafkaConsumer"}})
           .collect(Collectors.toMap(data -> (String) data[0], data -> (String) data[1]));
 
