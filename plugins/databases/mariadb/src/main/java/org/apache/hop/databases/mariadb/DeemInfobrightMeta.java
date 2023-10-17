@@ -19,7 +19,7 @@ package org.apache.hop.databases.mariadb;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import no.deem.core.utils.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.database.DatabaseMeta;
@@ -31,19 +31,11 @@ import org.apache.hop.core.row.IValueMeta;
 @GuiPlugin(id = "GUI-DeemInfobrightMeta")
 public class DeemInfobrightMeta extends DeemMySqlMeta {
 
-  public static final String DEEM_INFOBRIGHT_STRING_DBLOOKUP_LIMIT = "INFOBRIGHT_STRING_DBLOOKUP_LIMIT";
-  public static final String DEEM_INFOBRIGHT_INT_DBLOOKUP_LIMIT = "INFOBRIGHT_INT_DBLOOKUP_LIMIT";
-  public static final String DEEM_INFOBRIGHT_STRING_DBLOOKUP_IGNORE = "INFOBRIGHT_STRING_DBLOOKUP_IGNORE";
-  public static final String DEEM_INFOBRIGHT_MAX_DECIMAL_LENGTH = "INFOBRIGHT_MAX_DECIMAL_LENGTH";
-  public static final String DEEM_INFOBRIGHT_MAX_DECIMAL_PRECISION = "INFOBRIGHT_MAX_DECIMAL_PRECISION";
-  public static final String DEEM_INFOBRIGHT_DECIMAL_TYPE = "INFOBRIGHT_DECIMAL_TYPE";
+  public static final int INFOBRIGHT_STRING_DBLOOKUP_LIMIT = Integer.parseInt(System.getProperty("INFOBRIGHT_STRING_DBLOOKUP_LIMIT", "9"));
+  public static final int INFOBRIGHT_INT_DBLOOKUP_LIMIT = Integer.parseInt(System.getProperty("INFOBRIGHT_INT_DBLOOKUP_LIMIT", "9"));
 
-  public static final int INFOBRIGHT_STRING_DBLOOKUP_LIMIT = Integer.parseInt(System.getProperty(DEEM_INFOBRIGHT_STRING_DBLOOKUP_LIMIT, "9"));
-  public static final int INFOBRIGHT_INT_DBLOOKUP_LIMIT = Integer.parseInt(System.getProperty(DEEM_INFOBRIGHT_INT_DBLOOKUP_LIMIT, "9"));
-  public static final int INFOBRIGHT_MAX_DECIMAL_LENGTH = Integer.parseInt(System.getProperty(DEEM_INFOBRIGHT_MAX_DECIMAL_LENGTH, "18"));
-  public static final int INFOBRIGHT_MAX_DECIMAL_PRECISION = Integer.parseInt(System.getProperty(DEEM_INFOBRIGHT_MAX_DECIMAL_PRECISION, "6"));
-  public static final String INFOBRIGHT_DECIMAL_TYPE = System.getProperty(DEEM_INFOBRIGHT_DECIMAL_TYPE, "DOUBLE"); // DECIMAL
-  public static final String INFOBRIGHT_STRING_DBLOOKUP_IGNORE = System.getProperty(DEEM_INFOBRIGHT_STRING_DBLOOKUP_IGNORE, "");
+  public static final String INFOBRIGHT_DECIMAL_TYPE = System.getProperty("INFOBRIGHT_DECIMAL_TYPE", "DOUBLE"); // DECIMAL
+  public static final String INFOBRIGHT_STRING_DBLOOKUP_IGNORE = System.getProperty("INFOBRIGHT_STRING_DBLOOKUP_IGNORE", "");
   protected static List<String> stringDbLookupIgnore = Collections.emptyList();
 
   public static final String COMMENT_LOOKUP = " COMMENT \"LOOKUP\"";
@@ -71,7 +63,7 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
   @Override
   public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldname, boolean addCr) {
     String retval = "";
-    String fieldname = v.getName();
+    String fieldname = Strings.nullToEmpty(v.getName());
     int length = v.getLength();
     int precision = v.getPrecision();
     if (precision < 0) {
@@ -82,8 +74,7 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
     }
     int type = v.getType();
     switch (type) {
-      case IValueMeta.TYPE_TIMESTAMP:
-      case IValueMeta.TYPE_DATE:
+      case IValueMeta.TYPE_TIMESTAMP, IValueMeta.TYPE_DATE:
         if (length >= 8 && length <= 10) { // DEEM-MOD
           retval += "DATE"; // SKOFA
         } else {
@@ -98,12 +89,9 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
         }
         break;
 
-      case IValueMeta.TYPE_NUMBER:
-      case IValueMeta.TYPE_INTEGER:
-      case IValueMeta.TYPE_BIGNUMBER:
+      case IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_BIGNUMBER:
         if (fieldname.equalsIgnoreCase(tk) || // Technical key
-            fieldname.equalsIgnoreCase(pk) // Primary key
-        ) {
+            fieldname.equalsIgnoreCase(pk)) { // Primary key
           if (useAutoinc) {
             retval += "BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY";
           } else {
@@ -118,8 +106,7 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
             }
             if (length > 9) {
               if (length < 19) {
-                // can hold signed values between -9223372036854775808 and
-                // 9223372036854775807
+                // can hold signed values between -9223372036854775808 and 9223372036854775807
                 // 18 significant digits
                 retval += "BIGINT(" + length + ")" + commentLookup;
               } else {
@@ -140,7 +127,8 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
               if (length < 0) {
                 retval += INFOBRIGHT_DECIMAL_TYPE;
               } else {
-                retval += INFOBRIGHT_DECIMAL_TYPE + "(" + length; // PROBLEM MIXING TYPES IN INFOBRIGHT
+                // PROBLEM MIXING TYPES IN INFOBRIGHT
+                retval += INFOBRIGHT_DECIMAL_TYPE + "(" + length;
                 if (precision > 0) {
                   retval += ", " + precision;
                 } else {

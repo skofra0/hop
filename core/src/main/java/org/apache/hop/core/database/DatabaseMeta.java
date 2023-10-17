@@ -115,7 +115,7 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
    * Use this length in a String value to indicate that you want to use a CLOB in stead of a normal
    * text field.
    */
-  public static final int CLOB_LENGTH = 9999999;
+  public static final int CLOB_LENGTH = 9_999_999;
 
   /** The value to store in the attributes so that an empty value doesn't get lost... */
   public static final String EMPTY_OPTIONS_STRING = "><EMPTY><";
@@ -312,7 +312,6 @@ public class DatabaseMeta extends HopMetadataBase implements Cloneable, IHopMeta
    * TYPE_ACCESS_OCI
    *
    * <p>
-   *
    * @return The type of database access.
    */
   public int getAccessType() {

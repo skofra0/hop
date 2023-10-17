@@ -453,6 +453,12 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
         connection = DriverManager.getConnection(url, properties);
       }
+      // DEEM-MOD START MonetDb schema problem
+      if (databaseMeta.supportsSchemas() && StringUtils.isNotBlank(databaseMeta.getPreferredSchemaName())) {
+        String schema = resolve(databaseMeta.getPreferredSchemaName());
+        connection.setSchema(schema);
+      }
+      // DEEM-MOD END
     } catch (Exception e) {
       throw new HopDatabaseException("Error connecting to database: (using class " + classname + ")", e);
     }
@@ -596,7 +602,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     // Canceling statements only if we're not streaming results on MySQL with
     // the v3 driver
     //
-    if (databaseMeta.isMySqlVariant() && databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() == 3) {
+    // if (databaseMeta.isMySqlVariant() && databaseMeta.isStreamingResults() &&
+    // getDatabaseMetaData().getDriverMajorVersion() == 3 ) {
+    if (databaseMeta.isMySqlVariant() && databaseMeta.isStreamingResults()) { // DEEM-MOD
       return;
     }
 
@@ -1220,8 +1228,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
         // Close statement only if explicitly needed
         //
-        if (closeStatement)
+        if (closeStatement) {
           ps.close();
+        }
       }
     } catch (BatchUpdateException ex) {
       throw createHopDatabaseBatchException("Error updating batch", ex);
@@ -1236,8 +1245,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
   public static HopDatabaseBatchException createHopDatabaseBatchException(String message, SQLException ex) {
     HopDatabaseBatchException kdbe = new HopDatabaseBatchException(message, ex);
-    if (ex instanceof BatchUpdateException) {
-      kdbe.setUpdateCounts(((BatchUpdateException) ex).getUpdateCounts());
+    if (ex instanceof BatchUpdateException bex) {
+      kdbe.setUpdateCounts(bex.getUpdateCounts());
     } else {
       // Null update count forces rollback of batch
       kdbe.setUpdateCounts(null);
@@ -1521,8 +1530,10 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       // MySQL, to have another cursor opened
       // to get the length of a String field. So, on MySQL, we ingore the length
       // of Strings in result rows.
-      //
-      rowMeta = getRowInfo(res.getMetaData(), databaseMeta.isMySqlVariant(), lazyConversion);
+
+      // DEEM-MOD : Database - Metadata Improvement
+      // rowMeta = getRowInfo(res.getMetaData(), databaseMeta.isMySqlVariant(), lazyConversion);
+      rowMeta = getRowInfo(res.getMetaData(), false, lazyConversion);
     } catch (SQLException ex) {
       throw new HopDatabaseException("An error occurred executing SQL: " + Const.CR + sql, ex);
     } catch (Exception e) {
@@ -1578,7 +1589,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       // of Strings in result rows.
       //
       log.snap(Metrics.METRIC_DATABASE_GET_ROW_META_START, databaseMeta.getName());
-      rowMeta = getRowInfo(res.getMetaData(), databaseMeta.isMySqlVariant(), false);
+      // DEEM-MOD : Database - Metadata Improvement
+      // rowMeta = getRowInfo(res.getMetaData(), databaseMeta.isMySqlVariant(), false);
+      rowMeta = getRowInfo(res.getMetaData(), false, false);
       log.snap(Metrics.METRIC_DATABASE_GET_ROW_META_STOP, databaseMeta.getName());
     } catch (SQLException ex) {
       throw new HopDatabaseException("ERROR executing query", ex);
@@ -1592,7 +1605,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   }
 
   void setMysqlFetchSize(PreparedStatement ps, int fs, int getMaxRows) throws SQLException, HopDatabaseException {
-    if (databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() == 3) {
+    // DEEM-MOD
+    // if (databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() == 3) {
+    if (databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() < 5) { // DEEM-MOD
       ps.setFetchSize(Integer.MIN_VALUE);
     } else if (fs <= getMaxRows) {
       // do not set fetch size more than max rows can returns
@@ -1632,7 +1647,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    *        name combination.
    * @return true if the table exists, false if it doesn't.
    */
-  // DEEM-MOD (bublic)
+  // DEEM-MOD (public)
   public boolean checkTableExists(String tableName) throws HopDatabaseException {
     try {
       if (log.isDebug()) {
