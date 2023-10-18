@@ -24,6 +24,7 @@ import org.apache.hop.core.database.IDatabase;
 import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.core.util.Utils;
+import no.deem.core.utils.Objects;
 
 /**
  * Contains Generic Database Connection information through static final members
@@ -34,7 +35,8 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   public static ThreadLocal<Boolean> safeModeLocal = new ThreadLocal<>();
 
-  public static final int DEFAULT_VARCHAR_LENGTH = 100;
+  public static final int DEFAULT_VARCHAR_LENGTH = 99; // DEEM-MOD
+  protected static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y")); // DEEM-MOD
 
   protected static final String FIELDNAME_PROTECTOR = "_";
 
@@ -66,7 +68,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   @Override
   public String getDriverClass() {
-    return "nl.cwi.monetdb.jdbc.MonetDriver";
+    return "org.monetdb.jdbc.MonetDriver";
   }
 
   @Override
@@ -243,7 +245,8 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     int precision = v.getPrecision();
 
     Boolean mode = MonetDBDatabaseMeta.safeModeLocal.get();
-    boolean safeMode = mode != null && mode.booleanValue();
+    // boolean safeMode = mode != null && mode.booleanValue()
+    boolean safeMode = mode == null || mode.booleanValue(); // DEEM-MOD
 
     if (addFieldName) {
       // protect the fieldname
@@ -271,8 +274,8 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_INTEGER:
       case IValueMeta.TYPE_BIGNUMBER:
         if (fieldname.equalsIgnoreCase(tk) || // Technical key
-            fieldname.equalsIgnoreCase(pk) // Primary key
-        ) {
+            fieldname.equalsIgnoreCase(pk)) { // Primary key
+
           if (useAutoinc) {
             retval.append("SERIAL");
           } else {
@@ -281,31 +284,22 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
         } else {
           // Integer values...
           if (precision == 0) {
-            if (length > 9) {
-              if (length < 19) {
-                // can hold signed values between -9223372036854775808 and 9223372036854775807
-                // 18 significant digits
-                retval.append("BIGINT");
-              } else {
-                retval.append("DECIMAL(").append(length).append(")");
-              }
-            } else if (type == IValueMeta.TYPE_NUMBER) {
-              retval.append("DOUBLE");
-            } else {
+            if (length > 18 || (supportIntAsDecimal && length > 0)) { // DEEM-MOD
+              retval.append("DECIMAL(" + length + ",0)");
+            } else if (length > 9 && !(length == 11 && "INT".equalsIgnoreCase(v.getOriginalColumnTypeName()))) {
               retval.append("BIGINT");
+            } else {
+              retval.append("INT");
             }
           } else {
             // Floating point values...
-            if (length > 15) {
+            if (length > 0) {
               retval.append("DECIMAL(").append(length);
               if (precision > 0) {
                 retval.append(", ").append(precision);
               }
               retval.append(")");
             } else {
-              // A double-precision floating-point number is accurate to approximately 15 decimal
-              // places.
-              // http://mysql.mirrors-r-us.net/doc/refman/5.1/en/numeric-type-overview.html
               retval.append("DOUBLE");
             }
           }
@@ -358,6 +352,11 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   @Override
   public int getMaxVARCHARLength() {
     return MAX_VARCHAR_LENGTH;
+  }
+
+  @Override
+  public boolean isMonetDbVariant() {
+    return true;
   }
 
   @Override
