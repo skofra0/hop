@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.pipeline.transforms.formula.runner;
-
-import java.io.IOException;
+package org.apache.hop.pipeline.transforms.formula.runner.poi;
 
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.exception.HopValueException;
@@ -25,6 +23,7 @@ import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.pipeline.transforms.formula.FormulaData;
 import org.apache.hop.pipeline.transforms.formula.FormulaMeta;
 import org.apache.hop.pipeline.transforms.formula.FormulaMetaFunction;
+import org.apache.hop.pipeline.transforms.formula.runner.FormulaRunner;
 import org.apache.hop.pipeline.transforms.formula.util.FormulaParser;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -32,6 +31,7 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.IOException;
 
 /**
  * DEEM-MOD

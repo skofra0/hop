@@ -16,8 +16,6 @@
  */
 package org.apache.hop.pipeline.transforms.formula.runner.libformula.functions;
 
-import java.util.Date;
-
 import org.pentaho.reporting.libraries.formula.EvaluationException;
 import org.pentaho.reporting.libraries.formula.FormulaContext;
 import org.pentaho.reporting.libraries.formula.LibFormulaErrorValue;
@@ -27,6 +25,7 @@ import org.pentaho.reporting.libraries.formula.lvalues.TypeValuePair;
 import org.pentaho.reporting.libraries.formula.typing.Type;
 import org.pentaho.reporting.libraries.formula.typing.TypeRegistry;
 import org.pentaho.reporting.libraries.formula.typing.coretypes.DateTimeType;
+import java.util.Date;
 
 public class DateYmd8Function implements Function {
   private static final long serialVersionUID = -906531902889630172L;

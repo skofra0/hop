@@ -14,19 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.ui.core.widget;
+package org.apache.hop.pipeline.transforms.tableinput.addon;
 
 import org.apache.hop.core.Const;
-import org.apache.hop.core.extension.ExtensionPointHandler;
-import org.apache.hop.core.extension.HopExtensionPoint;
-import org.apache.hop.core.logging.LogChannel;
 import org.apache.hop.core.variables.IVariables;
-import org.apache.hop.core.variables.VariableRegistry;
-import org.apache.hop.core.variables.VariableScope;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.ui.core.FormDataBuilder;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.gui.GuiResource;
+import org.apache.hop.ui.core.widget.IGetCaretPosition;
+import org.apache.hop.ui.core.widget.IInsertText;
+import org.apache.hop.ui.core.widget.OsHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.StyledText;
@@ -44,19 +42,11 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
-
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 public class ControlSpaceKeyAdapter extends KeyAdapter {
 
   private static final Class<?> PKG = ControlSpaceKeyAdapter.class; // For Translator
-
-  private static final PropsUi props = PropsUi.getInstance();
 
   private final IGetCaretPosition getCaretPositionInterface;
 
@@ -225,86 +215,21 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
   }
 
   public static String[] getVariableNames(IVariables variables) {
-    // Deprecated variables will be displayed with the suffix (deprecated).
     String[] variableNames = variables.getVariableNames();
-    for (int i = 0; i < variableNames.length; i++) {
-      for (String deprecatedName : VariableRegistry.getInstance().getDeprecatedVariableNames()) {
-        if (variableNames[i].equals(deprecatedName)) {
-          variableNames[i] = variableNames[i] + Const.getDeprecatedPrefix();
-          break;
-        }
-      }
-    }
-
-    // Get the system properties to sort 'm at the back...
-    //
-    Properties systemProperties = System.getProperties();
-
-    // The internal Hop variables...
-    //
-    Set<String> hopVariablesSet = VariableRegistry.getInstance().getVariableNames();
-
-    // The Deprecated variables...
-    Set<String> deprecatedSet = new HashSet<>(VariableRegistry.getInstance().getDeprecatedVariableNames());
-
-    // The Hop system settings variables
-    //
-    Set<String> hopSystemSettings = VariableRegistry.getInstance().getVariableNames(VariableScope.SYSTEM);
-
-    Map<String, String> pluginsPrefixesMap = new HashMap<>();
-
-    try {
-      ExtensionPointHandler.callExtensionPoint(LogChannel.UI, variables, HopExtensionPoint.HopGuiGetControlSpaceSortOrderPrefix.name(), pluginsPrefixesMap);
-    } catch (Exception e) {
-      LogChannel.UI.logError("Error calling extension point 'HopGuiGetControlSpaceSortOrderPrefix'", e);
-    }
-
     Arrays.sort(variableNames);
-    return variableNames;
-  }
 
-  /**
-   * Get a prefix to steer sorting of variables. Please note that variables can appear in multiple
-   * sets so we check back to front.
-   *
-   * @param variableName The variable name to prefix
-   * @param systemProperties
-   * @param hopVariablesSet
-   * @param deprecatedSet
-   * @return a prefixed variable name
-   */
-  private static String addPrefix(
-      String variableName,
-      Properties systemProperties,
-      Set<String> hopVariablesSet,
-      Set<String> deprecatedSet,
-      Set<String> hopSystemSettings,
-      Map<String, String> pluginsPrefixesMap) {
-    String prefix = "300_";
-    String systemValue = systemProperties.getProperty(variableName);
-    if (systemValue != null) {
-      // var1 is a system property... push it to the very end..
-      prefix = "900_";
-    }
-    if (hopVariablesSet.contains(variableName)) {
-      prefix = "800_";
-    }
-    if (hopSystemSettings.contains(variableName)) {
-      prefix = "700_";
-    }
-    if (deprecatedSet.contains(variableName)) {
-      prefix = "600_";
-    }
-    if (variableName.startsWith(Const.INTERNAL_VARIABLE_PREFIX)) {
-      prefix = "500_";
-    }
-    // Finally allow plugins to override a sort order...
+    // repeat a few entries at the top, for convenience...
     //
-    String pluginPrefix = pluginsPrefixesMap.get(variableName);
-    if (pluginPrefix != null) {
-      prefix = pluginPrefix;
+    String[] array = new String[variableNames.length + 2];
+    int index = 0;
+    array[index++] = Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY;
+    array[index++] = Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER;
+
+    for (String name : variableNames) {
+      array[index++] = name;
     }
-    return prefix;
+
+    return array;
   }
 
   public void setVariables(IVariables vars) {

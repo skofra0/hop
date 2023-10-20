@@ -18,7 +18,6 @@ package org.apache.hop.pipeline.transforms.formula;
 
 import org.apache.hop.core.row.value.ValueMetaFactory;
 import org.apache.hop.metadata.api.HopMetadataProperty;
-
 import java.util.Objects;
 
 public class FormulaMetaFunction {

@@ -16,9 +16,6 @@
  */
 package org.apache.hop.pipeline.transforms.formula;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.hop.core.annotations.Transform;
 import org.apache.hop.core.exception.HopTransformException;
 import org.apache.hop.core.row.IRowMeta;
@@ -30,6 +27,8 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
+import java.util.ArrayList;
+import java.util.List;
 
 @Transform(
     id = "Formula",
@@ -40,6 +39,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
     keywords = "i18n::Formula.keywords",
     documentationUrl = "/pipeline/transforms/formula.html")
 public class FormulaMeta extends BaseTransformMeta<Formula, FormulaData> {
+  private static final Class<?> PKG = FormulaMeta.class; // For Translator
 
   /** The formula calculations to be performed */
   @HopMetadataProperty(
@@ -47,11 +47,10 @@ public class FormulaMeta extends BaseTransformMeta<Formula, FormulaData> {
       key = "formula",
       injectionGroupDescription = "FormulaMeta.Injection.Formulas",
       injectionKeyDescription = "FormulaMeta.Injection.Formula")
-  private List<FormulaMetaFunction> formulas;
+  private List<FormulaMetaFunction> formulas = new ArrayList<>();
 
   public FormulaMeta() {
-    super();
-    formulas = new ArrayList<>();
+    super(); // allocate BaseTransformMeta
   }
 
   public FormulaMeta(FormulaMeta m) {

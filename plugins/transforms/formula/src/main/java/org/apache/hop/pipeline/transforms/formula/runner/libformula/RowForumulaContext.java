@@ -31,7 +31,6 @@ import org.pentaho.reporting.libraries.formula.operators.OperatorFactory;
 import org.pentaho.reporting.libraries.formula.typing.Type;
 import org.pentaho.reporting.libraries.formula.typing.TypeRegistry;
 import org.pentaho.reporting.libraries.formula.typing.coretypes.AnyType;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Hashtable;
@@ -53,30 +52,32 @@ public class RowForumulaContext implements FormulaContext {
     this.valueIndexMap = new Hashtable<>();
   }
 
+  @Override
   public Type resolveReferenceType(Object name) {
     return AnyType.TYPE;
   }
 
   /**
-   * We return the content of a Value with the given name. We cache the position of the field indexes.
-   *
-   * @see org.jfree.formula.FormulaContext#resolveReference(java.lang.Object)
+   * We return the content of a Value with the given name. We cache the position of the field
+   * indexes.
+   * @see org.pentaho.reporting.libraries.formula.FormulaContext#resolveReference(java.lang.Object)
    */
+  @Override
   public Object resolveReference(Object name) throws EvaluationException {
-    if (name instanceof String) {
+    if (name instanceof String strName) {
       IValueMeta valueMeta;
-      Integer idx = valueIndexMap.get(name);
+      Integer idx = valueIndexMap.get(strName);
       if (idx != null) {
         valueMeta = rowMeta.getValueMeta(idx.intValue());
       } else {
-        int index = rowMeta.indexOfValue((String) name);
+        int index = rowMeta.indexOfValue(strName);
         if (index < 0) {
           ErrorValue errorValue = new LibFormulaErrorValue(LibFormulaErrorValue.ERROR_INVALID_ARGUMENT);
           throw new EvaluationException(errorValue);
         }
         valueMeta = rowMeta.getValueMeta(index);
         idx = Integer.valueOf(index);
-        valueIndexMap.put((String) name, idx);
+        valueIndexMap.put(strName, idx);
       }
       Object valueData = rowData[idx];
       try {
@@ -88,26 +89,32 @@ public class RowForumulaContext implements FormulaContext {
     return null;
   }
 
+  @Override
   public Configuration getConfiguration() {
     return formulaContext.getConfiguration();
   }
 
+  @Override
   public FunctionRegistry getFunctionRegistry() {
     return formulaContext.getFunctionRegistry();
   }
 
+  @Override
   public LocalizationContext getLocalizationContext() {
     return formulaContext.getLocalizationContext();
   }
 
+  @Override
   public OperatorFactory getOperatorFactory() {
     return formulaContext.getOperatorFactory();
   }
 
+  @Override
   public TypeRegistry getTypeRegistry() {
     return formulaContext.getTypeRegistry();
   }
 
+  @Override
   public boolean isReferenceDirty(Object name) throws EvaluationException {
     return formulaContext.isReferenceDirty(name);
   }
@@ -175,7 +182,6 @@ public class RowForumulaContext implements FormulaContext {
         return Long.class;
       case IValueMeta.TYPE_NUMBER:
         return Double.class;
-      // case Value.VALUE_TYPE_SERIALIZABLE: return Serializable.class;
       case IValueMeta.TYPE_STRING:
         return String.class;
       default:
@@ -183,6 +189,7 @@ public class RowForumulaContext implements FormulaContext {
     }
   }
 
+  @Override
   public Date getCurrentDate() {
     return new Date();
   }

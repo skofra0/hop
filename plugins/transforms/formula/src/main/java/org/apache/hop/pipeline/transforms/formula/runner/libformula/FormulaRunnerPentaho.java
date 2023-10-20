@@ -16,9 +16,6 @@
  */
 package org.apache.hop.pipeline.transforms.formula.runner.libformula;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopException;
@@ -32,6 +29,8 @@ import org.pentaho.reporting.libraries.formula.EvaluationException;
 import org.pentaho.reporting.libraries.formula.Formula;
 import org.pentaho.reporting.libraries.formula.LibFormulaErrorValue;
 import org.pentaho.reporting.libraries.formula.parser.ParseException;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * DEEM-MOD

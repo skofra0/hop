@@ -625,6 +625,12 @@ public class HopGuiPipelineGraph extends HopGuiAbstractGraph
       LogChannel.GENERAL.logError("Error calling PipelineGraphMouseDown extension point", ex);
     }
 
+    // Set the pop-up menu
+    if (e.button == 3) {
+      setMenu(e, real, areaOwner);
+      return;
+    }
+
     // A single left or middle click on one of the area owners...
     //
     if (areaOwner != null && areaOwner.getAreaType() != null) {
@@ -4615,6 +4621,62 @@ public class HopGuiPipelineGraph extends HopGuiAbstractGraph
   @Override
   public boolean forceFocus() {
     return canvas.forceFocus();
+  }
+
+  /**
+   * This sets the popup-menu on the background of the canvas based on the xy coordinate of the
+   * mouse. This method is
+   * called after a mouse-click.
+   * @param x X-coordinate on screen
+   * @param y Y-coordinate on screen
+   */
+  private synchronized void setMenu(MouseEvent e, Point real, AreaOwner areaOwner) {
+    // DEEM-MOD right-click
+    try {
+      currentMouseX = e.x;
+      currentMouseY = e.y;
+      final TransformMeta transformMeta = pipelineMeta.getTransform(real.getX(), real.getY(), iconSize);
+
+      if (areaOwner != null && areaOwner.getAreaType() != null && transformMeta != null) {
+        setCurrentTransform(transformMeta);
+
+        Menu menu = new Menu(canvas);
+        MenuItem item = new MenuItem(menu, SWT.NONE);
+        item.setText( BaseMessages.getString(HopGuiPipelineGraph.class, "HopGuiPipelineGraph.TransformAction.EditTransform.Name"));
+        item.addSelectionListener(new SelectionAdapter() {
+
+          @Override
+          public void widgetSelected(SelectionEvent e) {
+            editTransform(getCurrentTransform());
+          }
+
+        });
+
+        // Open referenced object...
+        //
+        ITransformMeta iTransformMeta = transformMeta.getTransform();
+
+        String[] objectDescriptions = iTransformMeta.getReferencedObjectDescriptions();
+        if (objectDescriptions != null && objectDescriptions.length > 0) {
+
+          item = new MenuItem(menu, SWT.NONE);
+          item.setText(BaseMessages.getString(PKG, "HopGuiPipelineGraph.OpenReferencedObject.Selection.Title"));
+          item.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+              openReferencedObject();
+              redraw();
+            }
+
+          });
+        }
+        menu.setLocation(canvas.toDisplay(currentMouseX, currentMouseY));
+        menu.setVisible(true);
+
+      }
+    } catch (Exception t) {
+      t.printStackTrace();
+    }
   }
 
   @GuiKeyboardShortcut(control = true, key = 'a')

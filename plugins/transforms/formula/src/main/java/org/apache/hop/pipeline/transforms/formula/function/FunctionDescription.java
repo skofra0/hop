@@ -20,7 +20,6 @@ import org.apache.hop.core.Const;
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.xml.XmlHandler;
 import org.w3c.dom.Node;
-
 import java.util.ArrayList;
 import java.util.List;
 
