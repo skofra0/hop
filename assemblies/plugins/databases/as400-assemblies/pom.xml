@@ -35,7 +35,7 @@
     <description />
 
     <properties>
-        <jt400.version>10.2</jt400.version>
+        <jt400.version>11.2</jt400.version>
     </properties>
 
     <dependencies>
