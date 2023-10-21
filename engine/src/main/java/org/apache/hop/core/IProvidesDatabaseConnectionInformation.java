@@ -29,7 +29,9 @@ public interface IProvidesDatabaseConnectionInformation {
    *
    * @return
    */
-  DatabaseMeta getDatabaseMeta();
+  default DatabaseMeta getDatabaseMeta() {
+    return null;
+  }
 
   /**
    * Returns the table name for this transform

@@ -112,7 +112,7 @@
         </maven-surefire-plugin.argLine>
 
 
-		<deem.version>23.3.5</deem.version>
+		<deem.version>23.4.0</deem.version>
 
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
@@ -188,7 +188,7 @@
         <rhino.version>1.7.14</rhino.version>
 		<groovy.version>4.0.12</groovy.version>
         <scala.version>2.12.17</scala.version>
-        <slf4j.version>2.0.4</slf4j.version>
+        <slf4j.version>2.0.9</slf4j.version>
         <sshlib.version>2.2.21</sshlib.version>
         <snappy-java.version>1.1.8.4</snappy-java.version>
         <woodstox.version>6.5.1</woodstox.version>
