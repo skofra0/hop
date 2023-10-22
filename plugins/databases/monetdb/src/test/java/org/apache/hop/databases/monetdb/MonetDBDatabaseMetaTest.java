@@ -50,7 +50,7 @@ public class MonetDBDatabaseMetaTest {
     assertTrue(nativeMeta.isSupportsAutoInc());
     assertEquals(1, nativeMeta.getNotFoundTK(true));
     assertEquals(0, nativeMeta.getNotFoundTK(false));
-    assertEquals("nl.cwi.monetdb.jdbc.MonetDriver", nativeMeta.getDriverClass());
+    assertEquals("org.monetdb.jdbc.MonetDriver", nativeMeta.getDriverClass());
     assertEquals("jdbc:monetdb://FOO:BAR/WIBBLE", nativeMeta.getURL("FOO", "BAR", "WIBBLE"));
     assertEquals("jdbc:monetdb://FOO/WIBBLE", nativeMeta.getURL("FOO", "", "WIBBLE"));
     assertFalse(nativeMeta.isFetchSizeSupported());
@@ -175,17 +175,28 @@ public class MonetDBDatabaseMetaTest {
     assertEquals("BIGINT", nativeMeta.getFieldDefinition(new ValueMetaInteger("FOO", 8, 0), "", "FOO", false, false, false));
 
     // integer types ( precision == 0 )
-    assertEquals("BIGINT", nativeMeta.getFieldDefinition(new ValueMetaInteger("FOO", 8, 0), "", "", false, false, false));
-    assertEquals("BIGINT", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 10, 0), "", "", false, false, false));
-    assertEquals("DECIMAL(19)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, 0), "", "", false, false, false));
-    assertEquals("DOUBLE", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 8, 0), "", "", false, false, false));
+    if (MonetDBDatabaseMeta.SUPPORT_INT_AS_DECIMAL) {
+      assertEquals("DECIMAL(8,0)", nativeMeta.getFieldDefinition(new ValueMetaInteger("FOO", 8, 0), "", "", false, false, false));
+      assertEquals("DECIMAL(10,0)", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 10, 0), "", "", false, false, false));
+      assertEquals("DECIMAL(19,0)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, 0), "", "", false, false, false));
+      assertEquals("DECIMAL(8,0)", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 8, 0), "", "", false, false, false));
 
-    // Numerics with precisions
-    assertEquals("DECIMAL(19, 5)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, 5), "", "", false, false, false));
+      // Numerics with precisions
+      assertEquals("DECIMAL(19, 5)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, 5), "", "", false, false, false));
+      assertEquals("DECIMAL(19)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, -5), "", "", false, false, false));
+      assertEquals("DECIMAL(11, 5)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 11, 5), "", "", false, false, false));
+    } else {
+      assertEquals("BIGINT", nativeMeta.getFieldDefinition(new ValueMetaInteger("FOO", 8, 0), "", "", false, false, false));
+      assertEquals("BIGINT", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 10, 0), "", "", false, false, false));
+      assertEquals("DECIMAL(19)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, 0), "", "", false, false, false));
+      assertEquals("DOUBLE", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 8, 0), "", "", false, false, false));
 
-    assertEquals("DECIMAL(19)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, -5), "", "", false, false, false));
+      // Numerics with precisions
+      assertEquals("DECIMAL(19, 5)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, 5), "", "", false, false, false));
+      assertEquals("DECIMAL(19)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, -5), "", "", false, false, false));
+      assertEquals("DOUBLE", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 11, 5), "", "", false, false, false));
+}
 
-    assertEquals("DOUBLE", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 11, 5), "", "", false, false, false));
 
     // String Types
     assertEquals("VARCHAR(10)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", 10, 0), "", "", false, false, false));
@@ -194,12 +205,12 @@ public class MonetDBDatabaseMetaTest {
     // getMaxVARCHARLength = Integer.MAX_VALUE,
     // if statement for CLOB trips if length > getMaxVARCHARLength()
     // length is of type int - so this could never happen
-    assertEquals("VARCHAR()", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() + 1, 0), "", "", false, false, false));
+    assertEquals("VARCHAR(99)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() + 1, 0), "", "", false, false, false));
 
-    assertEquals("VARCHAR()", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", -2, 0), "", "", false, false, false)); // should end up with (100) if "safeMode = true"
+    assertEquals("VARCHAR(99)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", -2, 0), "", "", false, false, false)); // should end up with (100) if "safeMode = true"
 
     MonetDBDatabaseMeta.safeModeLocal.set(new Boolean(true));
-    assertEquals("VARCHAR(100)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", -2, 0), "", "", false, false, false)); // should end up with (100) if "safeMode = true"
+    assertEquals("VARCHAR(99)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", -2, 0), "", "", false, false, false)); // should end up with (100) if "safeMode = true"
 
     assertEquals(" UNKNOWN", nativeMeta.getFieldDefinition(new ValueMetaInternetAddress("FOO"), "", "", false, false, false));
     assertEquals(" UNKNOWN" + System.getProperty("line.separator"), nativeMeta.getFieldDefinition(new ValueMetaInternetAddress("FOO"), "", "", false, false, true));

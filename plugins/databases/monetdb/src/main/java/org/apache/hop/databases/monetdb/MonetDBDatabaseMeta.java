@@ -36,7 +36,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   public static ThreadLocal<Boolean> safeModeLocal = new ThreadLocal<>();
 
   public static final int DEFAULT_VARCHAR_LENGTH = 99; // DEEM-MOD
-  protected static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y")); // DEEM-MOD
+  public static boolean SUPPORT_INT_AS_DECIMAL = Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y")); // DEEM-MOD
 
   protected static final String FIELDNAME_PROTECTOR = "_";
 
@@ -284,7 +284,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
         } else {
           // Integer values...
           if (precision == 0) {
-            if (length > 18 || (supportIntAsDecimal && length > 0)) { // DEEM-MOD
+            if (length > 18 || (SUPPORT_INT_AS_DECIMAL && length > 0)) { // DEEM-MOD
               retval.append("DECIMAL(" + length + ",0)");
             } else if (length > 9 && !(length == 11 && "INT".equalsIgnoreCase(v.getOriginalColumnTypeName()))) {
               retval.append("BIGINT");

@@ -28,7 +28,7 @@ OPTIONS='-Xmx64m'
 
 # optional line for attaching a debugger
 #
-# OPTIONS="${OPTIONS} -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5009"
+# OPTIONS="${OPTIONS} -Xdebug -Xnoagent -Xint -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5009"
 
 if [ -n "${HOP_AUDIT_FOLDER}" ]; then
   HOP_OPTIONS="${HOP_OPTIONS} -DHOP_AUDIT_FOLDER=${HOP_AUDIT_FOLDER}"
