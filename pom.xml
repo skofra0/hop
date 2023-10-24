@@ -112,7 +112,7 @@
         </maven-surefire-plugin.argLine>
 
 
-		<deem.version>23.4.0</deem.version>
+		<deem.version>23.4.1</deem.version>
 
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
