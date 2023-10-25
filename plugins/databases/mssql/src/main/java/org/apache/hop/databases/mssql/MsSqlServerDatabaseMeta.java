@@ -30,8 +30,9 @@ import org.apache.hop.core.gui.plugin.GuiWidgetElement;
 import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.metadata.api.HopMetadataProperty;
-
 import java.sql.ResultSet;
+import java.util.Map;
+import no.deem.core.utils.Objects;
 
 /**
  * Contains MS SQL specific information through static final members
@@ -39,6 +40,16 @@ import java.sql.ResultSet;
 @DatabaseMetaPlugin(type = "MSSQL", typeDescription = "MS SQL Server", documentationUrl = "/database/databases/mssql.html")
 @GuiPlugin(id = "GUI-MSSQLServerDatabaseMeta")
 public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
+
+  public static final String ATTRIBUTE_USE_INTEGRATED_SECURITY = "MSSQLUseIntegratedSecurity";
+  public static final String ATTRIBUTE_ENCRYPT = "encrypt";
+  public static final String ATTRIBUTE_TRUST_SERVER_CERTIFICATE = "trustServerCertificate";
+
+  public static final String DRIVER_CLASS_JTDS = "net.sourceforge.jtds.jdbc.Driver";
+  public static final String DRIVER_CLASS_MSSQL = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+  protected static String driverClass = "";
+
+  protected static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MSSQL_SUPPORT_INT_AS_DECIMAL", "Y"));
 
   @GuiWidgetElement(
       id = "instanceName",
@@ -48,6 +59,18 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
       label = "i18n:org.apache.hop.ui.core.database:DatabaseDialog.label.SQLServerInstance")
   @HopMetadataProperty
   private String instanceName;
+
+  public MsSqlServerDatabaseMeta() {
+    if (!isJtdsDriver()) {
+      addExtraOption(getDatabaseTypeCode(), ATTRIBUTE_ENCRYPT, "false");
+      addExtraOption(getDatabaseTypeCode(), ATTRIBUTE_TRUST_SERVER_CERTIFICATE, "true");
+
+      // Insert performance when bulk not enabled in mssql-jdbc driver
+      addExtraOption(getDatabaseTypeCode(), "statementPoolingCacheSize", "10");
+      addExtraOption(getDatabaseTypeCode(), "disableStatementPooling", "false");
+      addExtraOption(getDatabaseTypeCode(), "enablePrepareOnFirstPreparedStatementCall", "true");
+    }
+  }
 
   public String getInstanceName() {
     return instanceName;
@@ -100,7 +123,19 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
   @Override
   public String getDriverClass() {
-    return "net.sourceforge.jtds.jdbc.Driver";
+    if (driverClass.isEmpty()) {
+      checkAndSetDriverClass();
+    }
+    return driverClass;
+  }
+
+  private static void checkAndSetDriverClass() {
+    try {
+      driverClass = DRIVER_CLASS_JTDS;
+      Class.forName(driverClass);
+    } catch (Exception e) {
+      driverClass = DRIVER_CLASS_MSSQL;
+    }
   }
 
   /**
@@ -111,6 +146,14 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
    */
   @Override
   public String getURL(String hostname, String port, String databaseName) {
+    if (isJtdsDriver()) {
+      return getJtdsURL(hostname, port, databaseName);
+    } else {
+      return getSqlserverURL(hostname, port, databaseName);
+    }
+  }
+
+  public String getJtdsURL(String hostname, String port, String databaseName) {
     StringBuilder sb = new StringBuilder("jdbc:jtds:sqlserver://");
     sb.append(hostname);
 
@@ -129,10 +172,25 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
       sb.append(";instance=");
       sb.append(instanceName);
     }
-
     return sb.toString();
   }
 
+  public String getSqlserverURL(String hostname, String port, String databaseName) {
+    StringBuilder url = new StringBuilder("jdbc:sqlserver://").append(hostname);
+    if (!Utils.isEmpty(port) && Const.toInt(port, -1) > 0) {
+      url.append(":" + port);
+    }
+    if (!Utils.isEmpty(databaseName)) {
+      url.append(";databaseName=");
+      url.append(databaseName);
+    }
+    boolean usingIntegratedSecurity = Objects.isTrue(getAttributes().get(ATTRIBUTE_USE_INTEGRATED_SECURITY));
+    if (usingIntegratedSecurity) {
+      url.append(";integratedSecurity=");
+      url.append(String.valueOf(usingIntegratedSecurity));
+    }
+    return url.toString();
+  }
   @Override
   public String getSchemaTableCombination(String schemaName, String tablePart) {
     // Something special for MSSQL
@@ -158,7 +216,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
   @Override
   public String getSqlQueryFields(String tableName) {
-    return "SELECT TOP 1 * FROM " + tableName;
+    return "SELECT TOP 1 * FROM " + tableName + " WHERE 1=0"; // DEEM-MOD  WITH (NOLOCK) problem Synapse 
   }
 
   @Override
@@ -172,7 +230,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
   }
 
   public String getSqlQueryColumnFields(String columnname, String tableName) {
-    return "SELECT TOP 1 " + columnname + " FROM " + tableName;
+    return "SELECT TOP 1 " + columnname + " FROM " + tableName + " WHERE 1=0"; // DEEM-MOD WITH (NOLOCK)  problem Synapse 
   }
 
   /**
@@ -251,23 +309,27 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
     int type = v.getType();
     switch (type) {
-      case IValueMeta.TYPE_TIMESTAMP:
-      case IValueMeta.TYPE_DATE:
-        retval += "DATETIME";
+      case IValueMeta.TYPE_TIMESTAMP, IValueMeta.TYPE_DATE: // DEEM-MOD
+        if ((length >= 8 && length <= 10)) { // DEEM-MOD
+          retval += "DATE"; // DEEM-MOD
+        } else {
+          if (isSupportDatetime2()) {
+            retval += "DATETIME2"; // DEEM-MOD
+          } else {
+            retval += "DATETIME";
+          }
+        }
         break;
       case IValueMeta.TYPE_BOOLEAN:
         if (isSupportsBooleanDataType()) {
           retval += "BIT";
         } else {
-          retval += "CHAR(1)";
+          retval += "NCHAR(1)";
         }
         break;
-      case IValueMeta.TYPE_NUMBER:
-      case IValueMeta.TYPE_INTEGER:
-      case IValueMeta.TYPE_BIGNUMBER:
+      case IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_BIGNUMBER:
         if (fieldname.equalsIgnoreCase(tk) || // Technical key
-            fieldname.equalsIgnoreCase(pk) // Primary key
-        ) {
+            fieldname.equalsIgnoreCase(pk)) { // Primary key
           if (useAutoinc) {
             retval += "BIGINT PRIMARY KEY IDENTITY(0,1)";
           } else {
@@ -275,19 +337,12 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
           }
         } else {
           if (precision == 0) {
-            // if (length > 18) { // DEEM-MOD
-            if (length > 20) { // DEEM-MOD
+            if (length > 18 || (supportIntAsDecimal && length > 0)) { // DEEM-MOD
               retval += "DECIMAL(" + length + ",0)";
+            } else if (length > 9 && !(length == 11 && "INT".equalsIgnoreCase(v.getOriginalColumnTypeName()))) { // DEEM-MOD
+              retval += "BIGINT";
             } else {
-              if (length > 9) {
-                if (length == 11 && "int".equalsIgnoreCase(v.getOriginalColumnTypeName())) { // DEEM-MOD
-                  retval += "INT"; // DEEM-MOD
-                } else {
-                  retval += "BIGINT";
-                }
-              } else {
-                retval += "INT";
-              }
+              retval += "INT";
             }
           } else {
             if (precision > 0 && length > 0) {
@@ -302,7 +357,11 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
         if (length < getMaxVARCHARLength()) {
           // Maybe use some default DB String length in case length<=0
           if (length > 0) {
-            retval += "NVARCHAR(" + length + ")"; // DEEM-MOD
+            if (length == 1) {
+              retval += "NCHAR(" + length + ")"; // DEEM-MOD (BOOLEAN)
+            } else {
+              retval += "NVARCHAR(" + length + ")"; // DEEM-MOD
+            }
           } else {
             retval += "NVARCHAR(100)"; // DEEM-MOD
           }
@@ -775,16 +834,27 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
       // Get the info from the data dictionary...
       //
       StringBuilder sql = new StringBuilder(128);
-      sql.append("select i.name table_name, c.name column_name ");
-      sql.append("from     sysindexes i, sysindexkeys k, syscolumns c ");
-      sql.append("where    i.name = '" + schemaTable + "' ");
-      sql.append("AND      i.id = k.id ");
-      sql.append("AND      i.id = c.id ");
-      sql.append("AND      k.colid = c.colid ");
+      // DEEM-MOD (Rewrite index sql)
+      // sql.append( "select i.name table_name, c.name column_name " );
+      // sql.append( "from sysindexes i, sysindexkeys k, syscolumns c " );
+      // sql.append( "where i.name = '" + tablename + "' " );
+      // sql.append( "AND i.id = k.id " );
+      // sql.append( "AND i.id = c.id " );
+      // sql.append( "AND k.colid = c.colid " );
+      sql.append("select s.name as schemas, t.name as table_name, i.name as index_name, c.name as column_name ");
+      sql.append(" from sys.tables t ");
+      sql.append(" inner join sys.schemas s on t.schema_id = s.schema_id ");
+      sql.append(" inner join sys.indexes i on i.object_id = t.object_id ");
+      sql.append(" inner join sys.index_columns ic on ic.object_id = t.object_id ");
+      sql.append(" inner join sys.columns c on c.object_id = t.object_id and ic.column_id = c.column_id ");
+      sql.append("where i.index_id>0 ");
+      sql.append(" and i.type in (1, 2)  "); // clustered & nonclustered only
+      sql.append(" and i.is_primary_key=0 "); // do not include PK indexes
+      sql.append(" and i.is_unique_constraint=0 and i.is_disabled=0 and i.is_hypothetical = 0 and ic.key_ordinal > 0 ");
+      sql.append(" and  t.name = '" + database.resolve(tableName) + "' ");
+      sql.append("order by s.name, t.name, i.name, ic.key_ordinal ");
 
-      ResultSet res = null;
-      try {
-        res = database.openQuery(sql.toString());
+      try (ResultSet res = database.openQuery(sql.toString())) {
         if (res != null) {
           Object[] row = database.getRow(res);
           while (row != null) {
@@ -798,10 +868,6 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
           }
         } else {
           return false;
-        }
-      } finally {
-        if (res != null) {
-          database.closeQuery(res);
         }
       }
 
@@ -904,6 +970,41 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
   @Override
   public boolean isMsSqlServerVariant() {
     return true;
+  }
+
+  @Override
+  public Map<String, String> getExtraOptions() {
+    Map<String, String> map = super.getExtraOptions();
+    if (isJtdsDriver()) {
+      map.remove("MSSQL." + ATTRIBUTE_ENCRYPT);
+      map.remove("MSSQL." + ATTRIBUTE_TRUST_SERVER_CERTIFICATE);
+    } else {
+      removeIfEmpty(map, "MSSQL.instance");
+      removeIfEmpty(map, "MSSQLNATIVE.instance");
+    }
+    return map;
+  }
+  
+  private void removeIfEmpty(Map<String, String> map, String key) {
+    String instance = map.get(key);
+    if (Utils.isEmpty(instance)) {
+      map.remove(key);
+    }
+  }
+
+  // DEEM-MOD
+  public boolean isSupportDatetime2() {
+    return !isJtdsDriver();
+  }
+
+  // DEEM-MOD
+  public boolean isJtdsDriver() {
+    return DRIVER_CLASS_JTDS.equals(getDriverClass());
+  }
+
+  // DEEM-MOD
+  public String getDatabaseTypeCode() {
+    return "MSSQL";
   }
 
   @Override

@@ -293,7 +293,7 @@ public class ValueMetaBase implements IValueMeta {
     this.identicalFormat = true;
     this.bigNumberFormatting = true;
     this.lenientStringToNumber = convertStringToBoolean(Const.NVL(System.getProperty(Const.HOP_LENIENT_STRING_TO_NUMBER_CONVERSION, "N"), "N"));
-    this.emptyStringAndNullAreDifferent = convertStringToBoolean(Const.NVL(System.getProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "N"), "N"));
+    this.emptyStringAndNullAreDifferent = convertStringToBoolean(Const.NVL(System.getProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "Y"), "Y")); // DEEM-MOD N->Y
 
     this.comparator = comparator;
     determineSingleByteEncoding();
