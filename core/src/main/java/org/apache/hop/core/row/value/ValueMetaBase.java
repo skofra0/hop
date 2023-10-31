@@ -4729,6 +4729,7 @@ public class ValueMetaBase implements IValueMeta {
           break;
 
         case Types.TIMESTAMP:
+        case Types.TIMESTAMP_WITH_TIMEZONE: // DEEM-NOD
           if (databaseMeta.supportsTimestampDataType()) {
             valtype = IValueMeta.TYPE_TIMESTAMP;
             length = rm.getScale(index);
@@ -4739,7 +4740,7 @@ public class ValueMetaBase implements IValueMeta {
           if (databaseMeta.getIDatabase().isTeradataVariant()) {
             precision = 1;
           }
-        case Types.TIME:
+        case Types.TIME, Types.TIME_WITH_TIMEZONE: // DEEM-NOD
           valtype = IValueMeta.TYPE_DATE;
           //
           if (databaseMeta.getIDatabase().isMySqlVariant()) {

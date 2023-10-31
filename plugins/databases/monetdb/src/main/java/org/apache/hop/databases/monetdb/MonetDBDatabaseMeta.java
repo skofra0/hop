@@ -33,10 +33,10 @@ import no.deem.core.utils.Objects;
 @GuiPlugin(id = "GUI-MonetDBDatabaseMeta")
 public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
-  public static ThreadLocal<Boolean> safeModeLocal = new ThreadLocal<>();
-
   public static final int DEFAULT_VARCHAR_LENGTH = 99; // DEEM-MOD
-  public static boolean SUPPORT_INT_AS_DECIMAL = Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y")); // DEEM-MOD
+  public static final boolean SAFE_MODE = true; // DEEM-MOD
+
+  protected static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y"));
 
   protected static final String FIELDNAME_PROTECTOR = "_";
 
@@ -150,7 +150,18 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    */
   @Override
   public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+    // return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false); // DEEM-MOD
+
+    String typeDef = getFieldDefinition(v, tk, pk, useAutoinc, false, false);
+    String alterTable = "ALTER TABLE " + tableName + " ";
+    String newColumn = "_new_column_";
+
+    StringBuilder sql = new StringBuilder();
+    sql.append(alterTable + "ADD COLUMN " + newColumn + " " + typeDef + ";\n");
+    sql.append("UPDATE " + tableName + " SET " + newColumn + " = CONVERT(" + v.getName() + ", " + typeDef + ");\n");
+    sql.append(alterTable + "DROP COLUMN " + v.getName() + " RESTRICT;\n");
+    sql.append(alterTable + "RENAME COLUMN " + newColumn + " TO " + v.getName());
+    return sql.toString();
   }
 
   @Override
@@ -244,13 +255,12 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     int length = v.getLength();
     int precision = v.getPrecision();
 
-    Boolean mode = MonetDBDatabaseMeta.safeModeLocal.get();
-    // boolean safeMode = mode != null && mode.booleanValue()
-    boolean safeMode = mode == null || mode.booleanValue(); // DEEM-MOD
+    // Boolean mode = MonetDBDatabaseMeta.safeModeLocal.get();
+    // boolean safeMode = mode == null || mode.booleanValue(); // DEEM-MOD
 
     if (addFieldName) {
       // protect the fieldname
-      if (safeMode) {
+      if (SAFE_MODE) {
         fieldname = getSafeFieldname(fieldname);
       }
 
@@ -284,7 +294,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
         } else {
           // Integer values...
           if (precision == 0) {
-            if (length > 18 || (SUPPORT_INT_AS_DECIMAL && length > 0)) { // DEEM-MOD
+            if (length > 18 || (supportIntAsDecimal && length > 0)) { // DEEM-MOD
               retval.append("DECIMAL(" + length + ",0)");
             } else if (length > 9 && !(length == 11 && "INT".equalsIgnoreCase(v.getOriginalColumnTypeName()))) {
               retval.append("BIGINT");
@@ -313,7 +323,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
           if (length > 0) {
             retval.append(length);
           } else {
-            if (safeMode) {
+            if (SAFE_MODE) {
               retval.append(DEFAULT_VARCHAR_LENGTH);
             }
           }
