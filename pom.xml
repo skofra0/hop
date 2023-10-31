@@ -128,7 +128,7 @@
         <aws-java-sdk.version>1.12.574</aws-java-sdk.version>
         <batik.version>1.17</batik.version>
 		<poi.version>5.2.4</poi.version>
-        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <commons-beanutils.version>1.9.5-deem</commons-beanutils.version>
         <commons-codec.version>1.16.0</commons-codec.version>
         <commons-compress.version>1.24.0</commons-compress.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
