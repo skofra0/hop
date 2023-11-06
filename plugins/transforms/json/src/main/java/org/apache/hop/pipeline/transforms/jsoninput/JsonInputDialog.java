@@ -34,7 +34,6 @@ import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.PipelinePreviewFactory;
-import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.ITransformDialog;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.dialog.BaseDialog;
@@ -71,6 +70,7 @@ import org.eclipse.swt.widgets.Text;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -156,7 +156,7 @@ public class JsonInputDialog extends BaseTransformDialog implements ITransformDi
   private ModifyListener lsMod;
 
   public JsonInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
-    super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
+    super(parent, variables, (JsonInputMeta) in, pipelineMeta, sname);
     input = (JsonInputMeta) in;
   }
 
@@ -429,7 +429,7 @@ public class JsonInputDialog extends BaseTransformDialog implements ITransformDi
 
     // if getFromSnippetDialog dialog is cancelled, the text will be null
     if (text != null) {
-      refreshFields(new ByteArrayInputStream(text.getBytes()));
+      refreshFields(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8))); // DEEM-MOD UTF-8
       wFields.optimizeTableView();
     }
   }
