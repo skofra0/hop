@@ -33,6 +33,8 @@ import no.deem.core.utils.Objects;
 @GuiPlugin(id = "GUI-MonetDBDatabaseMeta")
 public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
+  public static ThreadLocal<Boolean> safeModeLocal = new ThreadLocal<>();
+
   public static final int DEFAULT_VARCHAR_LENGTH = 99; // DEEM-MOD
   public static final boolean SAFE_MODE = true; // DEEM-MOD
 
@@ -47,7 +49,9 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     return new int[] {DatabaseMeta.TYPE_ACCESS_NATIVE};
   }
 
-  /** @see IDatabase#getDefaultDatabasePort() */
+  /**
+   * @see IDatabase#getDefaultDatabasePort()
+   */
   @Override
   public int getDefaultDatabasePort() {
     if (getAccessType() == DatabaseMeta.TYPE_ACCESS_NATIVE) {
@@ -57,7 +61,9 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     }
   }
 
-  /** @see IDatabase#getNotFoundTK(boolean) */
+  /**
+   * @see IDatabase#getNotFoundTK(boolean)
+   */
   @Override
   public int getNotFoundTK(boolean useAutoinc) {
     if (isSupportsAutoInc() && useAutoinc) {
@@ -90,7 +96,9 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     return false;
   }
 
-  /** @return true if the database supports bitmap indexes */
+  /**
+   * @return true if the database supports bitmap indexes
+   */
   @Override
   public boolean isSupportsBitmapIndex() {
     return true;
@@ -150,7 +158,8 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    */
   @Override
   public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    // return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false); // DEEM-MOD
+    // return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true,
+    // false); // DEEM-MOD
 
     String typeDef = getFieldDefinition(v, tk, pk, useAutoinc, false, false);
     String alterTable = "ALTER TABLE " + tableName + " ";
@@ -255,12 +264,12 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     int length = v.getLength();
     int precision = v.getPrecision();
 
-    // Boolean mode = MonetDBDatabaseMeta.safeModeLocal.get();
-    // boolean safeMode = mode == null || mode.booleanValue(); // DEEM-MOD
-
+    Boolean mode = MonetDBDatabaseMeta.safeModeLocal.get();
+    boolean safeMode = mode != null && mode.booleanValue();
+    safeMode = SAFE_MODE;
     if (addFieldName) {
       // protect the fieldname
-      if (SAFE_MODE) {
+      if (safeMode) {
         fieldname = getSafeFieldname(fieldname);
       }
 
@@ -323,7 +332,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
           if (length > 0) {
             retval.append(length);
           } else {
-            if (SAFE_MODE) {
+            if (safeMode) {
               retval.append(DEFAULT_VARCHAR_LENGTH);
             }
           }

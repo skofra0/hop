@@ -112,7 +112,7 @@
         </maven-surefire-plugin.argLine>
 
 
-		<deem-insight.version>23.4.2</deem-insight.version>
+		<deem-insight.version>23.4.3</deem-insight.version>
 
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>

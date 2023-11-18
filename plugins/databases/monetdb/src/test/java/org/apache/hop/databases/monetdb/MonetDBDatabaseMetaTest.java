@@ -175,7 +175,7 @@ public class MonetDBDatabaseMetaTest {
     assertEquals("BIGINT", nativeMeta.getFieldDefinition(new ValueMetaInteger("FOO", 8, 0), "", "FOO", false, false, false));
 
     // integer types ( precision == 0 )
-    if (MonetDBDatabaseMeta.SUPPORT_INT_AS_DECIMAL) {
+    if (MonetDBDatabaseMeta.supportIntAsDecimal) {
       assertEquals("DECIMAL(8,0)", nativeMeta.getFieldDefinition(new ValueMetaInteger("FOO", 8, 0), "", "", false, false, false));
       assertEquals("DECIMAL(10,0)", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 10, 0), "", "", false, false, false));
       assertEquals("DECIMAL(19,0)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 19, 0), "", "", false, false, false));
@@ -209,7 +209,7 @@ public class MonetDBDatabaseMetaTest {
 
     assertEquals("VARCHAR(99)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", -2, 0), "", "", false, false, false)); // should end up with (100) if "safeMode = true"
 
-    MonetDBDatabaseMeta.safeModeLocal.set(new Boolean(true));
+    MonetDBDatabaseMeta.safeModeLocal.set(Boolean.TRUE);
     assertEquals("VARCHAR(99)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", -2, 0), "", "", false, false, false)); // should end up with (100) if "safeMode = true"
 
     assertEquals(" UNKNOWN", nativeMeta.getFieldDefinition(new ValueMetaInternetAddress("FOO"), "", "", false, false, false));
