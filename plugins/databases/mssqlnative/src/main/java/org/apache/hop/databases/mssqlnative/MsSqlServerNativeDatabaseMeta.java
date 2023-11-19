@@ -51,7 +51,7 @@ public class MsSqlServerNativeDatabaseMeta extends MsSqlServerDatabaseMeta imple
 
   @Override
   public void addDefaultOptions() {
-    addExtraOption(getPluginId(), "encrypt", "false"); // DEEM-MOD
+    addExtraOption(getPluginId(), "encrypt", "false");
     addExtraOption(getPluginId(), "trustServerCertificate", "true"); // DEEM-MOD
   }
 

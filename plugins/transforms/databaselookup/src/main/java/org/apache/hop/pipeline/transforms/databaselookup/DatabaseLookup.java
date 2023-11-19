@@ -108,7 +108,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
     }
 
     if (add == null) {
-      // if (!(meta.isCached() && meta.isLoadingAllDataInCache()) DEEM-MOD
+      // if (!(meta.isCached() && meta.isLoadingAllDataInCache()) // DEEM-MOD
       if (!(meta.isCached() && meta.isLoadingAllDataInCache() && StringUtils.isEmpty(meta.getLookup().getWhereClause())) || data.hasDBCondition) { // do not go to the
         // database when all rows
         // are in (exception LIKE
@@ -474,7 +474,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
       //
       sql += " FROM " + dbMeta.getQuotedSchemaTableCombination(this, meta.getSchemaName(), meta.getTableName());
 
-      // where? //DEEM-MOD
+      // where? // DEEM-MOD
       sql += noLock;
       if (StringUtils.isNotEmpty(lookup.getWhereClause())) {
         sql += " WHERE " + resolve(lookup.getWhereClause());

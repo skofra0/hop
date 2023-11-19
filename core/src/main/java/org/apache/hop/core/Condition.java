@@ -107,7 +107,7 @@ public class Condition implements Cloneable {
           "ENDS WITH",
           "LIKE",
           "TRUE",
-          "IS EMPTY",
+          "IS EMPTY", // DEEM-MOD
           "NOT IS EMPTY" // DEEM-MOD
       };
 
@@ -1097,9 +1097,9 @@ public class Condition implements Cloneable {
     ENDS_WITH("ENDS WITH", FUNC_ENDS_WITH),
     LIKE("LIKE", FUNC_LIKE),
     TRUE("TRUE", FUNC_TRUE),
-    IS_EMPTY("IS NULL", FUNC_IS_EMPTY),
-    NOT_IS_EMPTY("IS NOT NULL", FUNC_NOT_IS_EMPTY);
-
+    IS_EMPTY("IS NULL", FUNC_IS_EMPTY), // DEEM-MOD
+    NOT_IS_EMPTY("IS NOT NULL", FUNC_NOT_IS_EMPTY) // DEEM-MOD
+    ; 
     private final String code;
     private final String description;
     private final int type;

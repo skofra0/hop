@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.hop.pipeline.transforms.formula;
 
 import org.apache.hop.core.exception.HopException;
@@ -27,24 +28,14 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.pipeline.transforms.formula.runner.libformula.FormulaRunnerPentaho;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
 
-  /**
-   * This is the base transform that forms that basis for all transforms. You can derive from this
-   * class to implement your own transforms.
-   *
-   * @param transformMeta The TransformMeta object to run.
-   * @param meta
-   * @param data the data object to store temporary data, database connections, caches, result sets,
-   *        hashtables etc.
-   * @param copyNr The copynumber for this transform.
-   * @param pipelineMeta The PipelineMeta of which the transform transformMeta is part of.
-   * @param pipeline The (running) pipeline to obtain information shared among the transforms.
-   */
-  public Formula(TransformMeta transformMeta, FormulaMeta meta, FormulaData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
-    super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
-  }
+  // private XSSFWorkbook workBook; // DEEM-MOD
+  // private XSSFSheet workSheet; // DEEM-MOD
+  // private Row sheetRow; // DEEM-MOD
+  private HashMap<String, String> replaceMap;
 
   @Override
   public boolean init() {
@@ -52,6 +43,7 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
       // DEEM-MOD
       data.runner = new FormulaRunnerPentaho();
       data.runner.init(meta, data);
+      replaceMap = new HashMap<String, String>();
 
       data.returnType = new int[meta.getFormulas().size()];
       for (int i = 0; i < meta.getFormulas().size(); i++) {
@@ -65,7 +57,7 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
   @Override
   public void dispose() {
     try {
-      data.runner.dispose();
+      data.runner.dispose(); // DEEM-MOD
     } catch (HopException e) {
       logError("Unable to close temporary workbook", e);
     }
@@ -76,7 +68,7 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
   public boolean processRow() throws HopException {
 
     Object[] r = getRow();
-    if (r == null) { // no more input to be expected...
+    if (r == null) {
       setOutputDone();
       return false;
     }
@@ -92,17 +84,20 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
       // Calculate replace indexes...
       //
       data.replaceIndex = new int[meta.getFormulas().size()];
-      int i = 0;
-      for (var fn : meta.getFormulas()) {
+      for (int j = 0; j < meta.getFormulas().size(); j++) {
+        FormulaMetaFunction fn = meta.getFormulas().get(j);
         if (!Utils.isEmpty(fn.getReplaceField())) {
-          data.replaceIndex[i] = getInputRowMeta().indexOfValue(fn.getReplaceField());
-          if (data.replaceIndex[i] < 0) {
+          data.replaceIndex[j] = getInputRowMeta().indexOfValue(fn.getReplaceField());
+
+          // keep track of the formula fields and the fields they replace for formula parsing later on.
+          replaceMap.put(fn.getFieldName(), fn.getReplaceField());
+          if (data.replaceIndex[j] < 0) {
             throw new HopException("Unknown field specified to replace with a formula result: [" + fn.getReplaceField() + "]");
           }
         } else {
-          data.replaceIndex[i] = -1;
+          data.replaceIndex[j] = -1;
         }
-        i++;
+        j++;
       }
     }
 
@@ -115,13 +110,12 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
 
     int i = 0;
     for (var formula : meta.getFormulas()) {
-      Object outputValue = data.runner.evaluate(formula, getInputRowMeta(), r, i);
+      Object outputValue = data.runner.evaluate(formula, getInputRowMeta(), r, i, replaceMap);
       int realIndex = (data.replaceIndex[i] < 0) ? tempIndex++ : data.replaceIndex[i];
       outputRowData[realIndex] = getReturnValue(outputValue, data.returnType[i], realIndex, formula);
       i++;
     }
     putRow(data.outputRowMeta, outputRowData);
-
     if (log.isRowLevel()) {
       logRowlevel("Wrote row #" + getLinesWritten() + " : " + Arrays.toString(r));
     }
@@ -130,6 +124,22 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
     }
 
     return true;
+  }
+
+  /**
+   * This is the base transform that forms that basis for all transforms. You can derive from this
+   * class to implement your own transforms.
+   *
+   * @param transformMeta The TransformMeta object to run.
+   * @param meta
+   * @param data the data object to store temporary data, database connections, caches, result sets,
+   *        hashtables etc.
+   * @param copyNr The copynumber for this transform.
+   * @param pipelineMeta The PipelineMeta of which the transform transformMeta is part of.
+   * @param pipeline The (running) pipeline to obtain information shared among the transforms.
+   */
+  public Formula(TransformMeta transformMeta, FormulaMeta meta, FormulaData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
+    super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   protected Object getReturnValue(Object formulaResult, int returnType, int realIndex, FormulaMetaFunction fn) throws HopException {
@@ -203,7 +213,6 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
     }
     IValueMeta target = data.outputRowMeta.getValueMeta(i);
     IValueMeta actual = ValueMetaFactory.guessValueMetaInterface(formulaResult);
-    Object value = target.convertData(actual, formulaResult);
-    return value;
+    return target.convertData(actual, formulaResult);
   }
 }

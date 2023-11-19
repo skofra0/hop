@@ -84,7 +84,6 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
   private Label wlOrderBy;
   private Text wOrderBy;
 
-  private Label wlWhereClause;// DEEM-MOD
   private Text wWhereClause; // DEEM-MOD
 
   private Label wlFailMultiple;
@@ -286,7 +285,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     });
 
     // Where clause // DEEM-MOD
-    wlWhereClause = new Label(shell, SWT.RIGHT);
+    var wlWhereClause = new Label(shell, SWT.RIGHT);
     wlWhereClause.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.WhereClause.Label")); //$NON-NLS-1$
     PropsUi.setLook(wlWhereClause);
     wlWhereClause.setEnabled(input.isCached());

@@ -32,6 +32,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * DEEM-MOD
@@ -71,9 +72,9 @@ public class FormulaRunnerPoi extends FormulaRunner {
   }
 
   @Override
-  public Object evaluate(FormulaMetaFunction formula, IRowMeta inputRowMeta, Object[] outputRowData, int i) throws HopValueException {
+  public Object evaluate(FormulaMetaFunction formula, IRowMeta inputRowMeta, Object[] outputRowData, int i, Map<String, String> replaceMap) throws HopValueException {
     Object outputValue = null;
-    FormulaParser parser = new FormulaParser(formula, inputRowMeta, outputRowData, sheetRow, null);
+    FormulaParser parser = new FormulaParser(formula, inputRowMeta, outputRowData, sheetRow, null, replaceMap);
     CellValue cellValue = parser.getFormulaValue();
     CellType cellType = cellValue.getCellType();
 

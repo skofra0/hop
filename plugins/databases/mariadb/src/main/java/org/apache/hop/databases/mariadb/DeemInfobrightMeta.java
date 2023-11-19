@@ -27,6 +27,7 @@ import org.apache.hop.core.database.DatabaseMetaPlugin;
 import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 
+// DEEM-MOD
 @DatabaseMetaPlugin(type = "DEEM_INFOBRIGHT", typeDescription = "Deem Infobright")
 @GuiPlugin(id = "GUI-DeemInfobrightMeta")
 public class DeemInfobrightMeta extends DeemMySqlMeta {

@@ -31,6 +31,7 @@ import org.pentaho.reporting.libraries.formula.LibFormulaErrorValue;
 import org.pentaho.reporting.libraries.formula.parser.ParseException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * DEEM-MOD
@@ -62,7 +63,7 @@ public class FormulaRunnerPentaho extends FormulaRunner {
   }
 
   @Override
-  public Object evaluate(FormulaMetaFunction formula, IRowMeta inputRowMeta, Object[] outputRowData, int i) throws HopException {
+  public Object evaluate(FormulaMetaFunction formula, IRowMeta inputRowMeta, Object[] outputRowData, int i, Map<String, String> replaceMap) throws HopException {
     return calcFields(formula, i);
   }
 

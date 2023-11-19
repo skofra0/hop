@@ -21,6 +21,7 @@ import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.pipeline.transforms.formula.FormulaData;
 import org.apache.hop.pipeline.transforms.formula.FormulaMeta;
 import org.apache.hop.pipeline.transforms.formula.FormulaMetaFunction;
+import java.util.Map;
 
 /**
  * DEEM-MOD
@@ -46,6 +47,6 @@ public abstract class FormulaRunner {
     // nop
   }
 
-  public abstract Object evaluate(FormulaMetaFunction formula, IRowMeta inputRowMeta, Object[] outputRowData, int i) throws HopException;
+  public abstract Object evaluate(FormulaMetaFunction formula, IRowMeta inputRowMeta, Object[] outputRowData, int i, Map<String, String> replaceMap) throws HopException;
 
 }

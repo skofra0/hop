@@ -1688,26 +1688,27 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   }
 
   /**
-   * See if the table specified exists.
+   * See if the view specified exists.
    * <p>
    * This is a smarter implementation of {@link #checkTableExists(String)} where metadata is used
    * first and we only use statements when absolutely necessary.
    * <p>
    * Contrary to previous versions of similar duplicated methods, this implementation does not
    * require quoted identifiers.
-   * @param tableName The unquoted name of the table to check.<br>
+   * @param viewName The unquoted name of the table to check.<br>
    *        This is NOT the properly quoted name of the table or the complete schema-table name
    *        combination.
    * @param schema The unquoted name of the schema.
    * @return true if the table exists, false if it doesn't.
    */
-  public boolean checkViewExists(String schema, String tableName) throws HopDatabaseException {
+  // DEEM-MOD
+  public boolean checkViewExists(String schema, String viewName) throws HopDatabaseException {
     try {
       if (log.isDebug()) {
-        log.logDebug("Checking if view [" + tableName + "] exists!");
+        log.logDebug("Checking if view [" + viewName + "] exists!");
       }
 
-      try (ResultSet rs2 = getDatabaseMetaData().getTables(null, null, resolve(tableName), new String[] {"VIEW"})) {
+      try (ResultSet rs2 = getDatabaseMetaData().getTables(null, null, resolve(viewName), new String[] {"VIEW"})) {
         return rs2.next();
 
       } catch (HopDatabaseException e) {
@@ -1715,7 +1716,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       }
 
     } catch (Exception e) {
-      throw new HopDatabaseException("Unable to check if table [" + tableName + "] exists on connection [" + databaseMeta.getName() + "]", e);
+      throw new HopDatabaseException("Unable to check if view [" + viewName + "] exists on connection [" + databaseMeta.getName() + "]", e);
     }
   }
 

@@ -34,16 +34,16 @@
         <libformula.version>9.5.0.0-240</libformula.version>
     </properties>
 
-
+    <!-- DEEM-MOD -->
 	<repositories>
 		<repository>
 			<id>DeemMaven</id>
-			<url>https://maven.deem.no:8443/repository/maven-public</url>
+			<url>http://maven.deem.no:8081/repository/maven-public</url>
 		</repository>
 	</repositories>
-	
-  
+
     <dependencies>
+		
 <!--        <dependency>-->
 <!--            <groupId>org.apache.hop</groupId>-->
 <!--            <artifactId>hop-transform-excelinput</artifactId>-->

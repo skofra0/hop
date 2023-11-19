@@ -41,15 +41,14 @@ import no.deem.core.utils.Objects;
 @GuiPlugin(id = "GUI-MSSQLServerDatabaseMeta")
 public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
-  public static final String ATTRIBUTE_USE_INTEGRATED_SECURITY = "MSSQLUseIntegratedSecurity";
-  public static final String ATTRIBUTE_ENCRYPT = "encrypt";
-  public static final String ATTRIBUTE_TRUST_SERVER_CERTIFICATE = "trustServerCertificate";
+  public static final String ATTRIBUTE_USE_INTEGRATED_SECURITY = "MSSQLUseIntegratedSecurity"; // DEEM-MOD
+  public static final String ATTRIBUTE_ENCRYPT = "encrypt"; // DEEM-MOD
+  public static final String ATTRIBUTE_TRUST_SERVER_CERTIFICATE = "trustServerCertificate"; // DEEM-MOD
 
-  public static final String DRIVER_CLASS_JTDS = "net.sourceforge.jtds.jdbc.Driver";
-  public static final String DRIVER_CLASS_MSSQL = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-  protected static String driverClass = "";
-
-  protected static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MSSQL_SUPPORT_INT_AS_DECIMAL", "Y"));
+  public static final String DRIVER_CLASS_JTDS = "net.sourceforge.jtds.jdbc.Driver"; // DEEM-MOD
+  public static final String DRIVER_CLASS_MSSQL = "com.microsoft.sqlserver.jdbc.SQLServerDriver";// DEEM-MOD
+  protected static String driverClass = ""; // DEEM-MOD
+  protected static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MSSQL_SUPPORT_INT_AS_DECIMAL", "Y")); // DEEM-MOD
 
   @GuiWidgetElement(
       id = "instanceName",
@@ -191,6 +190,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
     }
     return url.toString();
   }
+
   @Override
   public String getSchemaTableCombination(String schemaName, String tablePart) {
     // Something special for MSSQL
@@ -216,7 +216,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
   @Override
   public String getSqlQueryFields(String tableName) {
-    return "SELECT TOP 1 * FROM " + tableName + " WHERE 1=0"; // DEEM-MOD  WITH (NOLOCK) problem Synapse 
+    return "SELECT TOP 1 * FROM " + tableName + " WHERE 1=0"; // DEEM-MOD WITH (NOLOCK) problem Synapse
   }
 
   @Override
@@ -230,7 +230,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
   }
 
   public String getSqlQueryColumnFields(String columnname, String tableName) {
-    return "SELECT TOP 1 " + columnname + " FROM " + tableName + " WHERE 1=0"; // DEEM-MOD WITH (NOLOCK)  problem Synapse 
+    return "SELECT TOP 1 " + columnname + " FROM " + tableName + " WHERE 1=0"; // DEEM-MOD WITH (NOLOCK) problem Synapse
   }
 
   /**
@@ -984,12 +984,22 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
     }
     return map;
   }
-  
+
   private void removeIfEmpty(Map<String, String> map, String key) {
     String instance = map.get(key);
     if (Utils.isEmpty(instance)) {
       map.remove(key);
     }
+  }
+
+  @Override
+  public String getStartQuote() {
+    return "";
+  }
+
+  @Override
+  public String getEndQuote() {
+    return "";
   }
 
   // DEEM-MOD
@@ -1007,13 +1017,4 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
     return "MSSQL";
   }
 
-  @Override
-  public String getStartQuote() {
-    return "";
-  }
-
-  @Override
-  public String getEndQuote() {
-    return "";
-  }
 }

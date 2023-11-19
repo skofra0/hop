@@ -122,7 +122,7 @@ public class KettleImport extends HopImportBase implements IHopImport {
         if ("hdb".equalsIgnoreCase(ext)) {
           handleConnectionFile(file);
           count.incrementAndGet();
-        } else if ("ktr".equalsIgnoreCase(ext) || "kjb".equalsIgnoreCase(ext) || "hpl".equalsIgnoreCase(ext) || "hwf".equalsIgnoreCase(ext)) {
+        } else if ("ktr".equalsIgnoreCase(ext) || "kjb".equalsIgnoreCase(ext) || "hpl".equalsIgnoreCase(ext) || "hwf".equalsIgnoreCase(ext)) { // DEEM-MOD
           // This is a Kettle transformation or job
           //
           handleHopFile(file);
@@ -207,7 +207,6 @@ public class KettleImport extends HopImportBase implements IHopImport {
 
     // import connections first
     importDbConnections(doc, kettleFile);
-
   }
 
   /**

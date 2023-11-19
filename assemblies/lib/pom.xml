@@ -227,7 +227,7 @@
             <artifactId>jakarta.mail</artifactId>
             <version>${jakarta-mail.version}</version>
         </dependency>
-        <!-- DEEM-MOD remote  hadoop-hdfs-client 
+        <!-- DEEM-MOD remove hadoop-hdfs-client 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs-client</artifactId>

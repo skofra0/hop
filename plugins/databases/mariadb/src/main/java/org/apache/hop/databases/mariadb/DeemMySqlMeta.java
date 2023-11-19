@@ -25,6 +25,7 @@ import org.apache.hop.core.exception.HopDatabaseException;
 import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 
+//DEEM-MOD
 @DatabaseMetaPlugin(type = "DEEM_MYSQL", typeDescription = "Deem MySQL")
 @GuiPlugin(id = "GUI-DeemMySqlDatabaseMeta")
 public class DeemMySqlMeta extends MariaDBDatabaseMeta {

@@ -226,7 +226,7 @@ public class Project extends ConfigFile implements IConfigFile {
 
     for (DescribedVariable variable : getDescribedVariables()) {
       if (variable.getName() != null) {
-        if (Strings.isNotEmpty(variable.getValue()) && variable.getValue().contains("$time")) { // DEEM-MOD
+        if (StringUtils.isNotEmpty(variable.getValue()) && variable.getValue().contains("$time")) { // DEEM-MOD
           variables.setVariable(variable.getName(), context.parse(variable.getValue())); // DEEM-MOD
         } else {
           variables.setVariable(variable.getName(), variable.getValue());
