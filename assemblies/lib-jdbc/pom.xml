@@ -36,10 +36,10 @@
         <duckdb.version>0.9.1</duckdb.version>
         <h2.version>2.2.224</h2.version>
         <hyersonic.version>2.7.2</hyersonic.version>
-        <jt400.version>20.0.6</jt400.version>
-        <monetdb.version>3.1</monetdb.version>
-        <mssqlnative.version>12.4.1.jre11</mssqlnative.version>
-        <postgresql.version>42.6.0</postgresql.version>
+        <jt400.version>11.2</jt400.version>
+        <monetdb.version>3.3</monetdb.version>
+        <mssqlnative.version>12.2.0.jre11</mssqlnative.version>
+        <postgresql.version>42.7.0</postgresql.version>
         <redshift.version>2.1.0.19</redshift.version>
         <snowflake.jdbc.version>3.14.3</snowflake.jdbc.version>
         <sqlite.version>3.43.0.0</sqlite.version>
@@ -57,10 +57,42 @@
             <version>${jt400.version}</version>
         </dependency>
         <dependency>
+            <groupId>monetdb</groupId>
+            <artifactId>monetdb-jdbc</artifactId>
+            <version>${monetdb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>${mssqlnative.version}</version>
+        </dependency>
+		<dependency>
+		    <groupId>com.microsoft.azure</groupId>
+		    <artifactId>msal4j</artifactId>
+			<version>1.13.10</version>
+		</dependency>
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>oauth2-oidc-sdk</artifactId>
+			<version>10.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>2.6.2</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jna</artifactId>
+					<groupId>net.java.dev.jna</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+	<!-- DEEM-MOD
+        <dependency>
             <groupId>com.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
             <version>${clickhouse.jdbc.version}</version>
-            <!-- below is only needed when all you want is a shaded jar -->
             <classifier>all</classifier>
             <exclusions>
                 <exclusion>
@@ -88,17 +120,8 @@
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>${hyersonic.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>monetdb</groupId>
-            <artifactId>monetdb-jdbc</artifactId>
-            <version>${monetdb.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>${mssqlnative.version}</version>
-        </dependency>
+        </dependency> 
+
         <dependency>
             <groupId>com.amazon.redshift</groupId>
             <artifactId>redshift-jdbc42</artifactId>
@@ -113,7 +136,7 @@
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>${sqlite.version}</version>
-        </dependency>
+        </dependency> -->
     </dependencies>
 
     <repositories>
