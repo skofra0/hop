@@ -46,8 +46,9 @@ import org.apache.hop.pipeline.transform.stream.IStream;
 import org.apache.hop.pipeline.transform.stream.IStream.StreamType;
 import org.apache.hop.pipeline.transform.stream.Stream;
 import org.apache.hop.pipeline.transform.stream.StreamIcon;
+import org.apache.hop.pipeline.transforms.tableinput.addon.TableInputMetaField;
 import org.w3c.dom.Node;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Transform(
@@ -60,8 +61,10 @@ import java.util.List;
     keywords = "i18n::TableInputMeta.keyword")
 public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData> {
 
-
   private static final Class<?> PKG = TableInputMeta.class; // For Translator
+
+  public static final String EXECUTE_METHOD_PREPARED = "Prepared - ?"; // DEEM-MOD
+  public static final String EXECUTE_METHOD_VARIABLE = "Variable - ${VAR}"; // DEEM-MOD
 
   @HopMetadataProperty(key = "sql", injectionKey = "SQL")
   private String sql;
@@ -81,6 +84,25 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
 
   @HopMetadataProperty private String lookup;
 
+  // DEEM-MOD START
+  @HopMetadataProperty(
+      groupKey = "fields",
+      key = "field",
+      injectionKey = "DATABASE_FIELD",
+      injectionGroupKey = "DATABASE_FIELDS",
+      injectionGroupDescription = "ScriptedTableInputMeta.Injection.Fields",
+      injectionKeyDescription = "ScriptedTableInputMeta.Injection.Field")
+  private List<TableInputMetaField> fields = new ArrayList<>();
+
+  public List<TableInputMetaField> getFields() {
+    return fields;
+  }
+
+  public void setFields(List<TableInputMetaField> fields) {
+    this.fields = fields;
+  }
+  // DEEM-MOD END
+
   public TableInputMeta() {
     super();
   }
@@ -90,9 +112,24 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
     return executeEachInputRow;
   }
 
+  /** @return Returns true if the transform should be run per row */
+  public boolean isExecuteEachInputRowAsPreparedStatment() { // DEEM-MOD
+    return executeEachInputRow;
+  }
+
   /** @param oncePerRow true if the transform should be run per row */
   public void setExecuteEachInputRow(boolean oncePerRow) {
     this.executeEachInputRow = oncePerRow;
+  }
+
+  // DEEM-MOD
+  public String getExecuteEachInputRowAsString() { // DEEM-MOD
+    return executeEachInputRow ? EXECUTE_METHOD_PREPARED : EXECUTE_METHOD_VARIABLE;
+  }
+
+  // DEEM-MOD
+  public void setExecuteEachInputRowByString(String executeMethod) {
+    this.executeEachInputRow = !TableInputMeta.EXECUTE_METHOD_VARIABLE.equals(executeMethod);
   }
 
   /** @return Returns the rowLimit. */

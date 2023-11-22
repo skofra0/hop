@@ -21,6 +21,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import no.deem.core.query.QueryContext;
+import no.deem.core.query.QueryDateTime;
+import no.deem.core.query.QueryTools;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.hop.core.Const;
@@ -233,9 +236,19 @@ public class Project extends ConfigFile implements IConfigFile {
       String realValue = variables.resolve(dataSetsCsvFolder);
       variables.setVariable(ProjectsUtil.VARIABLE_HOP_DATASETS_FOLDER, realValue);
     }
+
+    // DEEM-MOD
+    QueryContext context = new QueryContext();
+    context.put("time", QueryDateTime.now());
+    context.put("tools", new QueryTools());
+
     for (DescribedVariable variable : getDescribedVariables()) {
       if (variable.getName() != null) {
-        variables.setVariable(variable.getName(), variable.getValue());
+        if (StringUtils.isNotEmpty(variable.getValue()) && variable.getValue().contains("$time")) { // DEEM-MOD
+          variables.setVariable(variable.getName(), context.parse(variable.getValue())); // DEEM-MOD
+        } else {
+          variables.setVariable(variable.getName(), variable.getValue());
+        }
       }
     }
   }

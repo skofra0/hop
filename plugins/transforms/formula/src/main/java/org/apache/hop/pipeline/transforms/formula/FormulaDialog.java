@@ -17,6 +17,8 @@
 
 package org.apache.hop.pipeline.transforms.formula;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopTransformException;
 import org.apache.hop.core.row.IRowMeta;
@@ -25,7 +27,6 @@ import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.pipeline.PipelineMeta;
-import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.ITransformDialog;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.pipeline.transforms.formula.editor.FormulaEditor;
@@ -51,9 +52,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FormulaDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = FormulaDialog.class; // For Translator
 
@@ -69,7 +67,7 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
 
   public FormulaDialog(
       Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
-    super(parent, variables, (BaseTransformMeta) in, tr, sname);
+    super(parent, variables, (FormulaMeta) in, tr, sname);
 
     // The order here is important... currentMeta is looked at for changes
     currentMeta = (FormulaMeta) baseTransformMeta;

@@ -60,4 +60,18 @@ public class HopDatabaseException extends HopException {
   public HopDatabaseException(String message, Throwable cause) {
     super(message, cause);
   }
+
+  // DEEM-MOD
+  public static void rethrow(Throwable e) throws HopDatabaseException {
+    throw of(e);
+  }
+
+  // DEEM-MOD
+  public static HopDatabaseException of(Throwable e) {
+    if (e instanceof HopDatabaseException hopEx) {
+      return hopEx;
+    } else {
+      return new HopDatabaseException(e);
+    }
+  }
 }

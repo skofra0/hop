@@ -243,10 +243,50 @@ public class PluginRegistry {
     }
 
     // getPlugins() never returns null, see his method above
-    return getPlugins(pluginType).stream()
-        .filter(plugin -> plugin.matches(id))
-        .findFirst()
-        .orElse(null);
+    var result = getPlugins(pluginType).stream().filter(plugin -> plugin.matches(id)).findFirst().orElse(null);
+ // DEEM-MOD
+    if (result == null) {
+      String pid = upgradePluginId(pluginType, id);
+      return getPlugins(pluginType).stream().filter(plugin -> plugin.matches(pid)).findFirst().orElse(null);
+    }
+    return result;
+  }
+
+  // DEEM-MOD
+  private String upgradePluginId(Class<? extends IPluginType> pluginType, String id) {
+    if ("ActionPluginType".equals(pluginType.getSimpleName()))
+      switch (id) {
+        case "JOB":
+          return "WORKFLOW";
+        case "TRANS":
+          return "PIPELINE";
+        default:
+          return id;
+      }
+
+    if ("TransformPluginType".equals(pluginType.getSimpleName()))
+      switch (id) {
+        case "BlockingStep":
+          return "BlockingTransform";
+        case "BlockUntilStepsFinish":
+          return "BlockUntilTransformsFinish";
+        case "JobExecutor":
+          return "WorkflowExecutor";
+        case "TransExecutor":
+          return "PipelineExecutor";
+        case "TextFileInput":
+          return "TextFileInput2";
+        case "data-lake-input":
+          return "cloud-api-input";
+        case "IndexedTableOutput":
+          return "BulkLoader";
+        case "mysql-text-loader":
+          return "BulkLoader";
+        default:
+          return id;
+      }
+
+    return id;
   }
 
   /**

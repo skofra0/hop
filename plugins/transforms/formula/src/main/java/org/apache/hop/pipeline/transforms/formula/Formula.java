@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,9 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.formula;
 
-import java.sql.Timestamp;
 import org.apache.hop.core.exception.HopException;
-import org.apache.hop.core.exception.HopTransformException;
 import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.core.row.RowDataUtil;
 import org.apache.hop.core.row.value.ValueMetaFactory;
@@ -28,41 +26,39 @@ import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
-import org.apache.hop.pipeline.transforms.formula.util.FormulaParser;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.CellValue;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.IOException;
+import org.apache.hop.pipeline.transforms.formula.runner.libformula.FormulaRunnerPentaho;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
 
-  private XSSFWorkbook workBook;
-  private XSSFSheet workSheet;
-  private Row sheetRow;
+  // private XSSFWorkbook workBook; // DEEM-MOD
+  // private XSSFSheet workSheet; // DEEM-MOD
+  // private Row sheetRow; // DEEM-MOD
   private HashMap<String, String> replaceMap;
 
   @Override
   public boolean init() {
+    if (super.init()) {
+      // DEEM-MOD
+      data.runner = new FormulaRunnerPentaho();
+      data.runner.init(meta, data);
+      replaceMap = new HashMap<String, String>();
 
-    workBook = new XSSFWorkbook();
-    workSheet = workBook.createSheet();
-    sheetRow = workSheet.createRow(0);
-    replaceMap = new HashMap<String, String>();
-
-    return true;
+      data.returnType = new int[meta.getFormulas().size()];
+      for (int i = 0; i < meta.getFormulas().size(); i++) {
+        data.returnType[i] = -1;
+      }
+      return true;
+    }
+    return false;
   }
 
   @Override
   public void dispose() {
     try {
-      workBook.close();
-    } catch (IOException e) {
+      data.runner.dispose(); // DEEM-MOD
+    } catch (HopException e) {
       logError("Unable to close temporary workbook", e);
     }
     super.dispose();
@@ -77,20 +73,13 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
       return false;
     }
 
+    int tempIndex = getInputRowMeta().size();
+
     if (first) {
       first = false;
 
-      try {
-        data.outputRowMeta = getInputRowMeta().clone();
-        meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
-      } catch (HopTransformException e) {
-        throw new RuntimeException(e);
-      }
-
-      data.returnType = new int[meta.getFormulas().size()];
-      for (int i = 0; i < meta.getFormulas().size(); i++) {
-        data.returnType[i] = -1;
-      }
+      data.outputRowMeta = getInputRowMeta().clone();
+      meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
       // Calculate replace indexes...
       //
@@ -98,104 +87,35 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
       for (int j = 0; j < meta.getFormulas().size(); j++) {
         FormulaMetaFunction fn = meta.getFormulas().get(j);
         if (!Utils.isEmpty(fn.getReplaceField())) {
-          data.replaceIndex[j] = data.outputRowMeta.indexOfValue(fn.getReplaceField());
+          data.replaceIndex[j] = getInputRowMeta().indexOfValue(fn.getReplaceField());
 
           // keep track of the formula fields and the fields they replace for formula parsing later on.
           replaceMap.put(fn.getFieldName(), fn.getReplaceField());
           if (data.replaceIndex[j] < 0) {
-            throw new HopException(
-                    "Unknown field specified to replace with a formula result: ["
-                            + fn.getReplaceField()
-                            + "]");
+            throw new HopException("Unknown field specified to replace with a formula result: [" + fn.getReplaceField() + "]");
           }
         } else {
           data.replaceIndex[j] = -1;
         }
+        j++;
       }
     }
-
-    int tempIndex = getInputRowMeta().size();
-
 
     if (log.isRowLevel()) {
       logRowlevel("Read row #" + getLinesRead() + " : " + Arrays.toString(r));
     }
 
-    if (sheetRow != null) {
-      workSheet.removeRow(sheetRow);
-    }
-    sheetRow = workSheet.createRow(0);
-
     Object[] outputRowData = RowDataUtil.resizeArray(r, data.outputRowMeta.size());
-    Object outputValue = null;
+    data.runner.initRow(outputRowData);
 
-    for (int i = 0; i < meta.getFormulas().size(); i++) {
-
-      FormulaMetaFunction formula = meta.getFormulas().get(i);
-      FormulaParser parser = new FormulaParser(formula, data.outputRowMeta, outputRowData, sheetRow, variables, replaceMap);
-      try {
-        CellValue cellValue = parser.getFormulaValue();
-        CellType cellType = cellValue.getCellType();
-
-        int outputValueType = formula.getValueType();
-        switch (cellType) {
-          case BLANK:
-            // should never happen.
-            break;
-          case NUMERIC:
-            outputValue = cellValue.getNumberValue();
-            switch (outputValueType) {
-              case IValueMeta.TYPE_NUMBER:
-                data.returnType[i] = FormulaData.RETURN_TYPE_NUMBER;
-                formula.setNeedDataConversion(outputValueType != IValueMeta.TYPE_NUMBER);
-                break;
-              case IValueMeta.TYPE_INTEGER:
-                data.returnType[i] = FormulaData.RETURN_TYPE_INTEGER;
-                formula.setNeedDataConversion(outputValueType != IValueMeta.TYPE_NUMBER);
-                break;
-              case IValueMeta.TYPE_BIGNUMBER:
-                data.returnType[i] = FormulaData.RETURN_TYPE_BIGDECIMAL;
-                formula.setNeedDataConversion(outputValueType != IValueMeta.TYPE_NUMBER);
-                break;
-              case IValueMeta.TYPE_DATE:
-                outputValue = DateUtil.getJavaDate(cellValue.getNumberValue());
-                data.returnType[i] = FormulaData.RETURN_TYPE_DATE;
-                formula.setNeedDataConversion(outputValueType != IValueMeta.TYPE_NUMBER);
-                break;
-              case IValueMeta.TYPE_TIMESTAMP:
-                outputValue = Timestamp.from(DateUtil.getJavaDate(cellValue.getNumberValue()).toInstant());
-                data.returnType[i] = FormulaData.RETURN_TYPE_TIMESTAMP;
-                formula.setNeedDataConversion(outputValueType != IValueMeta.TYPE_NUMBER);
-                break;
-              default:
-                break;
-            }
-            // get cell value
-            break;
-          case BOOLEAN:
-            outputValue = cellValue.getBooleanValue();
-            data.returnType[i] = FormulaData.RETURN_TYPE_BOOLEAN;
-            formula.setNeedDataConversion(outputValueType != IValueMeta.TYPE_BOOLEAN);
-            break;
-          case STRING:
-            outputValue = cellValue.getStringValue();
-            data.returnType[i] = FormulaData.RETURN_TYPE_STRING;
-            formula.setNeedDataConversion(outputValueType != IValueMeta.TYPE_STRING);
-            break;
-          default:
-            break;
-        }
-
-        int realIndex = (data.replaceIndex[i] < 0) ? tempIndex++ : data.replaceIndex[i];
-
-        outputRowData[realIndex] = getReturnValue(outputValue, data.returnType[i], realIndex, formula);
-      }catch(Exception e){
-        throw new HopException("Formula '" + formula.getFormula() + "' could not not be parsed ", e);
-      }
+    int i = 0;
+    for (var formula : meta.getFormulas()) {
+      Object outputValue = data.runner.evaluate(formula, getInputRowMeta(), r, i, replaceMap);
+      int realIndex = (data.replaceIndex[i] < 0) ? tempIndex++ : data.replaceIndex[i];
+      outputRowData[realIndex] = getReturnValue(outputValue, data.returnType[i], realIndex, formula);
+      i++;
     }
-
     putRow(data.outputRowMeta, outputRowData);
-
     if (log.isRowLevel()) {
       logRowlevel("Wrote row #" + getLinesWritten() + " : " + Arrays.toString(r));
     }
@@ -213,24 +133,16 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
    * @param transformMeta The TransformMeta object to run.
    * @param meta
    * @param data the data object to store temporary data, database connections, caches, result sets,
-   *     hashtables etc.
+   *        hashtables etc.
    * @param copyNr The copynumber for this transform.
    * @param pipelineMeta The PipelineMeta of which the transform transformMeta is part of.
    * @param pipeline The (running) pipeline to obtain information shared among the transforms.
    */
-  public Formula(
-      TransformMeta transformMeta,
-      FormulaMeta meta,
-      FormulaData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Formula(TransformMeta transformMeta, FormulaMeta meta, FormulaData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  protected Object getReturnValue(
-      Object formulaResult, int returnType, int realIndex, FormulaMetaFunction fn)
-      throws HopException {
+  protected Object getReturnValue(Object formulaResult, int returnType, int realIndex, FormulaMetaFunction fn) throws HopException {
     if (formulaResult == null) {
       return null;
     }

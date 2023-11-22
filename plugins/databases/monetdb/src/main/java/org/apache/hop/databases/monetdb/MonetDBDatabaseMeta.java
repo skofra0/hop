@@ -25,6 +25,7 @@ import org.apache.hop.core.database.IDatabase;
 import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.core.util.Utils;
+import no.deem.core.utils.Objects;
 
 /** Contains Generic Database Connection information through static final members */
 @DatabaseMetaPlugin(
@@ -37,7 +38,11 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   public static ThreadLocal<Boolean> safeModeLocal = new ThreadLocal<>();
 
-  public static final int DEFAULT_VARCHAR_LENGTH = 100;
+  public static final int DEFAULT_VARCHAR_LENGTH = 99; // DEEM-MOD
+  public static final boolean SAFE_MODE = true; // DEEM-MOD
+
+  private static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y"));
+  private static final int MAX_DECIMAL_LENGTH = Integer.parseInt(System.getProperty("MONETDB_MAX_DECIMAL_LENGTH", "18"));
 
   protected static final String FIELDNAME_PROTECTOR = "_";
 
@@ -73,7 +78,8 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   @Override
   public String getDriverClass() {
-    return "nl.cwi.monetdb.jdbc.MonetDriver";
+     // return "nl.cwi.monetdb.jdbc.MonetDriver";
+    return "org.monetdb.jdbc.MonetDriver"; // DEEM-MOD
   }
 
   @Override
@@ -160,12 +166,19 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    // return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false); // DEEM-MOD
+
+    String typeDef = getFieldDefinition(v, tk, pk, useAutoinc, false, false);
+    String alterTable = "ALTER TABLE " + tableName + " ";
+    String newColumn = "_new_column_";
+
+    StringBuilder sql = new StringBuilder();
+    sql.append(alterTable + "ADD COLUMN " + newColumn + " " + typeDef + ";\n");
+    sql.append("UPDATE " + tableName + " SET " + newColumn + " = CONVERT(" + v.getName() + ", " + typeDef + ");\n");
+    sql.append(alterTable + "DROP COLUMN " + v.getName() + " RESTRICT;\n");
+    sql.append(alterTable + "RENAME COLUMN " + newColumn + " TO " + v.getName());
+    return sql.toString();
   }
 
   @Override
@@ -261,8 +274,9 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     int length = v.getLength();
     int precision = v.getPrecision();
 
-    Boolean mode = MonetDBDatabaseMeta.safeModeLocal.get();
-    boolean safeMode = mode != null && mode.booleanValue();
+    // Boolean mode = MonetDBDatabaseMeta.safeModeLocal.get(); // DEEM-MOD
+    // boolean safeMode = mode == null || mode.booleanValue(); // DEEM-MOD
+    boolean safeMode = SAFE_MODE; // DEEM-MOD
 
     if (addFieldName) {
       // protect the fieldname
@@ -301,31 +315,22 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
         } else {
           // Integer values...
           if (precision == 0) {
-            if (length > 9) {
-              if (length < 19) {
-                // can hold signed values between -9223372036854775808 and 9223372036854775807
-                // 18 significant digits
-                retval.append("BIGINT");
-              } else {
-                retval.append("DECIMAL(").append(length).append(")");
-              }
-            } else if (type == IValueMeta.TYPE_NUMBER) {
-              retval.append("DOUBLE");
-            } else {
+            if (length > 18 || (supportIntAsDecimal && length > 0)) { // DEEM-MOD
+              retval.append("DECIMAL(" + length + ",0)");
+            } else if (length > 9 && !(length == 11 && "INT".equalsIgnoreCase(v.getOriginalColumnTypeName()))) {
               retval.append("BIGINT");
+            } else {
+              retval.append("INT");
             }
           } else {
             // Floating point values...
-            if (length > 15) {
+            if (length > 0) { // DEEM-MOD
               retval.append("DECIMAL(").append(length);
               if (precision > 0) {
                 retval.append(", ").append(precision);
               }
               retval.append(")");
             } else {
-              // A double-precision floating-point number is accurate to approximately 15 decimal
-              // places.
-              // http://mysql.mirrors-r-us.net/doc/refman/5.1/en/numeric-type-overview.html
               retval.append("DOUBLE");
             }
           }
@@ -378,6 +383,14 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   @Override
   public int getMaxVARCHARLength() {
     return MAX_VARCHAR_LENGTH;
+  }
+
+  /**
+   * DEEM-MOD
+   */
+  @Override
+  public boolean isMonetDbVariant() {
+    return true;
   }
 
   @Override

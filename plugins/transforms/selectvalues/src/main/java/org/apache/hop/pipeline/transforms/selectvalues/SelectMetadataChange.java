@@ -17,6 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.selectvalues;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.injection.Injection;
 import org.apache.hop.core.row.value.ValueMetaBase;
@@ -117,24 +118,26 @@ public class SelectMetadataChange implements Cloneable {
     xml.append("      ").append(XmlHandler.openTag(XML_TAG));
     xml.append("        ").append(XmlHandler.addTagValue("name", name));
     xml.append("        ").append(XmlHandler.addTagValue("rename", rename));
-    xml.append("        ")
-        .append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(type)));
+    xml.append("        ").append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(type)));
     xml.append("        ").append(XmlHandler.addTagValue("length", length));
     xml.append("        ").append(XmlHandler.addTagValue("precision", precision));
     xml.append("        ").append(XmlHandler.addTagValue("conversion_mask", conversionMask));
-    xml.append("        ")
-        .append(XmlHandler.addTagValue("date_format_lenient", Boolean.toString(dateFormatLenient)));
+    xml.append("        ").append(XmlHandler.addTagValue("date_format_lenient", Boolean.toString(dateFormatLenient)));
     xml.append("        ").append(XmlHandler.addTagValue("date_format_locale", dateFormatLocale));
-    xml.append("        ")
-        .append(XmlHandler.addTagValue("date_format_timezone", dateFormatTimeZone));
-    xml.append("        ")
-        .append(
-            XmlHandler.addTagValue(
-                "lenient_string_to_number", Boolean.toString(lenientStringToNumber)));
-    xml.append("        ").append(XmlHandler.addTagValue("encoding", encoding));
-    xml.append("        ").append(XmlHandler.addTagValue("decimal_symbol", decimalSymbol));
-    xml.append("        ").append(XmlHandler.addTagValue("grouping_symbol", groupingSymbol));
-    xml.append("        ").append(XmlHandler.addTagValue("currency_symbol", currencySymbol));
+    xml.append("        ").append(XmlHandler.addTagValue("date_format_timezone", dateFormatTimeZone));
+    xml.append("        ").append(XmlHandler.addTagValue("lenient_string_to_number", Boolean.toString(lenientStringToNumber)));
+    if (StringUtils.isNotEmpty(encoding)) { // DEEM-MOD
+      xml.append("        ").append(XmlHandler.addTagValue("encoding", encoding));
+    }
+    if (StringUtils.isNotEmpty(decimalSymbol)) { // DEEM-MOD
+      xml.append("        ").append(XmlHandler.addTagValue("decimal_symbol", decimalSymbol));
+    }
+    if (StringUtils.isNotEmpty(groupingSymbol)) { // DEEM-MOD
+      xml.append("        ").append(XmlHandler.addTagValue("grouping_symbol", groupingSymbol));
+    }
+    if (StringUtils.isNotEmpty(currencySymbol)) { // DEEM-MOD
+      xml.append("        ").append(XmlHandler.addTagValue("currency_symbol", currencySymbol));
+    }
     xml.append("        ")
         .append(
             XmlHandler.addTagValue("storage_type", ValueMetaBase.getStorageTypeCode(storageType)));

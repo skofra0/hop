@@ -28,9 +28,9 @@ import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.ArrayList; 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,17 +45,19 @@ public class FormulaParser {
   private Object[] dataRow;
   private Row sheetRow;
   private FormulaEvaluator evaluator;
-  private HashMap<String, String> replaceMap;
 
-  public FormulaParser(
-      FormulaMetaFunction formulaMetaFunction, IRowMeta rowMeta, Object[] dataRow, Row sheetRow, IVariables variables, HashMap<String, String> replaceMap) {
+  public FormulaParser(FormulaMetaFunction formulaMetaFunction, IRowMeta rowMeta, Object[] dataRow, Row sheetRow, IVariables variables, Map<String, String> replaceMap) {
     this.formulaMetaFunction = formulaMetaFunction;
     this.rowMeta = rowMeta;
     this.dataRow = dataRow;
     this.sheetRow = sheetRow;
     fieldNames = rowMeta.getFieldNames();
-    this.replaceMap = replaceMap;
-    formula = variables.resolve(formulaMetaFunction.getFormula());
+    // DEEM-MOD
+    if (variables != null) {
+      formula = variables.resolve(formulaMetaFunction.getFormula());
+    } else {
+      formula = formulaMetaFunction.getFormula();
+    }
     evaluator = sheetRow.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 
     formulaFieldList = getFormulaFieldList(formula);

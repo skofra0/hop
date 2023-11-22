@@ -30,7 +30,10 @@ public interface IProvidesDatabaseConnectionInformation {
    *
    * @return
    */
-  DatabaseMeta getDatabaseMeta();
+  // DEEM-MOD
+  default DatabaseMeta getDatabaseMeta() {
+    return null;
+  }
 
   /**
    * Returns the table name for this transform

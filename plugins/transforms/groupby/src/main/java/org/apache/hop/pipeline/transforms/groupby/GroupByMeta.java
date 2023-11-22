@@ -285,6 +285,36 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
           length = -1;
         }
 
+        // DEEM-MOD
+        switch (aggregationType) {
+          case Aggregation.TYPE_GROUP_AVERAGE:
+            if (valueType != IValueMeta.TYPE_INTEGER) {
+              length = subj.getLength();
+              precision = subj.getPrecision();
+            }
+            break;
+          case Aggregation.TYPE_GROUP_SUM:
+          case Aggregation.TYPE_GROUP_CUMULATIVE_SUM:
+          case Aggregation.TYPE_GROUP_CUMULATIVE_AVERAGE:
+          case Aggregation.TYPE_GROUP_FIRST:
+          case Aggregation.TYPE_GROUP_LAST:
+          case Aggregation.TYPE_GROUP_FIRST_INCL_NULL:
+          case Aggregation.TYPE_GROUP_LAST_INCL_NULL:
+          case Aggregation.TYPE_GROUP_MIN:
+          case Aggregation.TYPE_GROUP_MAX:
+            length = subj.getLength();
+            precision = subj.getPrecision();
+            break;
+          case Aggregation.TYPE_GROUP_COUNT_DISTINCT:
+          case Aggregation.TYPE_GROUP_COUNT_ALL:
+          case Aggregation.TYPE_GROUP_CONCAT_COMMA:
+          case Aggregation.TYPE_GROUP_STANDARD_DEVIATION:
+          case Aggregation.TYPE_GROUP_CONCAT_STRING:
+          default:
+            break;
+        }
+        // DEEM-MOD END
+
         if (valueType != IValueMeta.TYPE_NONE) {
           IValueMeta v;
           try {

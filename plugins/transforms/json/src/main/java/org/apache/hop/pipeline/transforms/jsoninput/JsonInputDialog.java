@@ -72,6 +72,7 @@ import org.eclipse.swt.widgets.Text;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -499,7 +500,7 @@ public class JsonInputDialog extends BaseTransformDialog implements ITransformDi
 
     // if getFromSnippetDialog dialog is cancelled, the text will be null
     if (text != null) {
-      refreshFields(new ByteArrayInputStream(text.getBytes()));
+      refreshFields(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8))); // DEEM-MOD UTF-8
       wFields.optimizeTableView();
     }
   }

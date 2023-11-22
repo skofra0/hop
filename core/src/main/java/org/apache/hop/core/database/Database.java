@@ -167,6 +167,13 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
+  // DEEM-MOD
+  public static Database connect(ILoggingObject parentObject, IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
+    Database db = new Database(parentObject, variables, databaseMeta);
+    db.connect();
+    return db;
+  }
+
   /**
    * Construct a new Database Connection
    *
@@ -466,6 +473,12 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
         connection = DriverManager.getConnection(url, properties);
       }
+      // DEEM-MOD START MonetDb schema problem
+      if (databaseMeta.supportsSchemas() && StringUtils.isNotBlank(databaseMeta.getPreferredSchemaName())) {
+        String schema = resolve(databaseMeta.getPreferredSchemaName());
+        connection.setSchema(schema);
+      }
+      // DEEM-MOD END
     } catch (Exception e) {
       throw new HopDatabaseException(
           "Error connecting to database: (using class " + classname + ")", e);
@@ -614,9 +627,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     // Canceling statements only if we're not streaming results on MySQL with
     // the v3 driver
     //
-    if (databaseMeta.isMySqlVariant()
-        && databaseMeta.isStreamingResults()
-        && getDatabaseMetaData().getDriverMajorVersion() == 3) {
+    // if (databaseMeta.isMySqlVariant() && databaseMeta.isStreamingResults() &&
+    // getDatabaseMetaData().getDriverMajorVersion() == 3 ) {
+    if (databaseMeta.isMySqlVariant() && databaseMeta.isStreamingResults()) { // DEEM-MOD
       return;
     }
 
@@ -1586,7 +1599,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       // to get the length of a String field. So, on MySQL, we ingore the length
       // of Strings in result rows.
       //
-      rowMeta = getRowInfo(res.getMetaData(), databaseMeta.isMySqlVariant(), lazyConversion);
+      // DEEM-MOD : Database - Metadata Improvement
+      // rowMeta = getRowInfo(res.getMetaData(), databaseMeta.isMySqlVariant(), lazyConversion);
+      rowMeta = getRowInfo(res.getMetaData(), false, lazyConversion);
     } catch (SQLException ex) {
       throw new HopDatabaseException("An error occurred executing SQL: " + Const.CR + sql, ex);
     } catch (Exception e) {
@@ -1645,7 +1660,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       // of Strings in result rows.
       //
       log.snap(Metrics.METRIC_DATABASE_GET_ROW_META_START, databaseMeta.getName());
-      rowMeta = getRowInfo(res.getMetaData(), databaseMeta.isMySqlVariant(), false);
+      // DEEM-MOD : Database - Metadata Improvement
+      // rowMeta = getRowInfo(res.getMetaData(), databaseMeta.isMySqlVariant(), false);
+      rowMeta = getRowInfo(res.getMetaData(), false, false);
       log.snap(Metrics.METRIC_DATABASE_GET_ROW_META_STOP, databaseMeta.getName());
     } catch (SQLException ex) {
       throw new HopDatabaseException("ERROR executing query", ex);
@@ -1660,7 +1677,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
   void setMysqlFetchSize(PreparedStatement ps, int fs, int getMaxRows)
       throws SQLException, HopDatabaseException {
-    if (databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() == 3) {
+    // DEEM-MOD
+    // if (databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() == 3) {
+    if (databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() < 5) { // DEEM-MOD
       ps.setFetchSize(Integer.MIN_VALUE);
     } else if (fs <= getMaxRows) {
       // do not set fetch size more than max rows can returns
@@ -1698,7 +1717,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    *     name combination.
    * @return true if the table exists, false if it doesn't.
    */
-  private boolean checkTableExists(String tableName) throws HopDatabaseException {
+//DEEM-MOD (public)
+ public boolean checkTableExists(String tableName) throws HopDatabaseException {
     try {
       if (log.isDebug()) {
         log.logDebug("Checking if table [" + tableName + "] exists!");
@@ -1739,6 +1759,39 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    */
   public boolean checkTableExists(String schema, String tableName) throws HopDatabaseException {
     return checkTableExists(databaseMeta.getQuotedSchemaTableCombination(this, schema, tableName));
+  }
+
+  /**
+   * See if the view specified exists.
+   * <p>
+   * This is a smarter implementation of {@link #checkTableExists(String)} where metadata is used
+   * first and we only use statements when absolutely necessary.
+   * <p>
+   * Contrary to previous versions of similar duplicated methods, this implementation does not
+   * require quoted identifiers.
+   * @param viewName The unquoted name of the table to check.<br>
+   *        This is NOT the properly quoted name of the table or the complete schema-table name
+   *        combination.
+   * @param schema The unquoted name of the schema.
+   * @return true if the table exists, false if it doesn't.
+   */
+  // DEEM-MOD
+  public boolean checkViewExists(String schema, String viewName) throws HopDatabaseException {
+    try {
+      if (log.isDebug()) {
+        log.logDebug("Checking if view [" + viewName + "] exists!");
+      }
+
+      try (ResultSet rs2 = getDatabaseMetaData().getTables(null, null, resolve(viewName), new String[] {"VIEW"})) {
+        return rs2.next();
+
+      } catch (HopDatabaseException e) {
+        return false;
+      }
+
+    } catch (Exception e) {
+      throw new HopDatabaseException("Unable to check if view [" + viewName + "] exists on connection [" + databaseMeta.getName() + "]", e);
+    }
   }
 
   /**
@@ -3197,6 +3250,10 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         switch (sqltype) {
           case java.sql.Types.CHAR:
           case java.sql.Types.VARCHAR:
+          case java.sql.Types.NVARCHAR: // DEEM-MOD
+          case java.sql.Types.NCHAR: // DEEM-MOD
+          case java.sql.Types.LONGVARCHAR: // DEEM-MOD
+          case java.sql.Types.LONGNVARCHAR: // DEEM-MOD
             val = new ValueMetaString(name);
             break;
           case java.sql.Types.BIGINT:
@@ -3215,6 +3272,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           case java.sql.Types.DATE:
           case java.sql.Types.TIME:
           case java.sql.Types.TIMESTAMP:
+          case java.sql.Types.TIME_WITH_TIMEZONE: // DEEM-MOD
+          case java.sql.Types.TIMESTAMP_WITH_TIMEZONE: // DEEM-MOD
             val = new ValueMetaDate(name);
             break;
           case java.sql.Types.BOOLEAN:

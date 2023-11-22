@@ -18,6 +18,7 @@
 package org.apache.hop.pipeline.transforms.tableinput;
 
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.Props;
 import org.apache.hop.core.database.Database;
@@ -34,6 +35,10 @@ import org.apache.hop.pipeline.PipelinePreviewFactory;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.ITransformDialog;
 import org.apache.hop.pipeline.transform.TransformMeta;
+import org.apache.hop.pipeline.transform.stream.IStream;
+import org.apache.hop.pipeline.transforms.tableinput.addon.SqlValuesHighlight;
+import org.apache.hop.pipeline.transforms.tableinput.addon.StyledTextComp;
+import org.apache.hop.pipeline.transforms.tableinput.addon.TableInputVariableDialog;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.database.dialog.DatabaseExplorerDialog;
 import org.apache.hop.ui.core.dialog.BaseDialog;
@@ -42,7 +47,6 @@ import org.apache.hop.ui.core.dialog.EnterTextDialog;
 import org.apache.hop.ui.core.dialog.MessageBox;
 import org.apache.hop.ui.core.dialog.PreviewRowsDialog;
 import org.apache.hop.ui.core.widget.MetaSelectionLine;
-import org.apache.hop.ui.core.widget.StyledTextComp;
 import org.apache.hop.ui.core.widget.TextVar;
 import org.apache.hop.ui.pipeline.dialog.PipelinePreviewProgressDialog;
 import org.apache.hop.ui.pipeline.transform.BaseTransformDialog;
@@ -60,7 +64,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import no.deem.core.utils.Strings;
 
 public class TableInputDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = TableInputMeta.class; // For Translator
@@ -74,7 +82,7 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
   private TextVar wLimit;
 
   private Label wlEachRow;
-  private Button wEachRow;
+  private CCombo wEachRow; // DEEM-MOD
 
   private Button wVariables;
 
@@ -142,7 +150,11 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
 
-    setButtonPositions(new Button[] {wOk, wPreview, wCancel}, margin, null);
+    // DEEM-MOD
+    var wEditVariables = new Button(shell, SWT.PUSH);
+    wEditVariables.setText("Variables");
+
+    setButtonPositions(new Button[] {wOk, wPreview, wEditVariables, wCancel}, margin, null);
 
     // Limit input ...
     Label wlLimit = new Label(shell, SWT.RIGHT);
@@ -171,7 +183,10 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
     fdlEachRow.right = new FormAttachment(middle, -margin);
     fdlEachRow.bottom = new FormAttachment(wlLimit, -margin);
     wlEachRow.setLayoutData(fdlEachRow);
-    wEachRow = new Button(shell, SWT.CHECK);
+    // wEachRow = new Button(shell, SWT.CHECK); // DEEM-MOD
+    wEachRow = new CCombo(shell, SWT.BORDER | SWT.READ_ONLY);
+    wEachRow.add(TableInputMeta.EXECUTE_METHOD_PREPARED);
+    wEachRow.add(TableInputMeta.EXECUTE_METHOD_VARIABLE);
     PropsUi.setLook(wEachRow);
     FormData fdEachRow = new FormData();
     fdEachRow.left = new FormAttachment(middle, 0);
@@ -263,9 +278,8 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
     fdbTable.top = new FormAttachment(wConnection, margin * 2);
     wbTable.setLayoutData(fdbTable);
 
-    wSql =
-        new StyledTextComp(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    // DEEM-MOD (change import org.apache.hop.pipeline.transforms.tableinput.addon.StyledTextComp)
+    wSql = new StyledTextComp(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wSql, Props.WIDGET_STYLE_FIXED);
     wSql.addModifyListener(lsMod);
     FormData fdSql = new FormData();
@@ -322,10 +336,14 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
           }
         });
 
+    // Text Highlighting (DEEM-MOD)
+    wSql.addLineStyleListener(new SqlValuesHighlight());
+
     // Add listeners
     wCancel.addListener(SWT.Selection, e -> cancel());
     wPreview.addListener(SWT.Selection, e -> preview());
     wOk.addListener(SWT.Selection, e -> ok());
+    wEditVariables.addListener(SWT.Selection, e -> editVaribles()); // DEEM-MOD
     wbTable.addListener(SWT.Selection, e -> getSql());
     wDataFrom.addListener(SWT.Selection, e -> setFlags());
     wDataFrom.addListener(SWT.FocusOut, e -> setFlags());
@@ -364,7 +382,19 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
 
     wLimit.setText(Const.NVL(input.getRowLimit(), ""));
     wDataFrom.setText(Const.NVL(input.getLookup(), ""));
-    wEachRow.setSelection(input.isExecuteEachInputRow());
+
+    // DEEM-MOD START
+    // wEachRow.setSelection(input.isExecuteEachInputRow());
+    IStream infoStream = input.getTransformIOMeta().getInfoStreams().get(0);
+    if (infoStream.getTransformMeta() != null) {
+      wDataFrom.setText(infoStream.getTransformName());
+      wEachRow.setText(input.getExecuteEachInputRowAsString());
+    } else {
+      wEachRow.setEnabled(false);
+      wlEachRow.setEnabled(false);
+    } 
+    // DEEM-MOD END
+
     wVariables.setSelection(input.isVariableReplacementActive());
 
     setSqlToolTip();
@@ -390,7 +420,15 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
             : wSql.getText());
 
     meta.setRowLimit(wLimit.getText());
-    meta.setExecuteEachInputRow(wEachRow.getSelection());
+
+    // DEEM-MOD START
+    // meta.setExecuteEachInputRow(wEachRow.getSelection())
+    IStream infoStream = input.getTransformIOMeta().getInfoStreams().get(0);
+    infoStream.setTransformMeta(pipelineMeta.findTransform(wDataFrom.getText()));
+    meta.setExecuteEachInputRowByString(wEachRow.getText());
+    meta.setVariableReplacementActive(wVariables.getSelection());
+    // DEEM-MOD END
+
     meta.setVariableReplacementActive(wVariables.getSelection());
     meta.setLookup(wDataFrom.getText());
 
@@ -424,6 +462,8 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
           new DatabaseExplorerDialog(
               shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases(), false, true);
       if (std.open()) {
+        String tableName = Strings.trimToEmpty(std.getTableName());  // DEEM-MOD
+        String schemaName = std.getSchemaName().replace("[", "").replace("]", "");  // DEEM-MOD
         String sql =
             "SELECT *"
                 + Const.CR
@@ -441,8 +481,62 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
           case SWT.CANCEL:
             break;
           case SWT.NO:
-            wSql.setText(sql);
+
+            // DEEM-MOD - START SQL WITH RTRIM AND FIELD RENAME
+
+            try (Database db = new Database(loggingObject, variables, databaseMeta)) {
+              db.connect();
+              IRowMeta fields = db.getQueryFields(sql, false);
+              if (fields != null) {
+                int maxFieldLength = 0;
+                for (int i = 0; i < fields.size(); i++) {
+                  IValueMeta field = fields.getValueMeta(i);
+                  int curLength = (std.getTableName() + databaseMeta.quoteField(field.getName())).length() + 13;
+                  if (curLength > maxFieldLength) {
+                    maxFieldLength = curLength;
+                  }
+                }
+                String tableNameAlias = tableName;
+                if (std.getTableName().length() > 6) {
+                  tableNameAlias = "T1";
+                }
+                sql = "SELECT" + Const.CR;
+                for (int i = 0; i < fields.size(); i++) {
+                  IValueMeta field = fields.getValueMeta(i);
+                  String line;
+                  if (i == 0) {
+                    line = "     ";
+                  } else {
+                    line = "-- , ";
+                  }
+                  if (field.isString()) {
+                    line += "RTRIM(" + tableNameAlias + "." + databaseMeta.quoteField(field.getName()) + ")";
+                  } else {
+                    line += "      " + tableNameAlias + "." + databaseMeta.quoteField(field.getName());
+                  }
+                  sql += StringUtils.rightPad(line, maxFieldLength);
+                  sql += " AS \"" + Strings.convertNameToJavaName(field.getName()) + "\"" + Const.CR;
+                }
+                sql += "FROM " + databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName) + "  AS " + tableNameAlias + Const.CR;
+                wSql.setText(sql);
+              } else {
+                MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+                mb.setMessage(
+                    BaseMessages.getString(PKG, "TableInputDialog.ERROR_CouldNotRetrieveFields") + Const.CR + BaseMessages.getString(PKG, "TableInputDialog.PerhapsNoPermissions"));
+                mb.setText(BaseMessages.getString(PKG, "TableInputDialog.DialogCaptionError2"));
+                mb.open();
+              }
+            } catch (HopException e) {
+              MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+              mb.setText(BaseMessages.getString(PKG, "TableInputDialog.DialogCaptionError3"));
+              mb.setMessage(BaseMessages.getString(PKG, "TableInputDialog.AnErrorOccurred") + Const.CR + e.getMessage());
+              mb.open();
+            }
             break;
+
+          // wSql.setText(sql)
+          // break;
+          // DEEM-MOD END
           case SWT.YES:
             Database db = new Database(loggingObject, variables, databaseMeta);
             try {
@@ -509,7 +603,7 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
     } else {
       // The foreach check box...
       wEachRow.setEnabled(false);
-      wEachRow.setSelection(false);
+      // wEachRow.setSelection(false) // DEEM-MOD
       wlEachRow.setEnabled(false);
 
       // The preview button...
@@ -575,5 +669,13 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
         }
       }
     }
+  }
+
+  /** DEEM-MOD */
+  private void editVaribles() {
+    TableInputMeta oneMeta = new TableInputMeta();
+    getInfo(oneMeta, true);
+    TableInputVariableDialog prd = new TableInputVariableDialog(shell, variables, input, pipelineMeta, wTransformName.getText());
+    prd.open();
   }
 }

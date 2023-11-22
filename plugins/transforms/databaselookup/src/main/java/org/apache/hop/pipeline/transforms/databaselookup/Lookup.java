@@ -52,6 +52,9 @@ public class Lookup {
       injectionKeyDescription = "DatabaseLookupMeta.Injection.OrderBy")
   private String orderByClause;
 
+  @HopMetadataProperty(key = "where", injectionKeyDescription = "DatabaseLookupMeta.Injection.Where")
+  private String whereClause; // DEEM-MOD
+
   /** Have the lookup fail if multiple results were found, renders the orderByClause useless */
   @HopMetadataProperty(
       key = "fail_on_multiple",
@@ -157,6 +160,20 @@ public class Lookup {
   /** @param orderByClause The orderByClause to set */
   public void setOrderByClause(String orderByClause) {
     this.orderByClause = orderByClause;
+  }
+
+  /**
+   * @return Returns the whereClause.
+   */
+  public String getWhereClause() { // DEEM-MOD
+    return whereClause;
+  }
+
+  /**
+   * @param whereClause The whereClause to set.
+   */
+  public void setWhereClause(String whereClause) { // DEEM-MOD
+    this.whereClause = whereClause;
   }
 
   /**

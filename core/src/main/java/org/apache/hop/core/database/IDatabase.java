@@ -795,6 +795,15 @@ public interface IDatabase extends Cloneable {
   /** @return true if the database is a Terradata variant. */
   boolean isTeradataVariant();
 
+  // DEEM-MOD
+  default boolean isMonetDbVariant() {
+    return false;
+  }
+  // DEEM-MOD
+  default boolean isInfobrightVariant() {
+    return false;
+  }
+
   /**
    * Returns a true of savepoints can be release, false if not.
    *
