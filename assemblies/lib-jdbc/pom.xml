@@ -69,12 +69,12 @@
 		<dependency>
 		    <groupId>com.microsoft.azure</groupId>
 		    <artifactId>msal4j</artifactId>
-			<version>1.13.10</version>
+			<version>1.14.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.nimbusds</groupId>
 			<artifactId>oauth2-oidc-sdk</artifactId>
-			<version>10.9.2</version>
+			<version>11.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>

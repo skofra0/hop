@@ -108,7 +108,7 @@
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
 
-		<deem-insight.version>23.4.4</deem-insight.version>
+		<deem-insight.version>23.4.5</deem-insight.version>
 
         <!-- Third-party dependencies -->
         <akka.version>2.5.32</akka.version>
@@ -118,13 +118,13 @@
         <apache-spark.version>3.4.0</apache-spark.version>
         <apache-flink.version>1.16.2</apache-flink.version>
         <asm.version>9.6</asm.version>
-        <aws-java-sdk.version>1.12.593</aws-java-sdk.version>
+        <aws-java-sdk.version>1.12.596</aws-java-sdk.version>
         <batik.version>1.17</batik.version>
         <commons-beanutils.version>1.9.5-deem</commons-beanutils.version>
         <commons-codec.version>1.16.0</commons-codec.version>
         <commons-compress.version>1.25.0</commons-compress.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-lang3.version>3.13.0</commons-lang3.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
         <commons-logging.version>1.2</commons-logging.version>
         <curator.version>5.5.0</curator.version>
         <encoder.version>1.2.3</encoder.version>
@@ -148,7 +148,7 @@
         <jackson.version>2.16.0</jackson.version>
         <jakarta.version>3.1.0</jakarta.version>
         <jakarta-mail.version>2.0.1</jakarta-mail.version>
-        <jandex.version>3.1.5</jandex.version>
+        <jandex.version>3.1.6</jandex.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jetty.version>9.4.51.v20230217</jetty.version>
         <joda-time.version>2.12.5</joda-time.version>
