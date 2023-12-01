@@ -108,7 +108,7 @@
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
 
-		<deem-insight.version>23.4.5</deem-insight.version>
+		<deem-insight.version>23.4.6</deem-insight.version>
 
         <!-- Third-party dependencies -->
         <akka.version>2.5.32</akka.version>
@@ -125,7 +125,7 @@
         <commons-compress.version>1.25.0</commons-compress.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
-        <commons-logging.version>1.2</commons-logging.version>
+        <commons-logging.version>1.3.0</commons-logging.version>
         <curator.version>5.5.0</curator.version>
         <encoder.version>1.2.3</encoder.version>
         <gax.version>2.19.6</gax.version>

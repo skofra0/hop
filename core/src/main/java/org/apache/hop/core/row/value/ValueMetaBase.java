@@ -4028,7 +4028,7 @@ public class ValueMetaBase implements IValueMeta {
         cmp = Double.compare(getNumber(data1).doubleValue(), getNumber(data2).doubleValue());
         break;
 
-      case TYPE_DATE:
+      case TYPE_DATE, TYPE_TIMESTAMP:
         cmp =
             Long.valueOf(getDate(data1).getTime())
                 .compareTo(Long.valueOf(getDate(data2).getTime()));
