@@ -1685,6 +1685,8 @@ public class Const {
     } else {
       // Only keep until first space to remove the build date
       version = version.split(" ")[0];
+      // DEEM-MOD
+      version = "latest";
     }
 
     return url + version + "/";
