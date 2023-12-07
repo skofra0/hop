@@ -40,7 +40,7 @@
         <!-- Third-party dependencies -->
         <commons-validator.version>1.7</commons-validator.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <jersey2.version>2.38</jersey2.version>
+        <jersey2.version>2.41</jersey2.version>
         <jaxrs.version>2.1.6</jaxrs.version>
         <olap4j.version>1.2.0</olap4j.version>
         <olap4j-xmla.version>1.2.0</olap4j-xmla.version>
@@ -626,7 +626,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.2</version>
                 <executions>
                     <execution>
                         <goals>
