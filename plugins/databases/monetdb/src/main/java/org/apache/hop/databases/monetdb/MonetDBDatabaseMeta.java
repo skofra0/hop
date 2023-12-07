@@ -36,13 +36,12 @@ import no.deem.core.utils.Objects;
 @GuiPlugin(id = "GUI-MonetDBDatabaseMeta")
 public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
-  public static ThreadLocal<Boolean> safeModeLocal = new ThreadLocal<>();
+  // public static ThreadLocal<Boolean> safeModeLocal = new ThreadLocal<>() DEEM-MOD
 
   public static final int DEFAULT_VARCHAR_LENGTH = 99; // DEEM-MOD
-  public static final boolean SAFE_MODE = true; // DEEM-MOD
+  public static final boolean SAFE_MODE = false; // DEEM-MOD
 
-  private static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y"));
-  private static final int MAX_DECIMAL_LENGTH = Integer.parseInt(System.getProperty("MONETDB_MAX_DECIMAL_LENGTH", "18"));
+  protected static boolean supportIntAsDecimal = Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y"));
 
   protected static final String FIELDNAME_PROTECTOR = "_";
 
@@ -78,8 +77,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   @Override
   public String getDriverClass() {
-     // return "nl.cwi.monetdb.jdbc.MonetDriver";
-    return "org.monetdb.jdbc.MonetDriver"; // DEEM-MOD
+    return "org.monetdb.jdbc.MonetDriver"; // DEEM-MOD nl.cwi.monetdb.jdbc.MonetDriver
   }
 
   @Override
@@ -124,6 +122,28 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     return true;
   }
 
+  // DEEM-MOD START
+  @Override
+  public boolean isForcingIdentifiersToLowerCase() {
+    return true;
+  }
+
+  @Override
+  public boolean isForcingIdentifiersToUpperCase() {
+    return false;
+  }
+
+  @Override
+  public boolean isQuoteAllFields() {
+    return true;
+  }
+
+  @Override
+  public boolean isQuoteReservedWords() {
+    return true;
+  }
+  // DEEM-MOD END
+
   /**
    * @param tableName The table to be truncated.
    * @return The SQL statement to truncate a table: remove all rows from it without a transaction
@@ -146,12 +166,8 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   /**
@@ -167,7 +183,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    */
   @Override
   public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    // return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false); // DEEM-MOD
+    // return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false) // DEEM-MOD
 
     String typeDef = getFieldDefinition(v, tk, pk, useAutoinc, false, false);
     String alterTable = "ALTER TABLE " + tableName + " ";
@@ -266,25 +282,24 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     StringBuilder retval = new StringBuilder();
 
     String fieldname = v.getName();
+    String safeFieldname = v.getName();
     int length = v.getLength();
     int precision = v.getPrecision();
 
     // Boolean mode = MonetDBDatabaseMeta.safeModeLocal.get(); // DEEM-MOD
     // boolean safeMode = mode == null || mode.booleanValue(); // DEEM-MOD
-    boolean safeMode = SAFE_MODE; // DEEM-MOD
 
     if (addFieldName) {
       // protect the fieldname
-      if (safeMode) {
-        fieldname = getSafeFieldname(fieldname);
+      if (SAFE_MODE) {
+        safeFieldname = getSafeFieldname(fieldname);
       }
 
-      retval.append(fieldname + " ");
+      retval.append(safeFieldname + " ");
     }
 
     int type = v.getType();
@@ -303,10 +318,9 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_NUMBER:
       case IValueMeta.TYPE_INTEGER:
       case IValueMeta.TYPE_BIGNUMBER:
-        if (fieldname.equalsIgnoreCase(tk)
-            || // Technical key
-            fieldname.equalsIgnoreCase(pk) // Primary key
-        ) {
+        if (fieldname.equalsIgnoreCase(tk) || // Technical key
+            fieldname.equalsIgnoreCase(pk)) { // Primary key
+
           if (useAutoinc) {
             retval.append("SERIAL");
           } else {
@@ -344,9 +358,9 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
           if (length > 0) {
             retval.append(length);
           } else {
-            if (safeMode) {
+            // if (safeMode) { DEEM-MOD
               retval.append(DEFAULT_VARCHAR_LENGTH);
-            }
+            // }
           }
           retval.append(")");
         }
