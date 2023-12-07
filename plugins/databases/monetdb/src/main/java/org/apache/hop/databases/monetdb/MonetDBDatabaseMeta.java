@@ -140,7 +140,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   @Override
   public boolean isQuoteReservedWords() {
-    return true;
+    return false; // QuoteAllFields = true
   }
   // DEEM-MOD END
 
