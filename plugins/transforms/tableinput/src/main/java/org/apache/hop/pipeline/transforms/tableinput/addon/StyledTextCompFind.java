@@ -63,7 +63,7 @@ public class StyledTextCompFind extends org.eclipse.swt.widgets.Dialog {
     sShell = new Shell(parent, SWT.DIALOG_TRIM | SWT.NO_REDRAW_RESIZE | SWT.APPLICATION_MODAL);
     sShell.setImage(GuiResource.getInstance().getImageHop());
     sShell.setText(strHeader);
-    sShell.setSize(new Point(360, 126));
+    sShell.setSize(new Point(400, 150));
     FormLayout formLayout = new FormLayout();
     sShell.setLayout(formLayout);
 
