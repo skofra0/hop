@@ -18,6 +18,7 @@
 package org.apache.hop.ui.core.widget;
 
 import org.apache.hop.core.Condition;
+import org.apache.hop.core.Condition.Function;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopValueException;
 import org.apache.hop.core.exception.HopXmlException;
@@ -59,8 +60,6 @@ import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 
-import static org.apache.hop.core.Condition.Function.NOT_NULL;
-import static org.apache.hop.core.Condition.Function.NULL;
 import static org.apache.hop.core.Condition.Operator.*;
 
 /** Widget that allows you to edit a Condition in a graphical way. */
@@ -268,8 +267,9 @@ public class ConditionEditor extends Canvas implements MouseMoveListener {
                       int fnnr = Condition.getFunction(selection);
                       activeCondition.setFunction(Condition.Function.lookupType(fnnr));
 
-                      if (activeCondition.getFunction() == NOT_NULL
-                          || activeCondition.getFunction() == NULL) {
+                      // if (activeCondition.getFunction() == NOT_NULL
+                      //     || activeCondition.getFunction() == NULL) {
+                      if (!Function.hasParameter(activeCondition.getFunction())) { // DEEM-MOD
                         activeCondition.setRightValueName(null);
                         activeCondition.setRightValue(null);
                       }
@@ -937,7 +937,8 @@ public class ConditionEditor extends Canvas implements MouseMoveListener {
 
       gc.drawText(fn, sizeFn.x + 1 + offsetx, sizeFn.y + 1 + offsety, SWT.DRAW_TRANSPARENT);
 
-      if (condition.getFunction() != NOT_NULL && condition.getFunction() != NULL) {
+      // if (condition.getFunction() != NOT_NULL && condition.getFunction() != NULL) {
+      if (Function.hasParameter(condition.getFunction())) { // DEEM-MOD
         String re = rightex == null ? "" : rightex;
         String stype = "";
         Condition.CValue v = condition.getRightValue();

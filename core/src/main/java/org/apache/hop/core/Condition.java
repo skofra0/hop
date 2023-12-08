@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
+import org.apache.hop.core.Condition.Function;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.exception.HopPluginException;
 import org.apache.hop.core.exception.HopValueException;
@@ -725,7 +726,8 @@ public class Condition implements Cloneable {
         retval.append(" TRUE");
       } else {
         retval.append(leftValueName + " " + getFunctionDesc());
-        if (function != NULL && function != NOT_NULL && function != IS_EMPTY && function != NOT_IS_EMPTY) { // DEEM-MOD
+        // if (function != NULL && function != NOT_NULL) {
+        if (Function.hasParameter(function)) { // DEEM-MOD
           if (rightValueName != null) {
             retval.append(" ");
             retval.append(rightValueName);
@@ -1149,6 +1151,16 @@ public class Condition implements Cloneable {
         }
       }
       return null;
+    }
+
+    // DEEM-MOD
+    public boolean hasParameter() {
+      return !(this == NOT_NULL || this == NULL || this == Function.IS_EMPTY || this == Function.NOT_IS_EMPTY);
+    }
+
+    // DEEM-MOD
+    public static boolean hasParameter(Function f) {
+      return f == null || f.hasParameter();
     }
 
     /**
