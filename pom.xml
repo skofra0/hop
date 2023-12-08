@@ -118,7 +118,7 @@
         <apache-spark.version>3.4.0</apache-spark.version>
         <apache-flink.version>1.16.2</apache-flink.version>
         <asm.version>9.6</asm.version>
-        <aws-java-sdk.version>1.12.607</aws-java-sdk.version>
+        <aws-java-sdk.version>1.12.608</aws-java-sdk.version>
         <batik.version>1.17</batik.version>
         <commons-beanutils.version>1.9.5-deem</commons-beanutils.version>
         <commons-codec.version>1.16.0</commons-codec.version>
@@ -295,6 +295,16 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.microsoft.azure</groupId>
+				<artifactId>msal4j</artifactId>
+				<version>1.14.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>oauth2-oidc-sdk</artifactId>
+				<version>11.7.1</version>
 			</dependency>
 
             <!-- Third-party dependencies -->
