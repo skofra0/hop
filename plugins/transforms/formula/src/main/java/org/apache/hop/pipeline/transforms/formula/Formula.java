@@ -43,7 +43,7 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
       // DEEM-MOD
       data.runner = new FormulaRunnerPentaho();
       data.runner.init(meta, data);
-      replaceMap = new HashMap<String, String>();
+      replaceMap = new HashMap<>();
 
       data.returnType = new int[meta.getFormulas().size()];
       for (int i = 0; i < meta.getFormulas().size(); i++) {
@@ -97,7 +97,6 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
         } else {
           data.replaceIndex[j] = -1;
         }
-        j++;
       }
     }
 

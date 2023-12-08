@@ -34,6 +34,7 @@ del messages_es_AR.properties /s
 del messages_es_ES.properties /s
 del messages_fr_FR.properties /s
 del messages_it_IT.properties /s
+del messages_ko_KR.properties /s
 del messages_nl_NL.properties /s
 del messages_no_NO.properties /s
 del messages_pl_PL.properties /s
@@ -41,6 +42,7 @@ del messages_pt_BR.properties /s
 del messages_pt_PT.properties /s
 del messages_pt_PT.properties /s
 del messages_zh_CN.properties /s
+
 
 pause:
 
