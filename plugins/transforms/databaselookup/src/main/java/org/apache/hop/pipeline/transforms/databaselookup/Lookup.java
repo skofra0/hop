@@ -52,9 +52,6 @@ public class Lookup {
       injectionKeyDescription = "DatabaseLookupMeta.Injection.OrderBy")
   private String orderByClause;
 
-  @HopMetadataProperty(key = "where", injectionKeyDescription = "DatabaseLookupMeta.Injection.Where")
-  private String whereClause; // DEEM-MOD
-
   /** Have the lookup fail if multiple results were found, renders the orderByClause useless */
   @HopMetadataProperty(
       key = "fail_on_multiple",
@@ -66,6 +63,9 @@ public class Lookup {
       key = "eat_row_on_failure",
       injectionKeyDescription = "DatabaseLookupMeta.Injection.EatRowOnFailure")
   private boolean eatingRowOnLookupFailure;
+
+  @HopMetadataProperty(key = "where", injectionKeyDescription = "DatabaseLookupMeta.Injection.Where")
+  private String whereClause; // DEEM-MOD
 
   public Lookup() {
     keyFields = new ArrayList<>();
