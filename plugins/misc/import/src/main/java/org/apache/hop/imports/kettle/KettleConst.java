@@ -70,7 +70,7 @@ public class KettleConst {
                 // ExcelWriter
                 {"extention", "extension"},
                 // Formula
-                {"formula_string", "formula"},
+             // {"formula_string", "formula"}, // DEEM-MOD
                 // XML Join
                 {"targetXMLstep", "targetXMLTransform"},
                 {"sourceXMLstep", "sourceXMLTransform"},
