@@ -499,7 +499,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
 
     try {
       int type = rm.getColumnType(index);
-      if (type == java.sql.Types.TIMESTAMP) {
+      if (type == java.sql.Types.TIMESTAMP || type == java.sql.Types.TIMESTAMP_WITH_TIMEZONE  ) { // DEEM-MOD
         int length = rm.getScale(index);
         IValueMeta valueMeta;
         if (databaseMeta.supportsTimestampDataType()) {

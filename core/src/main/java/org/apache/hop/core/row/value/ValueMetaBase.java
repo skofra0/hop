@@ -5094,18 +5094,19 @@ public class ValueMetaBase implements IValueMeta {
 
           break;
 
-        case Types.TIMESTAMP:
+        case Types.TIMESTAMP,Types.TIMESTAMP_WITH_TIMEZONE: // DEEM-MOD
           if (databaseMeta.supportsTimestampDataType()) {
             valtype = IValueMeta.TYPE_TIMESTAMP;
             length = rm.getScale(index);
+            break; // DEEM-MOD
           }
-          break;
+          // break; // DEEM-MOD (If not supportsTimestampDataType use TYPE_DATE)
 
         case Types.DATE:
           if (databaseMeta.getIDatabase().isTeradataVariant()) {
             precision = 1;
           }
-        case Types.TIME:
+        case Types.TIME, Types.TIME_WITH_TIMEZONE: // DEEM-MOD
           valtype = IValueMeta.TYPE_DATE;
           //
           if (databaseMeta.getIDatabase().isMySqlVariant()) {
