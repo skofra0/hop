@@ -42,9 +42,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.javafaker</groupId>
+            <groupId>no.deem</groupId>
             <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </dependency>
         <dependency>
             <groupId>dk.brics.automaton</groupId>

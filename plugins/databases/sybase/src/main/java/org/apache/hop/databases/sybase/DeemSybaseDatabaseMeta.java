@@ -18,10 +18,22 @@ package org.apache.hop.databases.sybase;
 
 import org.apache.hop.core.database.DatabaseMeta;
 import org.apache.hop.core.database.DatabaseMetaPlugin;
+import org.apache.hop.core.gui.plugin.GuiElementType;
+import org.apache.hop.core.gui.plugin.GuiWidgetElement;
 
 @DatabaseMetaPlugin(type = "DEEM_SYBASE", typeDescription = "Deem Sybase")
 public class DeemSybaseDatabaseMeta extends SybaseDatabaseMeta {
 
+  @GuiWidgetElement(
+      id = "servername",
+      order = "10",
+      parentId = DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID,
+      type = GuiElementType.TEXT,
+      variables = true,
+      label = "i18n:org.apache.hop.ui.core.database:DatabaseDialog.label.Servername")
+  protected boolean servername;
+
+  
   @Override
   public int[] getAccessTypeList() {
     return new int[] {DatabaseMeta.TYPE_ACCESS_NATIVE};
@@ -42,7 +54,8 @@ public class DeemSybaseDatabaseMeta extends SybaseDatabaseMeta {
 
   @Override
   public String getURL(String hostname, String port, String databaseName) {
-    return "jdbc:sqlanywhere:eng=" + databaseName + ";database=" + databaseName + ";links=tcpip(host=" + hostname + ":" + port + ")";
+    // return "jdbc:sqlanywhere:eng=" + databaseName + ";database=" + databaseName + ";links=tcpip(host=" + hostname + ":" + port + ")"
+    return "jdbc:sqlanywhere:ServerName=" + getServername() + ";DatabaseName=" + databaseName + ";Host=" + hostname + ":" + port ;
   }
 
 }

@@ -100,6 +100,7 @@ public enum FakerType {
   Relationships(com.github.javafaker.Relationships.class, "relationships", "Relationships"),
   Nation(com.github.javafaker.Nation.class, "nation", "Nation"),
   Dune(com.github.javafaker.Dune.class, "dune", "Dune"),
+  Product(com.github.javafaker.Product.class, "product", "Product"),
   AquaTeenHungerForce(
       com.github.javafaker.AquaTeenHungerForce.class,
       "aquaTeenHungerForce",

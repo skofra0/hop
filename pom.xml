@@ -108,7 +108,7 @@
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
 
-		<deem-insight.version>23.4.8</deem-insight.version>
+		<deem-insight.version>23.4.9</deem-insight.version>
 
         <!-- Third-party dependencies -->
         <akka.version>2.5.32</akka.version>

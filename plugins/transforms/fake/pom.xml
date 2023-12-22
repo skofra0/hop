@@ -32,11 +32,11 @@
     <name>Hop Plugins Transforms Fake</name>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
-        </dependency>
+		<dependency>
+			<groupId>no.deem</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.3</version>
+		</dependency>
         <dependency>
             <groupId>dk.brics.automaton</groupId>
             <artifactId>automaton</artifactId>
