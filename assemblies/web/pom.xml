@@ -31,7 +31,7 @@
     </parent>
 
     <properties>
-        <rap.version>3.21.0</rap.version>
+        <rap.version>3.27.0</rap.version>
     </properties>
 
     <dependencies>
