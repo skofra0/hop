@@ -108,7 +108,7 @@
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
 
-		<deem-insight.version>24.1.5</deem-insight.version>
+		<deem-insight.version>24.1.7</deem-insight.version>
 
         <!-- Third-party dependencies -->
         <akka.version>2.5.32</akka.version>
@@ -118,7 +118,7 @@
         <apache-spark.version>3.4.0</apache-spark.version>
         <apache-flink.version>1.16.2</apache-flink.version>
         <asm.version>9.6</asm.version>
-        <aws-java-sdk.version>1.12.640</aws-java-sdk.version>
+        <aws-java-sdk.version>1.12.646</aws-java-sdk.version>
         <batik.version>1.17</batik.version>
         <commons-beanutils.version>1.9.5-deem</commons-beanutils.version>
         <commons-codec.version>1.16.0</commons-codec.version>
@@ -552,7 +552,7 @@
             <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.2.5</version>
                 <type>maven-plugin</type>
             </dependency>
             <dependency>
