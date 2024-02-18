@@ -108,7 +108,7 @@
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
 
-		<deem-insight.version>24.1.8</deem-insight.version>
+		<deem-insight.version>24.1.10</deem-insight.version>
 
         <!-- Third-party dependencies -->
         <akka.version>2.5.32</akka.version>
@@ -121,7 +121,7 @@
         <aws-java-sdk.version>1.12.646</aws-java-sdk.version>
         <batik.version>1.17</batik.version>
         <commons-beanutils.version>1.9.5-deem</commons-beanutils.version>
-        <commons-codec.version>1.16.0</commons-codec.version>
+        <commons-codec.version>1.16.1</commons-codec.version>
         <commons-compress.version>1.25.0</commons-compress.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
