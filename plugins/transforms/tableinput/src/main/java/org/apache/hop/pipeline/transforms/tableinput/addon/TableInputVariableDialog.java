@@ -15,6 +15,11 @@
  */
 package org.apache.hop.pipeline.transforms.tableinput.addon;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.exception.HopTransformException;
@@ -37,19 +42,13 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 // DEEM-MOD
 public class TableInputVariableDialog extends BaseTransformDialog {
-  private static final Class<?> PKG = TableInputVariableDialog.class; // For Translator
+  private static final Class<?> PKG = TableInputVariableField.class; // For Translator
 
   public static final String STRING_USAGE_WARNING_PARAMETER = "SetVariableUsageWarning";
 
@@ -69,7 +68,6 @@ public class TableInputVariableDialog extends BaseTransformDialog {
 
   public String open() {
     Shell parent = getParent();
-    Display display = parent.getDisplay();
 
     shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.MIN);
     PropsUi.setLook(shell);
@@ -95,7 +93,7 @@ public class TableInputVariableDialog extends BaseTransformDialog {
     fdlFields.top = new FormAttachment(0, margin);
     wlFields.setLayoutData(fdlFields);
 
-    final int fieldsRows = input.getFields().size();
+    final int fieldsRows = input.getVariableFields().size();
     colinf = new ColumnInfo[3];
     colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "TableInputVariableDialog.Fields.Column.FieldName"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "TableInputVariableDialog.Fields.Column.VariableName"), ColumnInfo.COLUMN_TYPE_TEXT, false);
@@ -148,12 +146,9 @@ public class TableInputVariableDialog extends BaseTransformDialog {
     wGet.addListener(SWT.Selection, e -> get());
     wOk.addListener(SWT.Selection, e -> ok());
 
-    
     getData();
     input.setChanged(changed);
-
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
-
     return transformName;
   }
 
@@ -179,9 +174,9 @@ public class TableInputVariableDialog extends BaseTransformDialog {
    */
   public void getData() {
 
-    for (int i = 0; i < input.getFields().size(); i++) {
+    for (int i = 0; i < input.getVariableFields().size(); i++) {
       TableItem item = wFields.table.getItem(i);
-      TableInputMetaField p = input.getFields().get(i);
+      TableInputVariableField p = input.getVariableFields().get(i);
       String src = p.getFieldName();
       String tgt = p.getVariableName();
       String tvv = p.getDefaultValue();
@@ -209,24 +204,24 @@ public class TableInputVariableDialog extends BaseTransformDialog {
 
   private void ok() {
     int count = wFields.nrNonEmpty();
-    List<TableInputMetaField> fields = new ArrayList<>();
+    List<TableInputVariableField> fields = new ArrayList<>();
     for (int i = 0; i < count; i++) {
       TableItem item = wFields.getNonEmpty(i);
-      TableInputMetaField fld = new TableInputMetaField();
+      TableInputVariableField fld = new TableInputVariableField();
       fld.setFieldName(item.getText(1));
       fld.setVariableName(item.getText(2));
       fld.setDefaultValue(item.getText(3));
       fields.add(fld);
     }
-    input.setFields(fields);
+    input.setVariableFields(fields);
     dispose();
   }
 
   private void get() {
     try {
-      TransformMeta stepMeta = pipelineMeta.findTransform(transformName);
-      if (stepMeta != null) {
-        IRowMeta r = getPreviousFields(stepMeta);
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        IRowMeta r = getPreviousFields(transformMeta);
         if (r != null && !r.isEmpty()) {
           BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, (TableItem tableItem, IValueMeta v) -> {
             tableItem.setText(2, v.getName().toUpperCase());
@@ -235,7 +230,7 @@ public class TableInputVariableDialog extends BaseTransformDialog {
           });
         }
       }
-    } catch (HopTransformException ke) {
+    } catch (HopException ke) {
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "TableInputVariableDialog.FailedToGetFields.DialogTitle"),

@@ -15,6 +15,8 @@
  */
 package org.apache.hop.pipeline.transforms.tableinput.addon;
 
+import java.util.LinkedList;
+import java.util.List;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.ui.core.FormDataBuilder;
@@ -53,8 +55,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import java.util.LinkedList;
-import java.util.List;
 
 public class StyledTextComp extends Composite {
   private static final Class<?> PKG = StyledTextComp.class; // For Translator

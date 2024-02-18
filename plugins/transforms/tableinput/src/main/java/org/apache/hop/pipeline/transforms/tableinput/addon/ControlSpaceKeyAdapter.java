@@ -16,6 +16,7 @@
  */
 package org.apache.hop.pipeline.transforms.tableinput.addon;
 
+import java.util.Arrays;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.i18n.BaseMessages;
@@ -42,7 +43,6 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
-import java.util.Arrays;
 
 public class ControlSpaceKeyAdapter extends KeyAdapter {
 

@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.hop.pipeline.transforms.tableinput;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.hop.core.CheckResult;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.ICheckResult;
@@ -46,18 +47,11 @@ import org.apache.hop.pipeline.transform.stream.IStream;
 import org.apache.hop.pipeline.transform.stream.IStream.StreamType;
 import org.apache.hop.pipeline.transform.stream.Stream;
 import org.apache.hop.pipeline.transform.stream.StreamIcon;
-import org.apache.hop.pipeline.transforms.tableinput.addon.TableInputMetaField;
+import org.apache.hop.pipeline.transforms.tableinput.addon.TableInputVariableField;
 import org.w3c.dom.Node;
-import java.util.ArrayList;
-import java.util.List;
 
-@Transform(
-    id = "TableInput",
-    image = "tableinput.svg",
-    name = "i18n::TableInput.Name",
-    description = "i18n::TableInput.Description",
-    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input",
-    documentationUrl = "/pipeline/transforms/tableinput.html",
+@Transform(id = "TableInput", image = "tableinput.svg", name = "i18n::TableInput.Name", description = "i18n::TableInput.Description",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input", documentationUrl = "/pipeline/transforms/tableinput.html",
     keywords = "i18n::TableInputMeta.keyword")
 public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData> {
 
@@ -82,24 +76,20 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
   @HopMetadataProperty(key = "connection", injectionKey = "CONNECTIONNAME")
   private String connection;
 
-  @HopMetadataProperty private String lookup;
+  @HopMetadataProperty
+  private String lookup;
 
   // DEEM-MOD START
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionKey = "DATABASE_FIELD",
-      injectionGroupKey = "DATABASE_FIELDS",
-      injectionGroupDescription = "ScriptedTableInputMeta.Injection.Fields",
-      injectionKeyDescription = "ScriptedTableInputMeta.Injection.Field")
-  private List<TableInputMetaField> fields = new ArrayList<>();
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionKey = "DATABASE_FIELD", injectionGroupKey = "DATABASE_FIELDS",
+      injectionGroupDescription = "ScriptedTableInputMeta.Injection.Fields", injectionKeyDescription = "ScriptedTableInputMeta.Injection.Field")
+  private List<TableInputVariableField> variableFields = new ArrayList<>();
 
-  public List<TableInputMetaField> getFields() {
-    return fields;
+  public List<TableInputVariableField> getVariableFields() {
+    return variableFields;
   }
 
-  public void setFields(List<TableInputMetaField> fields) {
-    this.fields = fields;
+  public void setVariableFields(List<TableInputVariableField> fields) {
+    this.variableFields = fields;
   }
   // DEEM-MOD END
 
@@ -181,13 +171,7 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     boolean param = false;
@@ -195,12 +179,9 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
     DatabaseMeta databaseMeta = null;
 
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection),
-          e);
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection), e);
     }
 
     Database db = new Database(loggingObject, variables, databaseMeta);
@@ -209,6 +190,11 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
     // First try without connecting to the database... (can be S L O W)
     String sNewSql = sql;
     if (isVariableReplacementActive()) {
+      // DEEM-MOD START
+      if (!isExecuteEachInputRowAsPreparedStatment()) {
+        setDefaultVariables(variables);
+      }
+      // DEEM-MOD END
       sNewSql = db.resolve(sql);
       if (variables != null) {
         sNewSql = variables.resolve(sNewSql);
@@ -219,8 +205,7 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
     try {
       add = db.getQueryFields(sNewSql, param);
     } catch (HopDatabaseException dbe) {
-      throw new HopTransformException(
-          "Unable to get queryfields for SQL: " + Const.CR + sNewSql, dbe);
+      throw new HopTransformException("Unable to get queryfields for SQL: " + Const.CR + sNewSql, dbe);
     }
 
     if (add != null) {
@@ -256,8 +241,7 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
         }
         row.addRowMeta(add);
       } catch (HopException ke) {
-        throw new HopTransformException(
-            "Unable to get queryfields for SQL: " + Const.CR + sNewSql, ke);
+        throw new HopTransformException("Unable to get queryfields for SQL: " + Const.CR + sNewSql, ke);
       } finally {
         db.disconnect();
       }
@@ -274,8 +258,7 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     super.loadXml(transformNode, metadataProvider);
 
     IStream infoStream = getTransformIOMeta().getInfoStreams().get(0);
@@ -298,16 +281,12 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
     DatabaseMeta databaseMeta = null;
 
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
     } catch (HopException e) {
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "TableInputMeta.CheckResult.DatabaseMetaError",
-                  variables.resolve(connection)),
+              BaseMessages.getString(PKG, "TableInputMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)),
               transformMeta);
       remarks.add(cr);
     }
@@ -316,43 +295,25 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
       cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Connection exists", transformMeta);
       remarks.add(cr);
 
-      Database db = new Database(loggingObject, variables, databaseMeta);
-      super.databases = new Database[] {db}; // keep track of it for canceling purposes...
-
-      try {
+      try (Database db = new Database(loggingObject, variables, databaseMeta)) {
+        super.databases = new Database[] {db}; // keep track of it for canceling purposes...
         db.connect();
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK, "Connection to database OK", transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Connection to database OK", transformMeta);
         remarks.add(cr);
 
         if (sql != null && sql.length() != 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK, "SQL statement is entered", transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "SQL statement is entered", transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR, "SQL statement is missing.", transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "SQL statement is missing.", transformMeta);
           remarks.add(cr);
         }
       } catch (HopException e) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                "An error occurred: " + e.getMessage(),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "An error occurred: " + e.getMessage(), transformMeta);
         remarks.add(cr);
-      } finally {
-        db.disconnect();
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "Please select or create a connection to use",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "Please select or create a connection to use", transformMeta);
       remarks.add(cr);
     }
 
@@ -366,22 +327,10 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
         }
       }
       if (found) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                "Previous transform to read info from ["
-                    + infoStream.getTransformName()
-                    + "] is found.",
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Previous transform to read info from [" + infoStream.getTransformName() + "] is found.", transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                "Previous transform to read info from ["
-                    + infoStream.getTransformName()
-                    + "] is not found.",
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "Previous transform to read info from [" + infoStream.getTransformName() + "] is not found.", transformMeta);
         remarks.add(cr);
       }
 
@@ -405,45 +354,27 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
           cr =
               new CheckResult(
                   ICheckResult.TYPE_RESULT_OK,
-                  "This transform is expecting and receiving "
-                      + info.size()
-                      + " fields of input from the previous transform.",
+                  "This transform is expecting and receiving " + info.size() + " fields of input from the previous transform.",
                   transformMeta);
           remarks.add(cr);
         } else {
           cr =
               new CheckResult(
                   ICheckResult.TYPE_RESULT_ERROR,
-                  "This transform is receiving "
-                      + info.size()
-                      + " but not the expected "
-                      + count
-                      + " fields of input from the previous transform.",
+                  "This transform is receiving " + info.size() + " but not the expected " + count + " fields of input from the previous transform.",
                   transformMeta);
           remarks.add(cr);
         }
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                "Input transform name is not recognized!",
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "Input transform name is not recognized!", transformMeta);
         remarks.add(cr);
       }
     } else {
       if (input.length > 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                "Transform is not expecting info from input transforms.",
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "Transform is not expecting info from input transforms.", transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                "No input expected, no input provided.",
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "No input expected, no input provided.", transformMeta);
         remarks.add(cr);
       }
     }
@@ -454,8 +385,7 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
   public void searchInfoAndTargetTransforms(List<TransformMeta> transforms) {
     List<IStream> infoStreams = getTransformIOMeta().getInfoStreams();
     for (IStream stream : infoStreams) {
-      stream.setTransformMeta(
-          TransformMeta.findTransform(transforms, stream.getSubject()));
+      stream.setTransformMeta(TransformMeta.findTransform(transforms, stream.getSubject()));
     }
   }
 
@@ -473,14 +403,12 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
       throws HopTransformException {
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       // Find the lookupfields...
       IRowMeta out = new RowMeta();
       // TODO: this builds, but does it work in all cases.
-      getFields(
-          out, transformMeta.getName(), new IRowMeta[] {info}, null, variables, metadataProvider);
+      getFields(out, transformMeta.getName(), new IRowMeta[] {info}, null, variables, metadataProvider);
 
       if (out != null) {
         for (int i = 0; i < out.size(); i++) {
@@ -501,9 +429,7 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
         }
       }
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection),
-          e);
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection), e);
     }
   }
 
@@ -528,17 +454,24 @@ public class TableInputMeta extends BaseTransformMeta<TableInput, TableInputData
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      IStream stream =
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "TableInputMeta.InfoStream.Description"),
-              StreamIcon.INFO,
-              lookup);
+      IStream stream = new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "TableInputMeta.InfoStream.Description"), StreamIcon.INFO, lookup);
       ioMeta.addStream(stream);
       setTransformIOMeta(ioMeta);
     }
 
     return ioMeta;
+  }
+
+  public void setDefaultVariables(IVariables variables) {
+    for (var fld : variableFields) {
+      if (!Utils.isEmpty(fld.getFieldName())) {
+        String value = variables.resolve(fld.getDefaultValue());
+        if (value == null) {
+          value = "";
+        }
+        String varname = fld.getVariableName();
+        variables.setVariable(varname, value);
+      }
+    }
   }
 }

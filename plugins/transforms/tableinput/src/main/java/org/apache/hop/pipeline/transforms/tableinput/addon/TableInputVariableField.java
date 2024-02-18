@@ -15,10 +15,10 @@
  */
 package org.apache.hop.pipeline.transforms.tableinput.addon;
 
-import org.apache.hop.metadata.api.HopMetadataProperty;
 import java.util.Objects;
+import org.apache.hop.metadata.api.HopMetadataProperty;
 
-public class TableInputMetaField {
+public class TableInputVariableField {
 
   @HopMetadataProperty(key = "field_name", injectionKey = "FIELD_NAME")
   private String fieldName;
@@ -29,14 +29,14 @@ public class TableInputMetaField {
   @HopMetadataProperty(key = "default_value", injectionKey = "DEFAULT_VALUE")
   private String defaultValue;
 
-  public TableInputMetaField() {}
+  public TableInputVariableField() {}
 
   /**
    * @param fieldName
    * @param variableName
    * @param defaultValue
    */
-  public TableInputMetaField(String fieldName, String variableName, String defaultValue) {
+  public TableInputVariableField(String fieldName, String variableName, String defaultValue) {
     this.fieldName = fieldName;
     this.variableName = variableName;
     this.defaultValue = defaultValue;
@@ -50,7 +50,7 @@ public class TableInputMetaField {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TableInputMetaField that = (TableInputMetaField) o;
+    TableInputVariableField that = (TableInputVariableField) o;
     return fieldName.equals(that.fieldName) //
         && variableName.equals(that.variableName) //
         && defaultValue == that.defaultValue; //

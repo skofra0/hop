@@ -15,6 +15,13 @@
  */
 package org.apache.hop.pipeline.transforms.tableinput.addon;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 import org.apache.hop.core.database.SqlScriptStatement;
 import org.apache.hop.ui.core.gui.GuiResource;
 import org.eclipse.swt.SWT;
@@ -23,13 +30,6 @@ import org.eclipse.swt.custom.LineStyleListener;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 public class SqlValuesHighlight implements LineStyleListener {
   JavaScanner scanner = new JavaScanner();

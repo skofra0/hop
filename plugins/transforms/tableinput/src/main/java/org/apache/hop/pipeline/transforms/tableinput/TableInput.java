@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,19 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.hop.pipeline.transforms.tableinput;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.IRowSet;
-import org.apache.hop.core.RowMetaAndData;
 import org.apache.hop.core.database.Database;
 import org.apache.hop.core.database.DatabaseMeta;
 import org.apache.hop.core.exception.HopDatabaseException;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.row.IValueMeta;
-import org.apache.hop.core.row.RowDataUtil;
 import org.apache.hop.core.row.RowMeta;
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.i18n.BaseMessages;
@@ -34,64 +33,56 @@ import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
-import org.apache.hop.pipeline.transforms.tableinput.addon.TableInputMetaField;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.apache.hop.pipeline.transforms.tableinput.addon.TableInputVariableField;
 
 /** Reads information from a database table by using freehand SQL */
 public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
 
   private static final Class<?> PKG = TableInputMeta.class; // For Translator
 
-  public TableInput(
-      TransformMeta transformMeta,
-      TableInputMeta meta,
-      TableInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public TableInput(TransformMeta transformMeta, TableInputMeta meta, TableInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   /*
    * DEEM-MOD
-
-  private RowMetaAndData readStartDate() throws HopException {
-    if (log.isDetailed()) {
-      logDetailed("Reading from transform [" + data.infoStream.getTransformName() + "]");
-    }
-
-    IRowMeta parametersMeta = new RowMeta();
-    Object[] parametersData = new Object[] {};
-
-    IRowSet rowSet = findInputRowSet(data.infoStream.getTransformName());
-    if (rowSet != null) {
-      Object[] rowData = getRowFrom(rowSet); // rows are originating from "lookup_from"
-      while (rowData != null) {
-        parametersData = RowDataUtil.addRowData(parametersData, parametersMeta.size(), rowData);
-        parametersMeta.addRowMeta(rowSet.getRowMeta());
-
-        rowData = getRowFrom(rowSet); // take all input rows if needed!
-      }
-
-      if (parametersMeta.size() == 0) {
-        throw new HopException(
-            "Expected to read parameters from transform ["
-                + data.infoStream.getTransformName()
-                + "] but none were found.");
-      }
-    } else {
-      throw new HopException(
-          "Unable to find rowset to read from, perhaps transform ["
-              + data.infoStream.getTransformName()
-              + "] doesn't exist. (or perhaps you are trying a preview?)");
-    }
-
-    RowMetaAndData parameters = new RowMetaAndData(parametersMeta, parametersData);
-
-    return parameters;
-  }
-  */
+   * 
+   * private RowMetaAndData readStartDate() throws HopException {
+   * if (log.isDetailed()) {
+   * logDetailed("Reading from transform [" + data.infoStream.getTransformName() + "]");
+   * }
+   * 
+   * IRowMeta parametersMeta = new RowMeta();
+   * Object[] parametersData = new Object[] {};
+   * 
+   * IRowSet rowSet = findInputRowSet(data.infoStream.getTransformName());
+   * if (rowSet != null) {
+   * Object[] rowData = getRowFrom(rowSet); // rows are originating from "lookup_from"
+   * while (rowData != null) {
+   * parametersData = RowDataUtil.addRowData(parametersData, parametersMeta.size(), rowData);
+   * parametersMeta.addRowMeta(rowSet.getRowMeta());
+   * 
+   * rowData = getRowFrom(rowSet); // take all input rows if needed!
+   * }
+   * 
+   * if (parametersMeta.size() == 0) {
+   * throw new HopException(
+   * "Expected to read parameters from transform ["
+   * + data.infoStream.getTransformName()
+   * + "] but none were found.");
+   * }
+   * } else {
+   * throw new HopException(
+   * "Unable to find rowset to read from, perhaps transform ["
+   * + data.infoStream.getTransformName()
+   * + "] doesn't exist. (or perhaps you are trying a preview?)");
+   * }
+   * 
+   * RowMetaAndData parameters = new RowMetaAndData(parametersMeta, parametersData);
+   * 
+   * return parameters;
+   * }
+   */
 
   @Override
   public boolean processRow() throws HopException {
@@ -106,15 +97,12 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
       if (data.infoStream.getTransformMeta() != null) {
         if (meta.isExecuteEachInputRow()) {
           if (log.isDetailed()) {
-            logDetailed(
-                "Reading single row from stream [" + data.infoStream.getTransformName() + "]");
+            logDetailed("Reading single row from stream [" + data.infoStream.getTransformName() + "]");
           }
           data.rowSet = findInputRowSet(data.infoStream.getTransformName());
           if (data.rowSet == null) {
             throw new HopException(
-                "Unable to find rowset to read from, perhaps transform ["
-                    + data.infoStream.getTransformName()
-                    + "] doesn't exist. (or perhaps you are trying a preview?)");
+                "Unable to find rowset to read from, perhaps transform [" + data.infoStream.getTransformName() + "] doesn't exist. (or perhaps you are trying a preview?)");
           }
           parameters = getRowFrom(data.rowSet);
           parametersMeta = data.rowSet.getRowMeta();
@@ -127,10 +115,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
           // DEEM-MOD end
         } else {
           if (log.isDetailed()) {
-            logDetailed(
-                "Reading query parameters from stream ["
-                    + data.infoStream.getTransformName()
-                    + "]");
+            logDetailed("Reading query parameters from stream [" + data.infoStream.getTransformName() + "]");
           }
           // DEEM-MOD START
           data.rowSet = findInputRowSet(data.infoStream.getTransformName());
@@ -154,11 +139,11 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
         parametersMeta = new RowMeta();
       }
 
-//      DEEM-MOD
-//      if (meta.isExecuteEachInputRow() && (parameters == null || parametersMeta.size() == 0)) {
-//        setOutputDone(); // signal end to receiver(s)
-//        return false; // stop immediately, nothing to do here.
-//      }
+      // DEEM-MOD
+      // if (meta.isExecuteEachInputRow() && (parameters == null || parametersMeta.size() == 0)) {
+      // setOutputDone(); // signal end to receiver(s)
+      // return false; // stop immediately, nothing to do here.
+      // }
 
       boolean success = doQuery(parametersMeta, parameters);
       if (!success) {
@@ -252,8 +237,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
     }
   }
 
-  private boolean doQuery(IRowMeta parametersMeta, Object[] parameters)
-      throws HopDatabaseException {
+  private boolean doQuery(IRowMeta parametersMeta, Object[] parameters) throws HopDatabaseException {
     boolean success = true;
 
     // Open the query with the optional parameters received from the source transforms.
@@ -394,7 +378,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
 
   // DEEM-MOD
   public void setAllRowVariables(Object[] row) throws HopException {
-    for (TableInputMetaField fld:  meta.getFields()) {
+    for (TableInputVariableField fld : meta.getVariableFields()) {
       if (!Utils.isEmpty(fld.getFieldName())) {
         setValue(data.rowSet, row, fld, false);
       }
@@ -402,7 +386,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
   }
 
   // DEEM-MOD
-  private void setValue(IRowSet rowSet, Object[] row, TableInputMetaField fld, boolean usedefault) throws HopException { // DEEM-MOD
+  private void setValue(IRowSet rowSet, Object[] row, TableInputVariableField fld, boolean usedefault) throws HopException {
     String value = null;
     if (usedefault) {
       value = resolve(fld.getDefaultValue());
