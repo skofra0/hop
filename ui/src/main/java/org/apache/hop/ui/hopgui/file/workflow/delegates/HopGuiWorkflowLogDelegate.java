@@ -31,18 +31,18 @@ import org.apache.hop.ui.core.gui.GuiToolbarWidgets;
 import org.apache.hop.ui.core.widget.OsHelper;
 import org.apache.hop.ui.hopgui.HopGui;
 import org.apache.hop.ui.hopgui.file.IHopFileTypeHandler;
-import org.apache.hop.ui.hopgui.file.pipeline.HopGuiLogBrowser;
+import org.apache.hop.ui.hopgui.file.pipeline.HopGuiLogBrowserStyled;
 import org.apache.hop.ui.hopgui.file.workflow.HopGuiWorkflowGraph;
 import org.apache.hop.workflow.WorkflowMeta;
 import org.apache.hop.workflow.action.ActionMeta;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
@@ -63,7 +63,8 @@ public class HopGuiWorkflowLogDelegate {
 
   private CTabItem workflowLogTab;
 
-  private Text workflowLogText;
+  // private Text workflowLogText // DEEM-MOD
+  private StyledText workflowLogText;
 
   /** The number of lines in the log tab */
   private Composite workflowLogComposite;
@@ -71,7 +72,7 @@ public class HopGuiWorkflowLogDelegate {
   private ToolBar toolbar;
   private GuiToolbarWidgets toolBarWidgets;
 
-  private HopGuiLogBrowser logBrowser;
+  private HopGuiLogBrowserStyled logBrowser; // DEEM-MOD
 
   /** @param hopGui */
   public HopGuiWorkflowLogDelegate(HopGui hopGui, HopGuiWorkflowGraph workflowGraph) {
@@ -93,7 +94,7 @@ public class HopGuiWorkflowLogDelegate {
       }
     }
 
-    // Add a pipelineLogTab : display the logging...
+    // Add a workflowLogTab : display the logging...
     //
     workflowLogTab = new CTabItem(workflowGraph.extraViewTabFolder, SWT.NONE);
     workflowLogTab.setFont(GuiResource.getInstance().getFontDefault());
@@ -111,10 +112,8 @@ public class HopGuiWorkflowLogDelegate {
     fd.right = new FormAttachment(100, 0);
     toolbar.setLayoutData(fd);
 
-    workflowLogText =
-        new Text(
-            workflowLogComposite,
-            SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+    // workflowLogText = new Text(workflowLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL)  // DEEM-MOD
+    workflowLogText = new StyledText(workflowLogComposite, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(workflowLogText);
     FormData fdText = new FormData();
     fdText.left = new FormAttachment(0, 0);
@@ -127,18 +126,17 @@ public class HopGuiWorkflowLogDelegate {
       workflowLogText.setText(Const.CR);
     }
 
-    logBrowser = new HopGuiLogBrowser(workflowLogText, workflowGraph);
+    logBrowser = new HopGuiLogBrowserStyled(workflowLogText, workflowGraph);  // DEEM-MOD
     logBrowser.installLogSniffer();
 
     // If the workflow is closed, we should dispose of all the logging information in the buffer and
     // registry for it
     //
-    workflowGraph.addDisposeListener(
-        event -> {
-          if (workflowGraph.getWorkflow() != null) {
-            HopLogStore.discardLines(workflowGraph.getWorkflow().getLogChannelId(), true);
-          }
-        });
+    workflowGraph.addDisposeListener(event -> {
+      if (workflowGraph.getWorkflow() != null) {
+        HopLogStore.discardLines(workflowGraph.getWorkflow().getLogChannelId(), true);
+      }
+    });
 
     workflowLogTab.setControl(workflowLogComposite);
 
@@ -215,8 +213,7 @@ public class HopGuiWorkflowLogDelegate {
         line = all.substring(startpos, i);
         lineUpper = line.toUpperCase();
         if (lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.ERROR")) >= 0
-            || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION"))
-                >= 0) {
+            || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION")) >= 0) {
           err.add(line);
         }
         // New start of line
