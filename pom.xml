@@ -139,7 +139,7 @@
         <google-cloud-storage.version>2.15.0</google-cloud-storage.version>
         <google-http-client.version>1.42.3</google-http-client.version>
         <google-oauth-client.version>1.34.1</google-oauth-client.version>
-        <grpc.version>1.61.0</grpc.version>
+        <grpc.version>1.61.1</grpc.version>
         <gson.version>2.10.1</gson.version>
         <guava.version>33.0.0-jre</guava.version>
         <hadoop.version>3.3.6</hadoop.version>
@@ -153,7 +153,7 @@
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jetty.version>9.4.51.v20230217</jetty.version>
         <joda-time.version>2.12.5</joda-time.version>
-        <json4s.version>3.7.0-M11</json4s.version>
+        <json4s.version>4.0.7</json4s.version>
         <json-simple.version>1.1.1</json-simple.version>
         <json-smart.version>2.5.0</json-smart.version>
         <jsch.version>0.1.55</jsch.version>
@@ -190,7 +190,7 @@
         <hive.version>2.3.9</hive.version>
 
         <!-- Test dependencies -->
-        <byte-buddy.version>1.14.11</byte-buddy.version>
+        <byte-buddy.version>1.14.12</byte-buddy.version>
         <java-hamcrest.version>2.0.0.0</java-hamcrest.version>
         <junit.version>4.13.2</junit.version>
         <mockito-core.version>3.12.4</mockito-core.version>
