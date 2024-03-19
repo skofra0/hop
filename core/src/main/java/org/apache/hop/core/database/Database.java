@@ -1717,7 +1717,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    *     name combination.
    * @return true if the table exists, false if it doesn't.
    */
-//DEEM-MOD (public)
+ // DEEM-MOD (public)
  public boolean checkTableExists(String tableName) throws HopDatabaseException {
     try {
       if (log.isDebug()) {

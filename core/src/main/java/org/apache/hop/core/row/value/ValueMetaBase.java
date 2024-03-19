@@ -4971,8 +4971,8 @@ public class ValueMetaBase implements IValueMeta {
           } else {
             valtype = IValueMeta.TYPE_BIGNUMBER;
             precision = 0; // Max 18.446.744.073.709.551.615
-            length = dbDisplaySize; // DEEM-MOD
             length = 16;
+            length = dbDisplaySize; // DEEM-MOD
           }
           break;
 
