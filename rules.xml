@@ -12,6 +12,11 @@
         <ignoreVersion type="regex">(?i).*M(?:-?\d+)?</ignoreVersion>
         <ignoreVersion type="regex">(?i).*preview(?:-?\d+)?</ignoreVersion>
         
+        <ignoreVersion type="regex">(?i).*redhat-(?:-?\d+)?</ignoreVersion>
+        <ignoreVersion type="regex">(?i).*atlassian-(?:-?\d+)?</ignoreVersion>
+        <ignoreVersion type="regex">(?i).*jbossorg-(?:-?\d+)?</ignoreVersion>
+        <ignoreVersion type="regex">(?i).*jenkins-(?:-?\d+)?</ignoreVersion>
+
         <ignoreVersion>20030211.134440</ignoreVersion>
         <ignoreVersion>20030825.184428</ignoreVersion>
         <ignoreVersion>20021128.082114</ignoreVersion>
@@ -31,11 +36,6 @@
         <ignoreVersion>99.0-does-not-exist</ignoreVersion>
         <ignoreVersion>3.1.SONATYPE</ignoreVersion>
         <ignoreVersion>3.1-osgi</ignoreVersion>
-        <ignoreVersion>3.1-jenkins-1</ignoreVersion>
-        <ignoreVersion>3.1-jbossorg-1</ignoreVersion>
-        <ignoreVersion>3.1-atlassian-1</ignoreVersion>
-        <ignoreVersion>3.1-atlassian-2</ignoreVersion>
-        <ignoreVersion>2.1.1.jbossorg-1</ignoreVersion>
     </ignoreVersions>
     
     <rules>
