@@ -127,8 +127,7 @@ public class KettleImport extends HopImportBase implements IHopImport {
         }
 
         String ext = file.getName().getExtension();
-        // DEEM-MOD
-        if ("hdb".equalsIgnoreCase(ext)) {
+        if ("hdb".equalsIgnoreCase(ext)) { // DEEM-MOD
           handleConnectionFile(file);
           count.incrementAndGet();
         } else if ("ktr".equalsIgnoreCase(ext) || "kjb".equalsIgnoreCase(ext) || "hpl".equalsIgnoreCase(ext) || "hwf".equalsIgnoreCase(ext)) { // DEEM-MOD
@@ -161,8 +160,8 @@ public class KettleImport extends HopImportBase implements IHopImport {
     Document doc = getDocFromFile(kettleFile);
 
     // import connections first
-    // DEEM-MOD
-    // importDbConnections(doc, kettleFile);
+    //
+    // importDbConnections(doc, kettleFile); // DEEM-MOD
 
     // move to processNode?
     String extension = kettleFile.getName().getExtension();
@@ -339,8 +338,7 @@ public class KettleImport extends HopImportBase implements IHopImport {
     //
     IHopMetadataSerializer<DatabaseMeta> serializer = metadataProvider.getSerializer(DatabaseMeta.class);
     for (DatabaseMeta databaseMeta : connectionsList) {
-      // DEEM-MOD skippingExistingTargetFiles
-      if (!skippingExistingTargetFiles || !serializer.exists(databaseMeta.getName())) {
+      if (!skippingExistingTargetFiles || !serializer.exists(databaseMeta.getName())) { // DEEM-MOD skippingExistingTargetFiles
         serializer.save(databaseMeta);
       }
     }
@@ -395,10 +393,8 @@ public class KettleImport extends HopImportBase implements IHopImport {
 
     NodeList connectionList = doc.getElementsByTagName("database-connection"); // DEEM-MOD (connection)
     for (int i = 0; i < connectionList.getLength(); i++) {
-      // DEEM-MOD
-      // if (connectionList.item(i).getParentNode().equals(doc.getDocumentElement())) {
+      // if (connectionList.item(i).getParentNode().equals(doc.getDocumentElement())) { // DEEM-MOD
       Element connElement = (Element) connectionList.item(i);
-      // DEEM-MOD
       String databaseType = replaceDatabaseType(connElement.getElementsByTagName("type").item(0).getTextContent());
       IPlugin databasePlugin = registry.findPluginWithId(DatabasePluginType.class, connElement.getElementsByTagName("type").item(0).getTextContent());
 
@@ -471,8 +467,8 @@ public class KettleImport extends HopImportBase implements IHopImport {
       } catch (Exception e) {
         throw new HopException("Error importing database type '" + databaseType + "' from file '" + kettleFile.getName().getURI() + "'", e);
       }
+      // } // DEEM-MOD
     }
-    // }
   }
 
   @Override

@@ -277,7 +277,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Deem dependencies -->
+        	<!-- DEEM-MOD dependencies -->
 			<dependency>
 				<groupId>no.deem.insight</groupId>
 				<artifactId>deem-core</artifactId>
@@ -574,9 +574,6 @@
                 <version>${wagon-plugin.version}</version>
             </dependency>
         </dependencies>
-        
-        
-        
     </dependencyManagement>
 
     <dependencies>

@@ -17,6 +17,7 @@
 
 package org.apache.hop.workflow.actions.mail;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.Props;
 import org.apache.hop.core.ResultFile;
@@ -53,6 +54,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -82,6 +84,8 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
   private LabelTextVar wDestinationCc;
 
   private LabelTextVar wDestinationBCc;
+
+  private TextVar wConfigFile; // DEEM-MOD
 
   private LabelTextVar wServer;
 
@@ -437,27 +441,76 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     servergroupLayout.marginHeight = 10;
     wServerGroup.setLayout(servergroupLayout);
 
+    // DEEM-MOD Config file start
+    var wlConfigFile = new Label(wServerGroup, SWT.RIGHT);
+    wlConfigFile.setText(BaseMessages.getString(PKG, "ActionMail.ConfigFile.Label"));
+    PropsUi.setLook(wlConfigFile);
+    var fdlConfigFile = new FormData();
+    fdlConfigFile.left = new FormAttachment(0, 0);
+    fdlConfigFile.top = new FormAttachment(0, margin + 8);
+    fdlConfigFile.right = new FormAttachment(middle, -margin);
+    wlConfigFile.setLayoutData(fdlConfigFile);
+
+    var wbDefaultConfigFile = new Button(wServerGroup, SWT.PUSH | SWT.CENTER);
+    PropsUi.setLook(wbDefaultConfigFile);
+    wbDefaultConfigFile.setText(BaseMessages.getString(PKG, "ActionMail.Default.Button"));
+    var fdbDefaultConfigFile = new FormData();
+    fdbDefaultConfigFile.right = new FormAttachment(100, 0);
+    fdbDefaultConfigFile.top = new FormAttachment(0, margin + 5);
+    wbDefaultConfigFile.setLayoutData(fdbDefaultConfigFile);
+
+    var wbConfigFile = new Button(wServerGroup, SWT.PUSH | SWT.CENTER);
+    PropsUi.setLook(wbConfigFile);
+    wbConfigFile.setText(BaseMessages.getString(PKG, "ActionMail.Browse.Button"));
+    var fdbConfigFile = new FormData();
+    fdbConfigFile.right = new FormAttachment(wbDefaultConfigFile, -margin);
+    fdbConfigFile.top = new FormAttachment(0, margin + 5);
+    wbConfigFile.setLayoutData(fdbConfigFile);
+
+    wConfigFile = new TextVar(variables, wServerGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wConfigFile.setToolTipText(BaseMessages.getString(PKG, "ActionMail.ConfigFile.Tooltip"));
+    PropsUi.setLook(wConfigFile);
+    wConfigFile.addModifyListener(lsMod);
+    var fdConfigFile = new FormData();
+    fdConfigFile.left = new FormAttachment(middle, 0);
+    fdConfigFile.top = new FormAttachment(0, margin + 8);
+    fdConfigFile.right = new FormAttachment(wbConfigFile, -margin);
+    wConfigFile.setLayoutData(fdConfigFile);
+
+    wbConfigFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        final FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+        dialog.setFilterExtensions(new String[] {"*.properties", "*"});
+        if (wConfigFile.getText() != null) {
+          dialog.setFileName(wConfigFile.getText());
+        }
+        if (dialog.open() != null) {
+          wConfigFile.setText(dialog.getFilterPath() + System.getProperty("file.separator") + dialog.getFileName());
+        }
+        setUseAuth();
+      }
+    });
+
+    wbDefaultConfigFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        wConfigFile.setText(ActionMail.DEFAULT_CONFIGFILE);
+      }
+    });
+    // DEEM-MOD Config file end
+
     // Server line
-    wServer =
-        new LabelTextVar(
-            variables,
-            wServerGroup,
-            BaseMessages.getString(PKG, "ActionMail.SMTPServer.Label"),
-            BaseMessages.getString(PKG, "ActionMail.SMTPServer.Tooltip"));
+    wServer = new LabelTextVar(variables, wServerGroup, BaseMessages.getString(PKG, "ActionMail.SMTPServer.Label"), BaseMessages.getString(PKG, "ActionMail.SMTPServer.Tooltip"));
     wServer.addModifyListener(lsMod);
     FormData fdServer = new FormData();
     fdServer.left = new FormAttachment(0, 0);
-    fdServer.top = new FormAttachment(0, margin);
+    fdServer.top = new FormAttachment(wConfigFile, margin); // DEEM-MOD
     fdServer.right = new FormAttachment(100, 0);
     wServer.setLayoutData(fdServer);
 
     // Port line
-    wPort =
-        new LabelTextVar(
-            variables,
-            wServerGroup,
-            BaseMessages.getString(PKG, "ActionMail.Port.Label"),
-            BaseMessages.getString(PKG, "ActionMail.Port.Tooltip"));
+    wPort = new LabelTextVar(variables, wServerGroup, BaseMessages.getString(PKG, "ActionMail.Port.Label"), BaseMessages.getString(PKG, "ActionMail.Port.Tooltip"));
     wPort.addModifyListener(lsMod);
     FormData fdPort = new FormData();
     fdPort.left = new FormAttachment(0, 0);
@@ -481,8 +534,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
 
     Group wAuthentificationGroup = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAuthentificationGroup);
-    wAuthentificationGroup.setText(
-        BaseMessages.getString(PKG, "ActionMail.Group.Authentification.Label"));
+    wAuthentificationGroup.setText(BaseMessages.getString(PKG, "ActionMail.Group.Authentification.Label"));
 
     FormLayout authentificationgroupLayout = new FormLayout();
     authentificationgroupLayout.marginWidth = 10;
@@ -505,32 +557,31 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdUseAuth.top = new FormAttachment(wlUseAuth, 0, SWT.CENTER);
     fdUseAuth.right = new FormAttachment(100, 0);
     wUseAuth.setLayoutData(fdUseAuth);
-    wUseAuth.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setUseAuth();
-            action.setChanged();
-          }
-        });
+    wUseAuth.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setUseAuth();
+        action.setChanged();
+      }
+    });
 
     // USE connection with XOAUTH2
-    wlUseXOAUTH2 = new Label( wAuthentificationGroup, SWT.RIGHT );
-    wlUseXOAUTH2.setText( BaseMessages.getString( PKG, "ActionMail.UseXOAUTH2Mails.Label" ) );
-    PropsUi.setLook( wlUseXOAUTH2 );
+    wlUseXOAUTH2 = new Label(wAuthentificationGroup, SWT.RIGHT);
+    wlUseXOAUTH2.setText(BaseMessages.getString(PKG, "ActionMail.UseXOAUTH2Mails.Label"));
+    PropsUi.setLook(wlUseXOAUTH2);
     FormData fdlUseXOAUTH2 = new FormData();
-    fdlUseXOAUTH2.left = new FormAttachment( 0, 0 );
-    fdlUseXOAUTH2.top = new FormAttachment( wUseAuth, margin );
-    fdlUseXOAUTH2.right = new FormAttachment( middle, -margin );
-    wlUseXOAUTH2.setLayoutData( fdlUseXOAUTH2 );
-    wUseXOAUTH2 = new Button( wAuthentificationGroup, SWT.CHECK );
-    PropsUi.setLook( wUseXOAUTH2 );
+    fdlUseXOAUTH2.left = new FormAttachment(0, 0);
+    fdlUseXOAUTH2.top = new FormAttachment(wUseAuth, margin);
+    fdlUseXOAUTH2.right = new FormAttachment(middle, -margin);
+    wlUseXOAUTH2.setLayoutData(fdlUseXOAUTH2);
+    wUseXOAUTH2 = new Button(wAuthentificationGroup, SWT.CHECK);
+    PropsUi.setLook(wUseXOAUTH2);
     FormData fdUseXOAUTH2 = new FormData();
-    wUseXOAUTH2.setToolTipText( BaseMessages.getString( PKG, "ActionMail.UseXOAUTH2Mails.Tooltip" ) );
-    fdUseXOAUTH2.left = new FormAttachment( middle, margin );
-    fdUseXOAUTH2.top = new FormAttachment( wlUseXOAUTH2, 0 , SWT.CENTER);
-    fdUseXOAUTH2.right = new FormAttachment( 100, 0 );
-    wUseXOAUTH2.setLayoutData( fdUseXOAUTH2 );
+    wUseXOAUTH2.setToolTipText(BaseMessages.getString(PKG, "ActionMail.UseXOAUTH2Mails.Tooltip"));
+    fdUseXOAUTH2.left = new FormAttachment(middle, margin);
+    fdUseXOAUTH2.top = new FormAttachment(wlUseXOAUTH2, 0, SWT.CENTER);
+    fdUseXOAUTH2.right = new FormAttachment(100, 0);
+    wUseXOAUTH2.setLayoutData(fdUseXOAUTH2);
 
     // AuthUser line
     wAuthUser =
@@ -577,19 +628,17 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdUseSecAuth.top = new FormAttachment(wlUseSecAuth, 0, SWT.CENTER);
     fdUseSecAuth.right = new FormAttachment(100, 0);
     wUseSecAuth.setLayoutData(fdUseSecAuth);
-    wUseSecAuth.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setSecureConnectiontype();
-            action.setChanged();
-          }
-        });
+    wUseSecAuth.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setSecureConnectiontype();
+        action.setChanged();
+      }
+    });
 
     // SecureConnectionType
     wlSecureConnectionType = new Label(wAuthentificationGroup, SWT.RIGHT);
-    wlSecureConnectionType.setText(
-        BaseMessages.getString(PKG, "ActionMail.SecureConnectionType.Label"));
+    wlSecureConnectionType.setText(BaseMessages.getString(PKG, "ActionMail.SecureConnectionType.Label"));
     PropsUi.setLook(wlSecureConnectionType);
     FormData fdlSecureConnectionType = new FormData();
     fdlSecureConnectionType.left = new FormAttachment(0, 0);
@@ -609,14 +658,13 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wSecureConnectionType.add("TLS");
     // Add support for TLS 1.2
     wSecureConnectionType.add("TLS 1.2");
-    wSecureConnectionType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setSecureConnectiontype();
-            action.setChanged();
-          }
-        });
+    wSecureConnectionType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setSecureConnectiontype();
+        action.setChanged();
+      }
+    });
 
     FormData fdAuthentificationGroup = new FormData();
     fdAuthentificationGroup.left = new FormAttachment(0, margin);
@@ -665,8 +713,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
 
     Group wMessageSettingsGroup = new Group(wMessageComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wMessageSettingsGroup);
-    wMessageSettingsGroup.setText(
-        BaseMessages.getString(PKG, "ActionMail.Group.MessageSettings.Label"));
+    wMessageSettingsGroup.setText(BaseMessages.getString(PKG, "ActionMail.Group.MessageSettings.Label"));
 
     FormLayout messagesettingsgroupLayout = new FormLayout();
     messagesettingsgroupLayout.marginWidth = 10;
@@ -689,13 +736,12 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Only send the comment in the mail body
     Label wlOnlyComment = new Label(wMessageSettingsGroup, SWT.RIGHT);
@@ -713,13 +759,12 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdOnlyComment.top = new FormAttachment(wlOnlyComment, 0, SWT.CENTER);
     fdOnlyComment.right = new FormAttachment(100, 0);
     wOnlyComment.setLayoutData(fdOnlyComment);
-    wOnlyComment.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wOnlyComment.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // HTML format ?
     Label wlUseHTML = new Label(wMessageSettingsGroup, SWT.RIGHT);
@@ -737,14 +782,13 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdUseHTML.top = new FormAttachment(wlUseHTML, 0, SWT.CENTER);
     fdUseHTML.right = new FormAttachment(100, 0);
     wUseHTML.setLayoutData(fdUseHTML);
-    wUseHTML.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setEnabledEncoding();
-            action.setChanged();
-          }
-        });
+    wUseHTML.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setEnabledEncoding();
+        action.setChanged();
+      }
+    });
 
     // Encoding
     wlEncoding = new Label(wMessageSettingsGroup, SWT.RIGHT);
@@ -764,20 +808,19 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdEncoding.top = new FormAttachment(wlEncoding, 0, SWT.CENTER);
     fdEncoding.right = new FormAttachment(100, 0);
     wEncoding.setLayoutData(fdEncoding);
-    wEncoding.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wEncoding.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setEncodings();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setEncodings();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Use Priority ?
     Label wlUsePriority = new Label(wMessageSettingsGroup, SWT.RIGHT);
@@ -796,14 +839,13 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdUsePriority.top = new FormAttachment(wlUsePriority, 0, SWT.CENTER);
     fdUsePriority.right = new FormAttachment(100, 0);
     wUsePriority.setLayoutData(fdUsePriority);
-    wUsePriority.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeUsePriority();
-            action.setChanged();
-          }
-        });
+    wUsePriority.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeUsePriority();
+        action.setChanged();
+      }
+    });
 
     // Priority
     wlPriority = new Label(wMessageSettingsGroup, SWT.RIGHT);
@@ -896,12 +938,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wMessageGroup.setLayout(messagegroupLayout);
 
     // Subject line
-    wSubject =
-        new LabelTextVar(
-            variables,
-            wMessageGroup,
-            BaseMessages.getString(PKG, "ActionMail.Subject.Label"),
-            BaseMessages.getString(PKG, "ActionMail.Subject.Tooltip"));
+    wSubject = new LabelTextVar(variables, wMessageGroup, BaseMessages.getString(PKG, "ActionMail.Subject.Label"), BaseMessages.getString(PKG, "ActionMail.Subject.Tooltip"));
     wSubject.addModifyListener(lsMod);
     FormData fdSubject = new FormData();
     fdSubject.left = new FormAttachment(0, 0);
@@ -919,11 +956,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdlComment.right = new FormAttachment(middle, margin);
     wlComment.setLayoutData(fdlComment);
 
-    wComment =
-        new TextVar(
-            variables,
-            wMessageGroup,
-            SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+    wComment = new TextVar(variables, wMessageGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(wComment);
     wComment.addModifyListener(lsMod);
     FormData fdComment = new FormData();
@@ -980,8 +1013,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
 
     Group wResultFilesGroup = new Group(wAttachedComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wResultFilesGroup);
-    wResultFilesGroup.setText(
-        BaseMessages.getString(PKG, "ActionMail.Group.AddPreviousFiles.Label"));
+    wResultFilesGroup.setText(BaseMessages.getString(PKG, "ActionMail.Group.AddPreviousFiles.Label"));
 
     FormLayout resultfilesgroupLayout = new FormLayout();
     resultfilesgroupLayout.marginWidth = 10;
@@ -1004,14 +1036,13 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdIncludeFiles.top = new FormAttachment(wlIncludeFiles, 0, SWT.CENTER);
     fdIncludeFiles.right = new FormAttachment(100, 0);
     wIncludeFiles.setLayoutData(fdIncludeFiles);
-    wIncludeFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            setFlags();
-          }
-        });
+    wIncludeFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        setFlags();
+      }
+    });
 
     // Include Files?
     wlTypes = new Label(wResultFilesGroup, SWT.RIGHT);
@@ -1027,8 +1058,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     FormData fdTypes = new FormData();
     fdTypes.left = new FormAttachment(middle, margin);
     fdTypes.top = new FormAttachment(wlIncludeFiles, 2 * margin);
-    fdTypes.bottom =
-        new FormAttachment(wIncludeFiles, margin + (int) (150 * props.getZoomFactor()));
+    fdTypes.bottom = new FormAttachment(wIncludeFiles, margin + (int) (150 * props.getZoomFactor()));
     fdTypes.right = new FormAttachment(100, 0);
     wTypes.setLayoutData(fdTypes);
     for (int i = 0; i < ResultFile.getAllTypeDesc().length; i++) {
@@ -1051,22 +1081,17 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdZipFiles.top = new FormAttachment(wlZipFiles, 0, SWT.CENTER);
     fdZipFiles.right = new FormAttachment(100, 0);
     wZipFiles.setLayoutData(fdZipFiles);
-    wZipFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            setFlags();
-          }
-        });
+    wZipFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        setFlags();
+      }
+    });
 
     // ZipFilename line
     wZipFilename =
-        new LabelTextVar(
-            variables,
-            wResultFilesGroup,
-            BaseMessages.getString(PKG, "ActionMail.ZipFilename.Label"),
-            BaseMessages.getString(PKG, "ActionMail.ZipFilename.Tooltip"));
+        new LabelTextVar(variables, wResultFilesGroup, BaseMessages.getString(PKG, "ActionMail.ZipFilename.Label"), BaseMessages.getString(PKG, "ActionMail.ZipFilename.Tooltip"));
     wZipFilename.addModifyListener(lsMod);
     FormData fdZipFilename = new FormData();
     fdZipFilename.left = new FormAttachment(0, 0);
@@ -1090,8 +1115,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
 
     Group wEmbeddedImagesGroup = new Group(wAttachedComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wEmbeddedImagesGroup);
-    wEmbeddedImagesGroup.setText(
-        BaseMessages.getString(PKG, "ActionMail.Group.EmbeddedImages.Label"));
+    wEmbeddedImagesGroup.setText(BaseMessages.getString(PKG, "ActionMail.Group.EmbeddedImages.Label"));
 
     FormLayout attachedimagesgroupLayout = new FormLayout();
     attachedimagesgroupLayout.marginWidth = 10;
@@ -1125,8 +1149,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdbaImageFilename.top = new FormAttachment(wResultFilesGroup, margin);
     wbaImageFilename.setLayoutData(fdbaImageFilename);
 
-    wImageFilename =
-        new TextVar(variables, wEmbeddedImagesGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wImageFilename = new TextVar(variables, wEmbeddedImagesGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wImageFilename);
     wImageFilename.addModifyListener(lsMod);
     FormData fdImageFilename = new FormData();
@@ -1136,25 +1159,16 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wImageFilename.setLayoutData(fdImageFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wImageFilename.addModifyListener(
-        e -> wImageFilename.setToolTipText(variables.resolve(wImageFilename.getText())));
+    wImageFilename.addModifyListener(e -> wImageFilename.setToolTipText(variables.resolve(wImageFilename.getText())));
 
-    wbImageFilename.addListener(
-        SWT.Selection,
-        e -> {
-          String filename =
-              BaseDialog.presentFileDialog(
-                  shell,
-                  wImageFilename,
-                  variables,
-                  new String[] {"*png;*PNG", "*jpeg;*jpg;*JPEG;*JPG", "*gif;*GIF", "*"},
-                  IMAGES_FILE_TYPES,
-                  true);
-          if (filename != null) {
-            Random random = new Random();
-            wContentID.setText(Long.toString(Math.abs(random.nextLong()), 32));
-          }
-        });
+    wbImageFilename.addListener(SWT.Selection, e -> {
+      String filename =
+          BaseDialog.presentFileDialog(shell, wImageFilename, variables, new String[] {"*png;*PNG", "*jpeg;*jpg;*JPEG;*JPG", "*gif;*GIF", "*"}, IMAGES_FILE_TYPES, true);
+      if (filename != null) {
+        Random random = new Random();
+        wContentID.setText(Long.toString(Math.abs(random.nextLong()), 32));
+      }
+    });
 
     // ContentID
     wlContentID = new Label(wEmbeddedImagesGroup, SWT.RIGHT);
@@ -1165,12 +1179,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     fdlContentID.top = new FormAttachment(wImageFilename, margin);
     fdlContentID.right = new FormAttachment(middle, -margin);
     wlContentID.setLayoutData(fdlContentID);
-    wContentID =
-        new TextVar(
-            variables,
-            wEmbeddedImagesGroup,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionMail.ContentID.Tooltip"));
+    wContentID = new TextVar(variables, wEmbeddedImagesGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionMail.ContentID.Tooltip"));
     PropsUi.setLook(wContentID);
     wContentID.addModifyListener(lsMod);
     FormData fdContentID = new FormData();
@@ -1192,8 +1201,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wbdImageFilename = new Button(wEmbeddedImagesGroup, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdImageFilename);
     wbdImageFilename.setText(BaseMessages.getString(PKG, "ActionMail.ImageFilenameDelete.Button"));
-    wbdImageFilename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionMail.ImageFilenameDelete.Tooltip"));
+    wbdImageFilename.setToolTipText(BaseMessages.getString(PKG, "ActionMail.ImageFilenameDelete.Tooltip"));
     FormData fdbdImageFilename = new FormData();
     fdbdImageFilename.right = new FormAttachment(100, 0);
     fdbdImageFilename.top = new FormAttachment(wlFields, margin);
@@ -1202,46 +1210,27 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wbeImageFilename = new Button(wEmbeddedImagesGroup, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeImageFilename);
     wbeImageFilename.setText(BaseMessages.getString(PKG, "ActionMail.ImageFilenameEdit.Button"));
-    wbeImageFilename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionMail.ImageFilenameEdit.Tooltip"));
+    wbeImageFilename.setToolTipText(BaseMessages.getString(PKG, "ActionMail.ImageFilenameEdit.Tooltip"));
     FormData fdbeImageFilename = new FormData();
     fdbeImageFilename.right = new FormAttachment(100, 0);
     fdbeImageFilename.left = new FormAttachment(wbdImageFilename, 0, SWT.LEFT);
     fdbeImageFilename.top = new FormAttachment(wbdImageFilename, margin);
     wbeImageFilename.setLayoutData(fdbeImageFilename);
 
-    int rows =
-        action.embeddedimages == null
-            ? 1
-            : (action.embeddedimages.length == 0 ? 0 : action.embeddedimages.length);
+    int rows = action.embeddedimages == null ? 1 : (action.embeddedimages.length == 0 ? 0 : action.embeddedimages.length);
     final int FieldsRows = rows;
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionMail.Fields.Image.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionMail.Fields.ContentID.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionMail.Fields.Image.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionMail.Fields.ContentID.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     colinf[0].setUsingVariables(true);
     colinf[0].setToolTip(BaseMessages.getString(PKG, "ActionMail.Fields.Image.Tooltip"));
     colinf[1].setUsingVariables(true);
     colinf[1].setToolTip(BaseMessages.getString(PKG, "ActionMail.Fields.ContentID.Tooltip"));
 
-    wFields =
-        new TableView(
-            variables,
-            wEmbeddedImagesGroup,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wEmbeddedImagesGroup, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -1251,49 +1240,46 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wFields.setLayoutData(fdFields);
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFields.add(new String[] {wImageFilename.getText(), wContentID.getText()});
-            wImageFilename.setText("");
-            wContentID.setText("");
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-            wFields.optWidth(true);
-          }
-        };
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFields.add(new String[] {wImageFilename.getText(), wContentID.getText()});
+        wImageFilename.setText("");
+        wContentID.setText("");
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+        wFields.optWidth(true);
+      }
+    };
     wbaImageFilename.addSelectionListener(selA);
     wImageFilename.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdImageFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFields.getSelectionIndices();
-            wFields.remove(idx);
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbdImageFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFields.getSelectionIndices();
+        wFields.remove(idx);
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     // Edit the selected file & remove from the list...
-    wbeImageFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int idx = wFields.getSelectionIndex();
-            if (idx >= 0) {
-              String[] string = wFields.getItem(idx);
-              wImageFilename.setText(string[0]);
-              wContentID.setText(string[1]);
-              wFields.remove(idx);
-            }
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbeImageFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int idx = wFields.getSelectionIndex();
+        if (idx >= 0) {
+          String[] string = wFields.getItem(idx);
+          wImageFilename.setText(string[0]);
+          wContentID.setText(string[1]);
+          wFields.remove(idx);
+        }
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     FormData fdEmbeddedImagesGroup = new FormData();
     fdEmbeddedImagesGroup.left = new FormAttachment(0, margin);
@@ -1380,19 +1366,36 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
   }
 
   protected void setUseAuth() {
-    wAuthUser.setEnabled(wUseAuth.getSelection());
-    wAuthPass.setEnabled(wUseAuth.getSelection());
-    wUseSecAuth.setEnabled(wUseAuth.getSelection());
-    wlUseSecAuth.setEnabled(wUseAuth.getSelection());
-    wlUseXOAUTH2.setEnabled(wUseAuth.getSelection());
-    wUseXOAUTH2.setEnabled(wUseAuth.getSelection());
-    if (!wUseAuth.getSelection()) {
+    // DEEM-MOD
+    boolean useConfig = StringUtils.isNotEmpty(wConfigFile.getText());
+    if (useConfig) {
+      wAuthUser.setEnabled(false);
+      wAuthPass.setEnabled(false);
+      wUseSecAuth.setEnabled(false);
+      wlUseSecAuth.setEnabled(false);
+      wlUseXOAUTH2.setEnabled(false);
+      wUseXOAUTH2.setEnabled(false);
       wSecureConnectionType.setEnabled(false);
       wlSecureConnectionType.setEnabled(false);
-      wUseXOAUTH2.setEnabled(false);
     } else {
-      setSecureConnectiontype();
+      wAuthUser.setEnabled(wUseAuth.getSelection());
+      wAuthPass.setEnabled(wUseAuth.getSelection());
+      wUseSecAuth.setEnabled(wUseAuth.getSelection());
+      wlUseSecAuth.setEnabled(wUseAuth.getSelection());
+      wlUseXOAUTH2.setEnabled(wUseAuth.getSelection());
+      wUseXOAUTH2.setEnabled(wUseAuth.getSelection());
+      if (!wUseAuth.getSelection()) {
+        wSecureConnectionType.setEnabled(false);
+        wlSecureConnectionType.setEnabled(false);
+        wUseXOAUTH2.setEnabled(false);
+      } else {
+        setSecureConnectiontype();
+      }
     }
+    // DEEM-MOD
+    wServer.setEnabled(!useConfig);
+    wPort.setEnabled(!useConfig);
+    wUseAuth.setEnabled(!useConfig);
   }
 
   public void getData() {
@@ -1400,6 +1403,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wDestination.setText(Const.nullToEmpty(action.getDestination()));
     wDestinationCc.setText(Const.nullToEmpty(action.getDestinationCc()));
     wDestinationBCc.setText(Const.nullToEmpty(action.getDestinationBCc()));
+    wConfigFile.setText(Const.nullToEmpty(action.getConfigFile())); // DEEM-MOD
     wServer.setText(Const.nullToEmpty(action.getServer()));
     wPort.setText(Const.nullToEmpty(action.getPort()));
     wReply.setText(Const.nullToEmpty(action.getReplyAddress()));
@@ -1531,6 +1535,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     action.setDestinationCc(wDestinationCc.getText());
     action.setDestinationBCc(wDestinationBCc.getText());
     action.setServer(wServer.getText());
+    action.setConfigFile(wConfigFile.getText()); // DEEM-MOD
     action.setPort(wPort.getText());
     action.setReplyAddress(wReply.getText());
     action.setReplyName(wReplyName.getText());

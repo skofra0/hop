@@ -62,7 +62,7 @@ public class HopGuiPipelineLogDelegate {
   private HopGui hopGui;
   private CTabItem pipelineLogTab;
 
-  // private Text pipelineLogText  DEEM_MOD
+  // private Text pipelineLogText  DEEM-MOD
   private StyledText pipelineLogText;
 
   private ToolBar toolbar;
@@ -70,7 +70,7 @@ public class HopGuiPipelineLogDelegate {
 
   private Composite pipelineLogComposite;
 
-  // private HopGuiLogBrowser logBrowser DEEM_MOD
+  // private HopGuiLogBrowser logBrowser DEEM-MOD
   private HopGuiLogBrowserStyled logBrowser;
 
   /** @param hopGui */
@@ -112,7 +112,7 @@ public class HopGuiPipelineLogDelegate {
     fd.right = new FormAttachment(100, 0);
     toolbar.setLayoutData(fd);
 
-    // pipelineLogText = new Text(pipelineLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL) // DEEM-MOD
+    // pipelineLogText = new Text(pipelineLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL)  // DEEM-MOD
     pipelineLogText =  new StyledText(pipelineLogComposite, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(pipelineLogText);
     FormData fdText = new FormData();
@@ -126,6 +126,7 @@ public class HopGuiPipelineLogDelegate {
       pipelineLogText.setText(Const.CR);
     }
 
+    // logBrowser = new HopGuiLogBrowser(pipelineLogText, pipelineGraph);
     logBrowser = new HopGuiLogBrowserStyled(pipelineLogText, pipelineGraph); // DEEM-MOD
     logBrowser.installLogSniffer();
 
@@ -316,7 +317,7 @@ public class HopGuiPipelineLogDelegate {
     }
   }
 
-  public HopGuiLogBrowserStyled getLogBrowser() {
+  public HopGuiLogBrowserStyled getLogBrowser() { // DEEM-MOD HopGuiLogBrowser
     return logBrowser;
   }
 

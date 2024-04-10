@@ -185,6 +185,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
         } else {
           // First close the previous query, otherwise we run out of cursors!
           closePreviousQuery();
+
           // DEEM-MOD START
           if (meta.isExecuteEachInputRowAsPreparedStatment()) {
             parameters = nextRow;
@@ -194,6 +195,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
           }
           boolean success = doQuery(parametersMeta, parameters); // OK, perform a new query
           // DEEM-MOD END
+
           if (!success) {
             return false;
           }

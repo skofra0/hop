@@ -54,6 +54,7 @@
     </properties>
 
     <dependencies>
+        <!-- DEEM-MOD dependencies -->
 		<dependency>
 			<groupId>no.deem.insight</groupId>
 			<artifactId>deem-core</artifactId>

@@ -87,7 +87,7 @@ public class WriteToLog extends BaseTransform<WriteToLogMeta, WriteToLogData> {
       data.fieldnr = data.fieldnrs.length;
       data.loglevel = meta.getLogLevelByDesc();
       data.logmessage = Const.NVL(this.resolve(meta.getLogMessage()), "");
-      if (!Utils.isEmpty(data.logmessage)&& data.fieldnr > 1) { // DEEM-MOD
+      if (!Utils.isEmpty(data.logmessage) && data.fieldnr > 1) { // DEEM-MOD
         // data.logmessage += Const.CR + Const.CR; // DEEM-MOD
         data.logmessage += Const.CR;
       }

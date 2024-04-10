@@ -63,8 +63,8 @@ public class HopGuiWorkflowLogDelegate {
 
   private CTabItem workflowLogTab;
 
-  // private Text workflowLogText // DEEM-MOD
-  private StyledText workflowLogText;
+  // private Text workflowLogText
+  private StyledText workflowLogText; // DEEM-MOD
 
   /** The number of lines in the log tab */
   private Composite workflowLogComposite;

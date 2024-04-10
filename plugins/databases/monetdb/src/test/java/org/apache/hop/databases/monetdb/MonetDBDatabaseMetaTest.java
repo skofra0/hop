@@ -51,7 +51,7 @@ public class MonetDBDatabaseMetaTest {
     assertTrue(nativeMeta.isSupportsAutoInc());
     assertEquals(1, nativeMeta.getNotFoundTK(true));
     assertEquals(0, nativeMeta.getNotFoundTK(false));
-    assertEquals("org.monetdb.jdbc.MonetDriver", nativeMeta.getDriverClass());
+    assertEquals("org.monetdb.jdbc.MonetDriver", nativeMeta.getDriverClass());  // DEEM-MOD
     assertEquals("jdbc:monetdb://FOO:BAR/WIBBLE", nativeMeta.getURL("FOO", "BAR", "WIBBLE"));
     assertEquals("jdbc:monetdb://FOO/WIBBLE", nativeMeta.getURL("FOO", "", "WIBBLE"));
     assertFalse(nativeMeta.isFetchSizeSupported());
@@ -207,19 +207,19 @@ public class MonetDBDatabaseMetaTest {
 
     // integer types ( precision == 0 )
     assertEquals(
-        "DECIMAL(8,0)",
+        "DECIMAL(8,0)", // DEEM-MOD
         nativeMeta.getFieldDefinition(
             new ValueMetaInteger("FOO", 8, 0), "", "", false, false, false));
     assertEquals(
-        "DECIMAL(10,0)",
+        "DECIMAL(10,0)", // DEEM-MOD
         nativeMeta.getFieldDefinition(
             new ValueMetaNumber("FOO", 10, 0), "", "", false, false, false));
     assertEquals(
-        "DECIMAL(19,0)",
+        "DECIMAL(19,0)", // DEEM-MOD
         nativeMeta.getFieldDefinition(
             new ValueMetaBigNumber("FOO", 19, 0), "", "", false, false, false));
     assertEquals(
-        "DECIMAL(8,0)",
+        "DECIMAL(8,0)", // DEEM-MOD
         nativeMeta.getFieldDefinition(
             new ValueMetaNumber("FOO", 8, 0), "", "", false, false, false));
 
@@ -235,7 +235,7 @@ public class MonetDBDatabaseMetaTest {
             new ValueMetaBigNumber("FOO", 19, -5), "", "", false, false, false));
 
     assertEquals(
-        "DECIMAL(11, 5)",
+        "DECIMAL(11, 5)", // DEEM-MOD
         nativeMeta.getFieldDefinition(
             new ValueMetaBigNumber("FOO", 11, 5), "", "", false, false, false));
 
@@ -250,7 +250,7 @@ public class MonetDBDatabaseMetaTest {
     //   if statement for CLOB trips if length > getMaxVARCHARLength()
     //   length is of type int - so this could never happen
     assertEquals(
-        "VARCHAR(99)",
+        "VARCHAR(99)", // DEEM-MOD
         nativeMeta.getFieldDefinition(
             new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() + 1, 0),
             "",
@@ -260,7 +260,7 @@ public class MonetDBDatabaseMetaTest {
             false));
 
     assertEquals(
-        "VARCHAR(99)",
+        "VARCHAR(99)", // DEEM-MOD
         nativeMeta.getFieldDefinition(
             new ValueMetaString("FOO", -2, 0),
             "",

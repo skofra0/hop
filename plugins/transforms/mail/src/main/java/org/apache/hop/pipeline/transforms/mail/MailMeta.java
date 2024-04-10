@@ -17,6 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.mail;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.CheckResult;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.ICheckResult;
@@ -38,16 +39,14 @@ import org.w3c.dom.Node;
 import java.util.List;
 
 /** Send mail transform. based on Mail action */
-@Transform(
-    id = "Mail",
-    image = "mail.svg",
-    name = "i18n::Mail.Name",
-    description = "i18n::Mail.Description",
-    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Utility",
-    keywords = "i18n::MailMeta.keyword",
+@Transform(id = "Mail", image = "mail.svg", name = "i18n::Mail.Name", description = "i18n::Mail.Description",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Utility", keywords = "i18n::MailMeta.keyword",
     documentationUrl = "/pipeline/transforms/mail.html")
 public class MailMeta extends BaseTransformMeta<Mail, MailData> {
   private static final Class<?> PKG = MailMeta.class; // For Translator
+
+  public static final String DEFAULT_CONFIGFILE = "${MAIL_CONFIG_FILE}"; // DEEM-MOD
+  private String configFile; // DEEM-MOD external config file
 
   private String server;
 
@@ -151,8 +150,7 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -168,6 +166,7 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
   }
 
   private void readData(Node transformNode) {
+    setConfigFile(XmlHandler.getTagValue(transformNode, "configFile")); // DEEM-MOD
     setServer(XmlHandler.getTagValue(transformNode, "server"));
     setPort(XmlHandler.getTagValue(transformNode, "port"));
     setDestination(XmlHandler.getTagValue(transformNode, "destination"));
@@ -178,19 +177,14 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     setReplyName(XmlHandler.getTagValue(transformNode, "replytoname"));
     setSubject(XmlHandler.getTagValue(transformNode, "subject"));
     setIncludeDate("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_date")));
-    setIncludeSubFolders(
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_subfolders")));
-    setZipFilenameDynamic(
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "zipFilenameDynamic")));
-    setisDynamicFilename(
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "isFilenameDynamic")));
+    setIncludeSubFolders("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_subfolders")));
+    setZipFilenameDynamic("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "zipFilenameDynamic")));
+    setisDynamicFilename("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "isFilenameDynamic")));
     setDynamicFieldname(XmlHandler.getTagValue(transformNode, "dynamicFieldname"));
     setDynamicWildcard(XmlHandler.getTagValue(transformNode, "dynamicWildcard"));
-    setAttachContentFromField(
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "attachContentFromField")));
+    setAttachContentFromField("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "attachContentFromField")));
     setAttachContentField(XmlHandler.getTagValue(transformNode, "attachContentField"));
-    setAttachContentFileNameField(
-        XmlHandler.getTagValue(transformNode, "attachContentFileNameField"));
+    setAttachContentFileNameField(XmlHandler.getTagValue(transformNode, "attachContentFileNameField"));
 
     setDynamicZipFilenameField(XmlHandler.getTagValue(transformNode, "dynamicZipFilename"));
     setSourceFileFoldername(XmlHandler.getTagValue(transformNode, "sourcefilefoldername"));
@@ -201,12 +195,9 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     setIncludingFiles("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_files")));
     setUsingAuthentication("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "use_auth")));
     setUseXOAUTH2("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "usexoauth2")));
-    setUsingSecureAuthentication(
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "use_secure_auth")));
+    setUsingSecureAuthentication("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "use_secure_auth")));
     setAuthenticationUser(XmlHandler.getTagValue(transformNode, "auth_user"));
-    setAuthenticationPassword(
-        Encr.decryptPasswordOptionallyEncrypted(
-            XmlHandler.getTagValue(transformNode, "auth_password")));
+    setAuthenticationPassword(Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "auth_password")));
     setOnlySendComment("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "only_comment")));
     setUseHTML("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "use_HTML")));
     setUsePriority("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "use_Priority")));
@@ -218,8 +209,7 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     setZipFiles("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "zip_files")));
     setZipFilename(XmlHandler.getTagValue(transformNode, "zip_name"));
     setZipLimitSize(XmlHandler.getTagValue(transformNode, "zip_limit_size"));
-    setAddMessageToOutput(
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_message_in_output")));
+    setAddMessageToOutput("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_message_in_output")));
     setMessageOutputField(XmlHandler.getTagValue(transformNode, "message_output_field"));
 
     Node images = XmlHandler.getSubNode(transformNode, "embeddedimages");
@@ -254,7 +244,9 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
   }
 
   @Override
-  public void setDefault() {}
+  public void setDefault() {
+    this.configFile = ""; // DEEM-MOD
+  }
 
   @Override
   public String getXml() throws HopException {
@@ -262,54 +254,30 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
 
     retval.append(super.getXml());
 
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("include_message_in_output", this.addMessageToOutput));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("message_output_field", this.messageOutputField));
+    retval.append("      ").append(XmlHandler.addTagValue("include_message_in_output", this.addMessageToOutput));
+    retval.append("      ").append(XmlHandler.addTagValue("message_output_field", this.messageOutputField));
+    retval.append("      ").append(XmlHandler.addTagValue("configFile", this.configFile)); // DEEM-MOD
     retval.append("      ").append(XmlHandler.addTagValue("server", this.server));
     retval.append("      ").append(XmlHandler.addTagValue("port", this.port));
     retval.append("      ").append(XmlHandler.addTagValue("destination", this.destination));
     retval.append("      ").append(XmlHandler.addTagValue("destinationCc", this.destinationCc));
     retval.append("      ").append(XmlHandler.addTagValue("destinationBCc", this.destinationBCc));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("replyToAddresses", this.replyToAddresses));
+    retval.append("      ").append(XmlHandler.addTagValue("replyToAddresses", this.replyToAddresses));
     retval.append("      ").append(XmlHandler.addTagValue("replyto", this.replyAddress));
     retval.append("      ").append(XmlHandler.addTagValue("replytoname", this.replyName));
     retval.append("      ").append(XmlHandler.addTagValue("subject", this.subject));
     retval.append("      ").append(XmlHandler.addTagValue("include_date", this.includeDate));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("include_subfolders", this.includeSubFolders));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("zipFilenameDynamic", this.zipFilenameDynamic));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("isFilenameDynamic", this.isFilenameDynamic));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("attachContentFromField", this.attachContentFromField));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("attachContentField", this.attachContentField));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("attachContentFileNameField", this.attachContentFileNameField));
+    retval.append("      ").append(XmlHandler.addTagValue("include_subfolders", this.includeSubFolders));
+    retval.append("      ").append(XmlHandler.addTagValue("zipFilenameDynamic", this.zipFilenameDynamic));
+    retval.append("      ").append(XmlHandler.addTagValue("isFilenameDynamic", this.isFilenameDynamic));
+    retval.append("      ").append(XmlHandler.addTagValue("attachContentFromField", this.attachContentFromField));
+    retval.append("      ").append(XmlHandler.addTagValue("attachContentField", this.attachContentField));
+    retval.append("      ").append(XmlHandler.addTagValue("attachContentFileNameField", this.attachContentFileNameField));
 
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("dynamicFieldname", this.dynamicFieldname));
+    retval.append("      ").append(XmlHandler.addTagValue("dynamicFieldname", this.dynamicFieldname));
     retval.append("      ").append(XmlHandler.addTagValue("dynamicWildcard", this.dynamicWildcard));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("dynamicZipFilename", this.dynamicZipFilename));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("sourcefilefoldername", this.sourcefilefoldername));
+    retval.append("      ").append(XmlHandler.addTagValue("dynamicZipFilename", this.dynamicZipFilename));
+    retval.append("      ").append(XmlHandler.addTagValue("sourcefilefoldername", this.sourcefilefoldername));
     retval.append("      ").append(XmlHandler.addTagValue("sourcewildcard", this.sourcewildcard));
     retval.append("      ").append(XmlHandler.addTagValue("contact_person", this.contactPerson));
     retval.append("      ").append(XmlHandler.addTagValue("contact_phone", this.contactPhone));
@@ -320,16 +288,9 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     retval.append("      ").append(XmlHandler.addTagValue("zip_limit_size", this.ziplimitsize));
     retval.append("      ").append(XmlHandler.addTagValue("use_auth", this.usingAuthentication));
     retval.append("      ").append(XmlHandler.addTagValue("usexoauth2", usexoauth2));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("use_secure_auth", this.usingSecureAuthentication));
+    retval.append("      ").append(XmlHandler.addTagValue("use_secure_auth", this.usingSecureAuthentication));
     retval.append("      ").append(XmlHandler.addTagValue("auth_user", this.authenticationUser));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "auth_password",
-                Encr.encryptPasswordIfNotUsingVariables(this.authenticationPassword)));
+    retval.append("      ").append(XmlHandler.addTagValue("auth_password", Encr.encryptPasswordIfNotUsingVariables(this.authenticationPassword)));
     retval.append("      ").append(XmlHandler.addTagValue("only_comment", this.onlySendComment));
     retval.append("      ").append(XmlHandler.addTagValue("use_HTML", this.useHTML));
     retval.append("      ").append(XmlHandler.addTagValue("use_Priority", this.usePriority));
@@ -337,8 +298,7 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     retval.append("    " + XmlHandler.addTagValue("priority", this.priority));
     retval.append("    " + XmlHandler.addTagValue("importance", this.importance));
     retval.append("    " + XmlHandler.addTagValue("sensitivity", this.sensitivity));
-    retval.append(
-        "    " + XmlHandler.addTagValue("secureconnectiontype", this.secureConnectionType));
+    retval.append("    " + XmlHandler.addTagValue("secureconnectiontype", this.secureConnectionType));
 
     retval.append("      <embeddedimages>").append(Const.CR);
     if (embeddedimages != null) {
@@ -352,6 +312,18 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     retval.append("      </embeddedimages>").append(Const.CR);
 
     return retval.toString();
+  }
+
+  public void setConfigFile(String configFile) { // DEEM-MOD
+    this.configFile = configFile;
+  }
+
+  public String getConfigFile() { // DEEM-MOD
+    return this.configFile;
+  }
+
+  boolean isUsingConfigFile() { // DEEM-MOD
+    return StringUtils.isNotEmpty(this.configFile);
   }
 
   public void setServer(String s) {
@@ -806,175 +778,89 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "MailMeta.CheckResult.NotReceivingFields"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "MailMeta.CheckResult.TransformRecevingData", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
     }
     remarks.add(cr);
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.TransformRecevingData2"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "MailMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
     }
     remarks.add(cr);
 
     // Servername
-    if (Utils.isEmpty(server)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.ServerEmpty"),
-              transformMeta);
+    if (Utils.isEmpty(server) && !isUsingConfigFile()) { // DEEM-MOD
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailMeta.CheckResult.ServerEmpty"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.ServerOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.ServerOk"), transformMeta);
       remarks.add(cr);
       // is the field exists?
       if (prev.indexOfValue(variables.resolve(server)) < 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_WARNING,
-                BaseMessages.getString(PKG, "MailMeta.CheckResult.ServerFieldNotFound", server),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "MailMeta.CheckResult.ServerFieldNotFound", server), transformMeta);
       }
       remarks.add(cr);
     }
 
     // port number
-    if (Utils.isEmpty(port)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.PortEmpty"),
-              transformMeta);
+    if (Utils.isEmpty(port) && !isUsingConfigFile()) { // DEEM-MOD
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "MailMeta.CheckResult.PortEmpty"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.PortOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.PortOk"), transformMeta);
     }
     remarks.add(cr);
 
     // reply address
     if (Utils.isEmpty(replyAddress)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.ReplayAddressEmpty"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailMeta.CheckResult.ReplayAddressEmpty"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.ReplayAddressOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.ReplayAddressOk"), transformMeta);
     }
     remarks.add(cr);
 
     // Destination
     if (Utils.isEmpty(destination)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.DestinationEmpty"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailMeta.CheckResult.DestinationEmpty"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.DestinationOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.DestinationOk"), transformMeta);
     }
     remarks.add(cr);
 
     // Subject
     if (Utils.isEmpty(subject)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.SubjectEmpty"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "MailMeta.CheckResult.SubjectEmpty"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.SubjectOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.SubjectOk"), transformMeta);
     }
     remarks.add(cr);
 
     // Comment
     if (Utils.isEmpty(comment)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.CommentEmpty"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "MailMeta.CheckResult.CommentEmpty"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MailMeta.CheckResult.CommentEmpty"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.CommentEmpty"), transformMeta);
     }
     remarks.add(cr);
 
     if (isFilenameDynamic) {
       // Dynamic Filename field
       if (Utils.isEmpty(dynamicFieldname)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "MailMeta.CheckResult.DynamicFilenameFieldEmpty"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailMeta.CheckResult.DynamicFilenameFieldEmpty"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "MailMeta.CheckResult.DynamicFilenameFieldOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.DynamicFilenameFieldOk"), transformMeta);
       }
       remarks.add(cr);
 
     } else {
       // static filename
       if (Utils.isEmpty(sourcefilefoldername)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "MailMeta.CheckResult.SourceFilenameEmpty"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailMeta.CheckResult.SourceFilenameEmpty"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "MailMeta.CheckResult.SourceFilenameOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.SourceFilenameOk"), transformMeta);
       }
       remarks.add(cr);
     }
@@ -983,34 +869,18 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
       if (isFilenameDynamic) {
         // dynamic zipfilename
         if (Utils.isEmpty(getDynamicZipFilenameField())) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "MailMeta.CheckResult.DynamicZipfilenameEmpty"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailMeta.CheckResult.DynamicZipfilenameEmpty"), transformMeta);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "MailMeta.CheckResult.DynamicZipfilenameOK"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.DynamicZipfilenameOK"), transformMeta);
         }
         remarks.add(cr);
 
       } else {
         // static zipfilename
         if (Utils.isEmpty(zipFilename)) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "MailMeta.CheckResult.ZipfilenameEmpty"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailMeta.CheckResult.ZipfilenameEmpty"), transformMeta);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "MailMeta.CheckResult.ZipfilenameOk"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailMeta.CheckResult.ZipfilenameOk"), transformMeta);
         }
         remarks.add(cr);
       }

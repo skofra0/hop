@@ -30,6 +30,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileType;
 import org.apache.hop.core.Const;
@@ -79,6 +80,9 @@ import java.util.zip.ZipOutputStream;
     documentationUrl = "/workflow/actions/mail.html")
 public class ActionMail extends ActionBase implements Cloneable, IAction {
   private static final Class<?> PKG = ActionMail.class; // For Translator
+
+  public static final String DEFAULT_CONFIGFILE = "${MAIL_CONFIG_FILE}"; // DEEM-MOD
+  private String configFile = ""; // DEEM-MOD
 
   private String server;
 
@@ -189,6 +193,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
     retval.append(super.getXml());
 
+    retval.append("      ").append(XmlHandler.addTagValue("configFile", configFile)); // DEEM-MOD
     retval.append("      ").append(XmlHandler.addTagValue("server", server));
     retval.append("      ").append(XmlHandler.addTagValue("port", port));
     retval.append("      ").append(XmlHandler.addTagValue("destination", destination));
@@ -207,15 +212,9 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
     retval.append("      ").append(XmlHandler.addTagValue("use_auth", usingAuthentication));
     retval.append("      ").append(XmlHandler.addTagValue("usexoauth2", usexoauth2));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("use_secure_auth", usingSecureAuthentication));
+    retval.append("      ").append(XmlHandler.addTagValue("use_secure_auth", usingSecureAuthentication));
     retval.append("      ").append(XmlHandler.addTagValue("auth_user", authenticationUser));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "auth_password", Encr.encryptPasswordIfNotUsingVariables(authenticationPassword)));
+    retval.append("      ").append(XmlHandler.addTagValue("auth_password", Encr.encryptPasswordIfNotUsingVariables(authenticationPassword)));
 
     retval.append("      ").append(XmlHandler.addTagValue("only_comment", onlySendComment));
     retval.append("      ").append(XmlHandler.addTagValue("use_HTML", useHTML));
@@ -226,17 +225,13 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     retval.append("      ").append(XmlHandler.addTagValue("importance", importance));
     retval.append("      ").append(XmlHandler.addTagValue("sensitivity", sensitivity));
 
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("secureconnectiontype", secureConnectionType));
+    retval.append("      ").append(XmlHandler.addTagValue("secureconnectiontype", secureConnectionType));
     retval.append("      ").append(XmlHandler.addTagValue("replyToAddresses", replyToAddresses));
 
     retval.append("      <filetypes>");
     if (fileType != null) {
       for (int i = 0; i < fileType.length; i++) {
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("filetype", ResultFile.getTypeCode(fileType[i])));
+        retval.append("        ").append(XmlHandler.addTagValue("filetype", ResultFile.getTypeCode(fileType[i])));
       }
     }
     retval.append("      </filetypes>");
@@ -256,10 +251,10 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
+      setConfigFile(XmlHandler.getTagValue(entrynode, "configFile"));// DEEM-MOD
       setServer(XmlHandler.getTagValue(entrynode, "server"));
       setPort(XmlHandler.getTagValue(entrynode, "port"));
       setDestination(XmlHandler.getTagValue(entrynode, "destination"));
@@ -274,13 +269,10 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       setComment(XmlHandler.getTagValue(entrynode, "comment"));
       setIncludingFiles("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "include_files")));
       setUsingAuthentication("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "use_auth")));
-      setUsingSecureAuthentication(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "use_secure_auth")));
+      setUsingSecureAuthentication("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "use_secure_auth")));
       setUseXOAUTH2("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "usexoauth2")));
       setAuthenticationUser(XmlHandler.getTagValue(entrynode, "auth_user"));
-      setAuthenticationPassword(
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entrynode, "auth_password")));
+      setAuthenticationPassword(Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "auth_password")));
 
       setOnlySendComment("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "only_comment")));
       setUseHTML("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "use_HTML")));
@@ -322,6 +314,18 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     } catch (HopException xe) {
       throw new HopXmlException("Unable to load action of type 'mail' from XML node", xe);
     }
+  }
+
+  public void setConfigFile(String configFile) { // DEEM-MOD
+    this.configFile = configFile;
+  }
+
+  public String getConfigFile() { // DEEM-MOD
+    return this.configFile;
+  }
+
+  boolean isUsingConfigFile() { // DEEM-MOD
+    return StringUtils.isNotEmpty(this.configFile);
   }
 
   public void setServer(String s) {
@@ -479,7 +483,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     this.authenticationPassword = authenticationPassword;
   }
 
-  public void setUseXOAUTH2( boolean usexoauth2 ) {
+  public void setUseXOAUTH2(boolean usexoauth2) {
     this.usexoauth2 = usexoauth2;
   }
 
@@ -642,6 +646,16 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     // Send an e-mail...
     // create some properties and get the default Session
     Properties props = new Properties();
+
+    // DEEM-MOD TODO
+    boolean usingConfig = isUsingConfigFile();
+    String protocol = "smtp";
+    String dataServer = this.server;
+    String dataPort = this.port;
+    String dataAuthenticationUser = this.authenticationUser;
+    String dataAuthenticationPassword = this.authenticationPassword;
+    boolean dataUsingAuthentication = this.usingAuthentication;
+
     if (Utils.isEmpty(server)) {
       logError(BaseMessages.getString(PKG, "ActionMail.Error.HostNotSpecified"));
 
@@ -650,7 +664,6 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       return result;
     }
 
-    String protocol = "smtp";
     if (usingSecureAuthentication) {
       if (usexoauth2) {
         props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
@@ -720,8 +733,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
         }
         msg.setFrom(new InternetAddress(senderAddress));
       } else {
-        throw new MessagingException(
-            BaseMessages.getString(PKG, "ActionMail.Error.ReplyEmailNotFilled"));
+        throw new MessagingException(BaseMessages.getString(PKG, "ActionMail.Error.ReplyEmailNotFilled"));
       }
 
       // set Reply to addresses
@@ -781,99 +793,38 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       }
       if (!onlySendComment) {
 
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Workflow"))
-            .append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Workflow")).append(endRow);
         messageText.append("-----").append(endRow);
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.JobName") + "    : ")
-            .append(parentWorkflow.getWorkflowMeta().getName())
-            .append(endRow);
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Action") + "   : ")
-            .append(getName())
-            .append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.WorkflowName") + "    : ").append(parentWorkflow.getWorkflowMeta().getName()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Action") + "   : ").append(getName()).append(endRow);
         messageText.append(Const.CR);
       }
 
       if (includeDate) {
-        messageText
-            .append(endRow)
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.MsgDate") + ": ")
-            .append(XmlHandler.date2string(new Date()))
-            .append(endRow)
+        messageText.append(endRow).append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.MsgDate") + ": ").append(XmlHandler.date2string(new Date())).append(endRow)
             .append(endRow);
       }
       if (!onlySendComment && result != null) {
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.PreviousResult") + ":")
-            .append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.PreviousResult") + ":").append(endRow);
         messageText.append("-----------------").append(endRow);
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.ActionNr") + "         : ")
-            .append(result.getEntryNr())
-            .append(endRow);
-        messageText
-            .append(
-                BaseMessages.getString(PKG, "ActionMail.Log.Comment.Errors") + "               : ")
-            .append(result.getNrErrors())
-            .append(endRow);
-        messageText
-            .append(
-                BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesRead") + "           : ")
-            .append(result.getNrLinesRead())
-            .append(endRow);
-        messageText
-            .append(
-                BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesWritten") + "        : ")
-            .append(result.getNrLinesWritten())
-            .append(endRow);
-        messageText
-            .append(
-                BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesInput") + "          : ")
-            .append(result.getNrLinesInput())
-            .append(endRow);
-        messageText
-            .append(
-                BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesOutput") + "         : ")
-            .append(result.getNrLinesOutput())
-            .append(endRow);
-        messageText
-            .append(
-                BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesUpdated") + "        : ")
-            .append(result.getNrLinesUpdated())
-            .append(endRow);
-        messageText
-            .append(
-                BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesRejected") + "       : ")
-            .append(result.getNrLinesRejected())
-            .append(endRow);
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Status") + "  : ")
-            .append(result.getExitStatus())
-            .append(endRow);
-        messageText
-            .append(
-                BaseMessages.getString(PKG, "ActionMail.Log.Comment.Result") + "               : ")
-            .append(result.getResult())
-            .append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.ActionNr") + "         : ").append(result.getEntryNr()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Errors") + "               : ").append(result.getNrErrors()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesRead") + "           : ").append(result.getNrLinesRead()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesWritten") + "        : ").append(result.getNrLinesWritten()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesInput") + "          : ").append(result.getNrLinesInput()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesOutput") + "         : ").append(result.getNrLinesOutput()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesUpdated") + "        : ").append(result.getNrLinesUpdated()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.LinesRejected") + "       : ").append(result.getNrLinesRejected()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Status") + "  : ").append(result.getExitStatus()).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Result") + "               : ").append(result.getResult()).append(endRow);
         messageText.append(endRow);
       }
 
-      if (!onlySendComment
-          && (!Utils.isEmpty(resolve(contactPerson)) || !Utils.isEmpty(resolve(contactPhone)))) {
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.ContactInfo") + " :")
-            .append(endRow);
+      if (!onlySendComment && (!Utils.isEmpty(resolve(contactPerson)) || !Utils.isEmpty(resolve(contactPhone)))) {
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.ContactInfo") + " :").append(endRow);
         messageText.append("---------------------").append(endRow);
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.PersonToContact") + " : ")
-            .append(resolve(contactPerson))
-            .append(endRow);
-        messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Tel") + "  : ")
-            .append(resolve(contactPhone))
-            .append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.PersonToContact") + " : ").append(resolve(contactPerson)).append(endRow);
+        messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.Tel") + "  : ").append(resolve(contactPhone)).append(endRow);
         messageText.append(endRow);
       }
 
@@ -881,15 +832,12 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       if (!onlySendComment) {
         WorkflowTracker workflowTracker = parentWorkflow.getWorkflowTracker();
         if (workflowTracker != null) {
-          messageText
-              .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.PathToJobentry") + ":")
-              .append(endRow);
+          messageText.append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.PathToJobentry") + ":").append(endRow);
           messageText.append("------------------------").append(endRow);
 
           addBacktracking(workflowTracker, messageText);
           if (isUseHTML()) {
-            messageText.replace(
-                0, messageText.length(), messageText.toString().replace(Const.CR, endRow));
+            messageText.replace(0, messageText.length(), messageText.toString().replace(Const.CR, endRow));
           }
         }
       }

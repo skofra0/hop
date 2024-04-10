@@ -50,6 +50,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
+//DEEM-MOD
 public class HopGuiLogBrowserStyled {
   private static final Class<?> PKG = HopGui.class; // For Translator
 
