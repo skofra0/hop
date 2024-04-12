@@ -25,6 +25,7 @@ import org.apache.hop.pipeline.transform.ITransformData;
 
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Send mail transform. based on Mail action
@@ -72,10 +73,20 @@ public class MailData extends BaseTransformData implements ITransformData {
   public int nrEmbeddedImages;
   public int nrattachedFiles;
 
-  public HashSet<MimeBodyPart> embeddedMimePart;
+  public Set<MimeBodyPart> embeddedMimePart; // DEEM-MOD
 
   public int indexOfAttachedContent;
   public int indexOfAttachedFilename;
+
+  // DEEM-MOD
+  boolean usingAuthentication = false;
+  boolean usingConfig = false;
+  String server = "";
+  int port = -1;
+  String protocol = "smtp";
+  String authenticationUser = "";
+  String authenticationPassword = "";
+  // DEEM-MOD END
 
   public MailData() {
     super();

@@ -30,6 +30,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileType;
 import org.apache.hop.core.Const;
@@ -81,6 +82,9 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
   private static final Class<?> PKG = ActionMail.class; // For Translator
 
   private String server;
+
+  public static final String DEFAULT_CONFIGFILE = "${MAIL_CONFIG_FILE}"; // DEEM-MOD
+  private String configFile = ""; // DEEM-MOD
 
   private String destination;
 
@@ -189,6 +193,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
     retval.append(super.getXml());
 
+    retval.append("      ").append(XmlHandler.addTagValue("configFile", configFile)); // DEEM-MOD
     retval.append("      ").append(XmlHandler.addTagValue("server", server));
     retval.append("      ").append(XmlHandler.addTagValue("port", port));
     retval.append("      ").append(XmlHandler.addTagValue("destination", destination));
@@ -207,15 +212,9 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
     retval.append("      ").append(XmlHandler.addTagValue("use_auth", usingAuthentication));
     retval.append("      ").append(XmlHandler.addTagValue("usexoauth2", usexoauth2));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("use_secure_auth", usingSecureAuthentication));
+    retval.append("      ").append(XmlHandler.addTagValue("use_secure_auth", usingSecureAuthentication));
     retval.append("      ").append(XmlHandler.addTagValue("auth_user", authenticationUser));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "auth_password", Encr.encryptPasswordIfNotUsingVariables(authenticationPassword)));
+    retval.append("      ").append(XmlHandler.addTagValue("auth_password", Encr.encryptPasswordIfNotUsingVariables(authenticationPassword)));
 
     retval.append("      ").append(XmlHandler.addTagValue("only_comment", onlySendComment));
     retval.append("      ").append(XmlHandler.addTagValue("use_HTML", useHTML));
@@ -226,17 +225,13 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     retval.append("      ").append(XmlHandler.addTagValue("importance", importance));
     retval.append("      ").append(XmlHandler.addTagValue("sensitivity", sensitivity));
 
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("secureconnectiontype", secureConnectionType));
+    retval.append("      ").append(XmlHandler.addTagValue("secureconnectiontype", secureConnectionType));
     retval.append("      ").append(XmlHandler.addTagValue("replyToAddresses", replyToAddresses));
 
     retval.append("      <filetypes>");
     if (fileType != null) {
       for (int i = 0; i < fileType.length; i++) {
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("filetype", ResultFile.getTypeCode(fileType[i])));
+        retval.append("        ").append(XmlHandler.addTagValue("filetype", ResultFile.getTypeCode(fileType[i])));
       }
     }
     retval.append("      </filetypes>");
@@ -260,6 +255,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       throws HopXmlException {
     try {
       super.loadXml(entrynode);
+      setConfigFile(XmlHandler.getTagValue(entrynode, "configFile"));// DEEM-MOD
       setServer(XmlHandler.getTagValue(entrynode, "server"));
       setPort(XmlHandler.getTagValue(entrynode, "port"));
       setDestination(XmlHandler.getTagValue(entrynode, "destination"));
@@ -274,13 +270,10 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       setComment(XmlHandler.getTagValue(entrynode, "comment"));
       setIncludingFiles("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "include_files")));
       setUsingAuthentication("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "use_auth")));
-      setUsingSecureAuthentication(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "use_secure_auth")));
+      setUsingSecureAuthentication("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "use_secure_auth")));
       setUseXOAUTH2("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "usexoauth2")));
       setAuthenticationUser(XmlHandler.getTagValue(entrynode, "auth_user"));
-      setAuthenticationPassword(
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entrynode, "auth_password")));
+      setAuthenticationPassword(Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "auth_password")));
 
       setOnlySendComment("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "only_comment")));
       setUseHTML("Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "use_HTML")));
@@ -322,6 +315,18 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     } catch (HopException xe) {
       throw new HopXmlException("Unable to load action of type 'mail' from XML node", xe);
     }
+  }
+
+  public void setConfigFile(String configFile) { // DEEM-MOD
+    this.configFile = configFile;
+  }
+
+  public String getConfigFile() { // DEEM-MOD
+    return this.configFile;
+  }
+
+  boolean isUsingConfigFile() { // DEEM-MOD
+    return StringUtils.isNotEmpty(this.configFile);
   }
 
   public void setServer(String s) {
@@ -642,6 +647,16 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     // Send an e-mail...
     // create some properties and get the default Session
     Properties props = new Properties();
+    
+    // DEEM-MOD TODO
+    boolean usingConfig = isUsingConfigFile();
+    String protocol = "smtp";
+    String dataServer = this.server;
+    String dataPort = this.port;
+    String dataAuthenticationUser = this.authenticationUser;
+    String dataAuthenticationPassword = this.authenticationPassword;
+    boolean dataUsingAuthentication = this.usingAuthentication;
+
     if (Utils.isEmpty(server)) {
       logError(BaseMessages.getString(PKG, "ActionMail.Error.HostNotSpecified"));
 
@@ -650,7 +665,6 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       return result;
     }
 
-    String protocol = "smtp";
     if (usingSecureAuthentication) {
       if (usexoauth2) {
         props.put("mail.smtp.auth.mechanisms", "XOAUTH2");

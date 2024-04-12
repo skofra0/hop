@@ -637,7 +637,7 @@ public class MonetDbBulkLoaderMeta
 
             String schemaTable =
                 databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
-            MonetDBDatabaseMeta.safeModeLocal.set(safeMode);
+            // MonetDBDatabaseMeta.safeModeLocal.set(safeMode); DEEM-MOD
             String createTable = db.getDDL(schemaTable, tableFields, null, false, null, true);
 
             String sql = createTable;
@@ -652,7 +652,7 @@ public class MonetDbBulkLoaderMeta
                     + e.getMessage());
           } finally {
             db.disconnect();
-            MonetDBDatabaseMeta.safeModeLocal.remove();
+            // MonetDBDatabaseMeta.safeModeLocal.remove(); DEEM-MOD
           }
         } else {
           retval.setError(

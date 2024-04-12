@@ -18,6 +18,9 @@
 // CHECKSTYLE:FileLength:OFF
 package org.apache.hop.pipeline.transforms.mail;
 
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.Props;
 import org.apache.hop.core.exception.HopException;
@@ -26,7 +29,6 @@ import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.pipeline.PipelineMeta;
-import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.ITransformDialog;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.dialog.BaseDialog;
@@ -52,15 +54,13 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 
 public class MailDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = MailMeta.class; // For Translator
@@ -104,6 +104,10 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
 
   private CCombo wDestinationCc;
   private CCombo wDestinationBCc;
+
+  private TextVar wConfigFile; // DEEM-MOD
+  private Label wlServer; // DEEM-MOD
+  private Label wlPort; // DEEM-MOD
 
   private CCombo wServer;
 
@@ -200,8 +204,8 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
 
   private final MailMeta input;
 
-  public MailDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
-    super(parent, variables, (BaseTransformMeta) in, tr, sname);
+  public MailDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+    super(parent, variables, (MailMeta) in, pipelineMeta, sname);
     input = (MailMeta) in;
   }
 
@@ -224,7 +228,7 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
     shell.setText(BaseMessages.getString(PKG, "MailDialog.Shell.Title"));
 
     int middle = props.getMiddlePct();
-    int margin = props.getMargin();
+    int margin = PropsUi.getMargin();
 
     // Some buttons
     wOk = new Button(shell, SWT.PUSH);
@@ -649,13 +653,72 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
     servergroupLayout.marginHeight = 10;
     wServerGroup.setLayout(servergroupLayout);
 
+    // DEEM-MOD Config file
+    var wlConfigFile = new Label(wServerGroup, SWT.RIGHT);
+    wlConfigFile.setText(BaseMessages.getString(PKG, "Mail.ConfigFile.Label"));
+    PropsUi.setLook(wlConfigFile);
+    FormData fdlConfigFile = new FormData();
+    fdlConfigFile.left = new FormAttachment(0, 0);
+    fdlConfigFile.top = new FormAttachment(0, margin + 5);
+    fdlConfigFile.right = new FormAttachment(middle, -margin);
+    wlConfigFile.setLayoutData(fdlConfigFile);
+
+    var wbDefaultConfigFile = new Button(wServerGroup, SWT.PUSH | SWT.CENTER);
+    PropsUi.setLook(wbDefaultConfigFile);
+    wbDefaultConfigFile.setText(BaseMessages.getString(PKG, "Mail.Default.Button"));
+    FormData fdbDefaultConfigFile = new FormData();
+    fdbDefaultConfigFile.right = new FormAttachment(100, 0);
+    fdbDefaultConfigFile.top = new FormAttachment(0, margin + 5);
+    wbDefaultConfigFile.setLayoutData(fdbDefaultConfigFile);
+
+    var wbConfigFile = new Button(wServerGroup, SWT.PUSH | SWT.CENTER);
+    PropsUi.setLook(wbConfigFile);
+    wbConfigFile.setText(BaseMessages.getString(PKG, "Mail.Browse.Button"));
+    FormData fdbConfigFile = new FormData();
+    fdbConfigFile.right = new FormAttachment(wbDefaultConfigFile, -margin);
+    fdbConfigFile.top = new FormAttachment(0, margin + 5);
+    wbConfigFile.setLayoutData(fdbConfigFile);
+
+    wConfigFile = new TextVar(variables, wServerGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wConfigFile.setToolTipText(BaseMessages.getString(PKG, "Mail.ConfigFile.Tooltip"));
+    PropsUi.setLook(wConfigFile);
+    wConfigFile.addModifyListener(lsMod);
+    FormData fdConfigFile = new FormData();
+    fdConfigFile.left = new FormAttachment(middle, 0);
+    fdConfigFile.top = new FormAttachment(0, margin + 8);
+    fdConfigFile.right = new FormAttachment(wbConfigFile, -margin);
+    wConfigFile.setLayoutData(fdConfigFile);
+
+    wbConfigFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        final FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+        dialog.setFilterExtensions(new String[] {"*.properties", "*"});
+        if (wConfigFile.getText() != null) {
+          dialog.setFileName(wConfigFile.getText());
+        }
+        if (dialog.open() != null) {
+          wConfigFile.setText(dialog.getFilterPath() + System.getProperty("file.separator") + dialog.getFileName());
+        }
+        setUseAuth();
+      }
+    });
+
+    wbDefaultConfigFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        wConfigFile.setText(MailMeta.DEFAULT_CONFIGFILE);
+      }
+    });
+    // DEEM-MOD Config file end
+
     // Server
-    Label wlServer = new Label(wServerGroup, SWT.RIGHT);
+    wlServer = new Label(wServerGroup, SWT.RIGHT); // DEEM-MOD
     wlServer.setText(BaseMessages.getString(PKG, "Mail.SMTPServer.Label"));
     PropsUi.setLook(wlServer);
     FormData fdlServer = new FormData();
     fdlServer.left = new FormAttachment(0, -margin);
-    fdlServer.top = new FormAttachment(0, margin);
+    fdlServer.top = new FormAttachment(wConfigFile, margin); // DEEM-MOD
     fdlServer.right = new FormAttachment(middle, -2 * margin);
     wlServer.setLayoutData(fdlServer);
 
@@ -665,7 +728,7 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
     wServer.addModifyListener(lsMod);
     FormData fdServer = new FormData();
     fdServer.left = new FormAttachment(middle, -margin);
-    fdServer.top = new FormAttachment(0, margin);
+    fdServer.top = new FormAttachment(wConfigFile, margin); // DEEM-MOD
     fdServer.right = new FormAttachment(100, -margin);
     wServer.setLayoutData(fdServer);
     wServer.addFocusListener(
@@ -686,7 +749,7 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
         });
 
     // Port
-    Label wlPort = new Label(wServerGroup, SWT.RIGHT);
+    wlPort = new Label(wServerGroup, SWT.RIGHT); // DEEM-MOD
     wlPort.setText(BaseMessages.getString(PKG, "Mail.Port.Label"));
     PropsUi.setLook(wlPort);
     FormData fdlPort = new FormData();
@@ -2400,22 +2463,42 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
   }
 
   protected void setUseAuth() {
-    wlAuthUser.setEnabled(wUseAuth.getSelection());
-    wAuthUser.setEnabled(wUseAuth.getSelection());
-    wlAuthPass.setEnabled(wUseAuth.getSelection());
-    wAuthPass.setEnabled(wUseAuth.getSelection());
-    wUseSecAuth.setEnabled(wUseAuth.getSelection());
-    wlUseSecAuth.setEnabled(wUseAuth.getSelection());
-    wlUseXOAUTH2.setEnabled(wUseAuth.getSelection());
-    wUseXOAUTH2.setEnabled(wUseAuth.getSelection());
-    if (!wUseAuth.getSelection()) {
+    boolean useConfig = StringUtils.isNotEmpty(wConfigFile.getText());
+    if (useConfig) { // DEEM-MOD
+      wlAuthUser.setEnabled(false);
+      wAuthUser.setEnabled(false);
+      wlAuthPass.setEnabled(false);
+      wAuthPass.setEnabled(false);
+      wUseSecAuth.setEnabled(false);
+      wlUseSecAuth.setEnabled(false);
+      wlUseXOAUTH2.setEnabled(false);
+      wUseXOAUTH2.setEnabled(false);
       wSecureConnectionType.setEnabled(false);
       wlSecureConnectionType.setEnabled(false);
     } else {
-      setSecureConnectiontype();
+      wlAuthUser.setEnabled(wUseAuth.getSelection());
+      wAuthUser.setEnabled(wUseAuth.getSelection());
+      wlAuthPass.setEnabled(wUseAuth.getSelection());
+      wAuthPass.setEnabled(wUseAuth.getSelection());
+      wUseSecAuth.setEnabled(wUseAuth.getSelection());
+      wlUseSecAuth.setEnabled(wUseAuth.getSelection());
+      wlUseXOAUTH2.setEnabled(wUseAuth.getSelection());
+      wUseXOAUTH2.setEnabled(wUseAuth.getSelection());
+      if (!wUseAuth.getSelection()) {
+        wSecureConnectionType.setEnabled(false);
+        wlSecureConnectionType.setEnabled(false);
+      } else {
+        setSecureConnectiontype();
+      }
     }
-  }
 
+    // DEEM-MOD
+    wlServer.setEnabled(!useConfig);
+    wServer.setEnabled(!useConfig);
+    wlPort.setEnabled(!useConfig);
+    wPort.setEnabled(!useConfig);
+    wUseAuth.setEnabled(!useConfig);
+  }
   /** Copy information from the meta-data input to the dialog fields. */
   public void getData() {
 
@@ -2439,6 +2522,9 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
     }
     if (input.getDestinationBCc() != null) {
       wDestinationBCc.setText(input.getDestinationBCc());
+    }
+    if (input.getConfigFile() != null) { // DEEM-MOD
+      wConfigFile.setText(input.getConfigFile());
     }
     if (input.getServer() != null) {
       wServer.setText(input.getServer());
@@ -2612,6 +2698,7 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
     input.setDestination(wDestination.getText());
     input.setDestinationCc(wDestinationCc.getText());
     input.setDestinationBCc(wDestinationBCc.getText());
+    input.setConfigFile(wConfigFile.getText()); // DEEM-MOD
     input.setServer(wServer.getText());
     input.setPort(wPort.getText());
     input.setReplyAddress(wReply.getText());

@@ -34,7 +34,7 @@ import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
-
+import org.apache.hop.pipeline.transforms.tableinput.addon.TableInputVariableField;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -53,48 +53,53 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  private RowMetaAndData readStartDate() throws HopException {
-    if (log.isDetailed()) {
-      logDetailed("Reading from transform [" + data.infoStream.getTransformName() + "]");
-    }
-
-    IRowMeta parametersMeta = new RowMeta();
-    Object[] parametersData = new Object[] {};
-
-    IRowSet rowSet = findInputRowSet(data.infoStream.getTransformName());
-    if (rowSet != null) {
-      Object[] rowData = getRowFrom(rowSet); // rows are originating from "lookup_from"
-      while (rowData != null) {
-        parametersData = RowDataUtil.addRowData(parametersData, parametersMeta.size(), rowData);
-        parametersMeta.addRowMeta(rowSet.getRowMeta());
-
-        rowData = getRowFrom(rowSet); // take all input rows if needed!
-      }
-
-      if (parametersMeta.size() == 0) {
-        throw new HopException(
-            "Expected to read parameters from transform ["
-                + data.infoStream.getTransformName()
-                + "] but none were found.");
-      }
-    } else {
-      throw new HopException(
-          "Unable to find rowset to read from, perhaps transform ["
-              + data.infoStream.getTransformName()
-              + "] doesn't exist. (or perhaps you are trying a preview?)");
-    }
-
-    RowMetaAndData parameters = new RowMetaAndData(parametersMeta, parametersData);
-
-    return parameters;
-  }
+//  DEEM-MOD
+//  private RowMetaAndData readStartDate() throws HopException {
+//    if (log.isDetailed()) {
+//      logDetailed("Reading from transform [" + data.infoStream.getTransformName() + "]");
+//    }
+//
+//    IRowMeta parametersMeta = new RowMeta();
+//    Object[] parametersData = new Object[] {};
+//
+//    IRowSet rowSet = findInputRowSet(data.infoStream.getTransformName());
+//    if (rowSet != null) {
+//      Object[] rowData = getRowFrom(rowSet); // rows are originating from "lookup_from"
+//      while (rowData != null) {
+//        parametersData = RowDataUtil.addRowData(parametersData, parametersMeta.size(), rowData);
+//        parametersMeta.addRowMeta(rowSet.getRowMeta());
+//
+//        rowData = getRowFrom(rowSet); // take all input rows if needed!
+//      }
+//
+//      if (parametersMeta.size() == 0) {
+//        throw new HopException(
+//            "Expected to read parameters from transform ["
+//                + data.infoStream.getTransformName()
+//                + "] but none were found.");
+//      }
+//    } else {
+//      throw new HopException(
+//          "Unable to find rowset to read from, perhaps transform ["
+//              + data.infoStream.getTransformName()
+//              + "] doesn't exist. (or perhaps you are trying a preview?)");
+//    }
+//
+//    RowMetaAndData parameters = new RowMetaAndData(parametersMeta, parametersData);
+//
+//    return parameters;
+//  }
 
   @Override
   public boolean processRow() throws HopException {
+    // DEEM-MOD
+    IRowMeta parametersMeta = new RowMeta();
+    Object[] parameters = new Object[] {};
+
     if (first) { // we just got started
 
-      Object[] parameters;
-      IRowMeta parametersMeta;
+      // Object[] parameters; // DEEM-MOD
+      // IRowMeta parametersMeta; // DEEM-MOD
       first = false;
 
       // Make sure we read data from source transforms...
@@ -113,6 +118,13 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
           }
           parameters = getRowFrom(data.rowSet);
           parametersMeta = data.rowSet.getRowMeta();
+          // DEEM-MOD start - No data from previous transforms
+          if (parametersMeta == null) {
+            logBasic("WARNING: No data from [" + data.infoStream.getTransformName() + "]");
+            setOutputDone(); // signal end to receiver(s)
+            return false; // end of data or error.
+          }
+          // DEEM-MOD end
         } else {
           if (log.isDetailed()) {
             logDetailed(
@@ -120,9 +132,17 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
                     + data.infoStream.getTransformName()
                     + "]");
           }
-          RowMetaAndData rmad = readStartDate(); // Read values in lookup table (look)
-          parameters = rmad.getData();
-          parametersMeta = rmad.getRowMeta();
+          // DEEM-MOD START
+          data.rowSet = findInputRowSet(data.infoStream.getTransformName());
+          if (data.rowSet == null) {
+            throw new HopException("Unable to find rowset to read from");
+          }
+          setAllRowVariables(getRowFrom(data.rowSet));
+
+          // RowMetaAndData rmad = readStartDate(); // Read values in lookup table (look)
+          // parameters = rmad.getData();
+          // parametersMeta = rmad.getRowMeta();
+          // DEEM-MOD END
         }
         if (parameters != null) {
           if (log.isDetailed()) {
@@ -177,7 +197,16 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
           // First close the previous query, otherwise we run out of cursors!
           closePreviousQuery();
 
-          boolean success = doQuery(data.rowSet.getRowMeta(), nextRow); // OK, perform a new query
+          // DEEM-MOD START
+          if (meta.isExecuteEachInputRowAsPreparedStatment()) {
+            parameters = nextRow;
+            parametersMeta = data.rowSet.getRowMeta();
+          } else {
+            setAllRowVariables(nextRow);
+          }
+          boolean success = doQuery(parametersMeta, parameters); // OK, perform a new query
+          // DEEM-MOD END
+
           if (!success) {
             return false;
           }
@@ -359,5 +388,49 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
 
   public boolean isWaitingForData() {
     return true;
+  }
+
+  // DEEM-MOD
+  public void setAllRowVariables(Object[] row) throws HopException {
+    for (TableInputVariableField fld : meta.getVariableFields()) {
+      if (!Utils.isEmpty(fld.getFieldName())) {
+        setValue(data.rowSet, row, fld, false);
+      }
+    }
+  }
+
+  // DEEM-MOD
+  private void setValue(IRowSet rowSet, Object[] row, TableInputVariableField fld, boolean usedefault) throws HopException {
+    String value = null;
+    if (usedefault) {
+      value = resolve(fld.getDefaultValue());
+    } else {
+      int index = rowSet.getRowMeta().indexOfValue(fld.getFieldName());
+      if (index < 0) {
+        throw new HopException("Unable to find field [" + fld.getFieldName() + "] in input row");
+      }
+      IValueMeta valueMeta = rowSet.getRowMeta().getValueMeta(index);
+      Object valueObject = row[index];
+      value = valueMeta.getString(valueObject);
+    }
+    if (value == null) {
+      value = "";
+    }
+
+    // Get variable name
+    String varname = fld.getVariableName();
+
+    if (Utils.isEmpty(varname)) {
+      if (Utils.isEmpty(value)) {
+        throw new HopException("Variable name nor value was specified for:" + fld.getFieldName());
+      } else {
+        throw new HopException("There was no variable name specified for value [" + value + "]");
+      }
+    }
+
+    setVariable(varname, value);
+    var pipeline = getPipeline();
+    pipeline.setVariable(varname, value);
+    logBasic(BaseMessages.getString(PKG, "TableInput.SetVariableToValue", fld.getVariableName(), value));
   }
 }

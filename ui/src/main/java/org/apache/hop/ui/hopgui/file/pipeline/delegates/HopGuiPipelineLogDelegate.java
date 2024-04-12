@@ -34,9 +34,11 @@ import org.apache.hop.ui.core.widget.OsHelper;
 import org.apache.hop.ui.hopgui.HopGui;
 import org.apache.hop.ui.hopgui.file.IHopFileTypeHandler;
 import org.apache.hop.ui.hopgui.file.pipeline.HopGuiLogBrowser;
+import org.apache.hop.ui.hopgui.file.pipeline.HopGuiLogBrowserStyled;
 import org.apache.hop.ui.hopgui.file.pipeline.HopGuiPipelineGraph;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -63,14 +65,16 @@ public class HopGuiPipelineLogDelegate {
   private HopGui hopGui;
   private CTabItem pipelineLogTab;
 
-  private Text pipelineLogText;
+  // private Text pipelineLogText  DEEM-MOD
+  private StyledText pipelineLogText;
 
   private ToolBar toolbar;
   private GuiToolbarWidgets toolBarWidgets;
 
   private Composite pipelineLogComposite;
 
-  private HopGuiLogBrowser logBrowser;
+  // private HopGuiLogBrowser logBrowser DEEM-MOD
+  private HopGuiLogBrowserStyled logBrowser;
 
   /** @param hopGui */
   public HopGuiPipelineLogDelegate(HopGui hopGui, HopGuiPipelineGraph pipelineGraph) {
@@ -111,10 +115,8 @@ public class HopGuiPipelineLogDelegate {
     fd.right = new FormAttachment(100, 0);
     toolbar.setLayoutData(fd);
 
-    pipelineLogText =
-        new Text(
-            pipelineLogComposite,
-            SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+    // pipelineLogText = new Text(pipelineLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL); // DEEM-MOD
+    pipelineLogText =  new StyledText(pipelineLogComposite, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL); 
     PropsUi.setLook(pipelineLogText);
     FormData fdText = new FormData();
     fdText.left = new FormAttachment(0, 0);
@@ -127,7 +129,8 @@ public class HopGuiPipelineLogDelegate {
       pipelineLogText.setText(Const.CR);
     }
 
-    logBrowser = new HopGuiLogBrowser(pipelineLogText, pipelineGraph);
+    // logBrowser = new HopGuiLogBrowser(pipelineLogText, pipelineGraph);
+    logBrowser = new HopGuiLogBrowserStyled(pipelineLogText, pipelineGraph); // DEEM-MOD
     logBrowser.installLogSniffer();
 
     // If the pipeline is closed, we should dispose of all the logging information in the buffer and
@@ -317,7 +320,7 @@ public class HopGuiPipelineLogDelegate {
     }
   }
 
-  public HopGuiLogBrowser getLogBrowser() {
+  public HopGuiLogBrowserStyled getLogBrowser() { // DEEM-MOD HopGuiLogBrowser
     return logBrowser;
   }
 

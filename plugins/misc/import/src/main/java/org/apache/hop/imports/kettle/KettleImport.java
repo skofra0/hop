@@ -100,6 +100,11 @@ public class KettleImport extends HopImportBase implements IHopImport {
     super();
   }
 
+  // DEEM-MOD
+  public static String replaceDatabaseType(final String type) {
+    return type.replace("NEXUS_", "DEEM_");
+  }
+
   @Override
   public void findFilesToImport() throws HopException {
     AtomicInteger count = new AtomicInteger();
@@ -122,7 +127,10 @@ public class KettleImport extends HopImportBase implements IHopImport {
         }
 
         String ext = file.getName().getExtension();
-        if ("ktr".equalsIgnoreCase(ext) || "kjb".equalsIgnoreCase(ext)) {
+        if ("hdb".equalsIgnoreCase(ext)) { // DEEM-MOD
+          handleConnectionFile(file);
+          count.incrementAndGet();
+        } else if ("ktr".equalsIgnoreCase(ext) || "kjb".equalsIgnoreCase(ext) || "hpl".equalsIgnoreCase(ext) || "hwf".equalsIgnoreCase(ext)) { // DEEM-MOD
           // This is a Kettle transformation or job
           //
           handleHopFile(file);
@@ -153,7 +161,7 @@ public class KettleImport extends HopImportBase implements IHopImport {
 
     // import connections first
     //
-    importDbConnections(doc, kettleFile);
+    // importDbConnections(doc, kettleFile); // DEEM-MOD
 
     // move to processNode?
     String extension = kettleFile.getName().getExtension();
@@ -199,6 +207,14 @@ public class KettleImport extends HopImportBase implements IHopImport {
     //
     DOMSource domSource = new DOMSource(doc);
     getMigratedFilesMap().put(kettleFile.getName().getURI(), domSource);
+  }
+
+  // DEEM-MOD
+  private void handleConnectionFile(FileObject kettleFile) throws HopException {
+    Document doc = getDocFromFile(kettleFile);
+
+    // import connections first
+    importDbConnections(doc, kettleFile);
   }
 
   /**
@@ -293,7 +309,7 @@ public class KettleImport extends HopImportBase implements IHopImport {
 
   @Override
   public void importConnections() throws HopException {
-    collectConnectionsFromSharedXml();
+    // collectConnectionsFromSharedXml(); // DEEM-MOD
     collectConnectionsFromJdbcProperties();
     importCollectedConnections();
     saveConnectionsReport();
@@ -323,7 +339,9 @@ public class KettleImport extends HopImportBase implements IHopImport {
     IHopMetadataSerializer<DatabaseMeta> serializer =
         metadataProvider.getSerializer(DatabaseMeta.class);
     for (DatabaseMeta databaseMeta : connectionsList) {
-      serializer.save(databaseMeta);
+      if (!skippingExistingTargetFiles || !serializer.exists(databaseMeta.getName())) { // DEEM-MOD skippingExistingTargetFiles
+        serializer.save(databaseMeta);
+      }
     }
   }
 
@@ -374,105 +392,83 @@ public class KettleImport extends HopImportBase implements IHopImport {
 
     PluginRegistry registry = PluginRegistry.getInstance();
 
-    NodeList connectionList = doc.getElementsByTagName("connection");
+    NodeList connectionList = doc.getElementsByTagName("database-connection"); // DEEM-MOD (connection)
     for (int i = 0; i < connectionList.getLength(); i++) {
-      if (connectionList.item(i).getParentNode().equals(doc.getDocumentElement())) {
-        Element connElement = (Element) connectionList.item(i);
-        String databaseType = connElement.getElementsByTagName("type").item(0).getTextContent();
-        IPlugin databasePlugin =
-            registry.findPluginWithId(
-                DatabasePluginType.class,
-                connElement.getElementsByTagName("type").item(0).getTextContent());
+      // if (connectionList.item(i).getParentNode().equals(doc.getDocumentElement())) { // DEEM-MOD
+      Element connElement = (Element) connectionList.item(i);
+      String databaseType = connElement.getElementsByTagName("type").item(0).getTextContent();
+      IPlugin databasePlugin = registry.findPluginWithId(DatabasePluginType.class, connElement.getElementsByTagName("type").item(0).getTextContent());
 
-        try {
-          DatabaseMeta databaseMeta = new DatabaseMeta();
-          IDatabase iDatabase = (BaseDatabaseMeta) registry.loadClass(databasePlugin);
-          databaseMeta.setIDatabase(iDatabase);
-          databaseMeta.setDatabaseType(databaseType);
+      try {
+        DatabaseMeta databaseMeta = new DatabaseMeta();
+        IDatabase iDatabase = (BaseDatabaseMeta) registry.loadClass(databasePlugin);
+        databaseMeta.setIDatabase(iDatabase);
+        databaseMeta.setDatabaseType(databaseType);
 
-          if (connElement.getElementsByTagName("name").getLength() > 0) {
-            databaseMeta.setName(getTextContent(connElement, "name", 0));
-          }
-          if (connElement.getElementsByTagName("server").getLength() > 0) {
-            databaseMeta.getIDatabase().setHostname(getTextContent(connElement, "server", 0));
-          }
-          if (connElement.getElementsByTagName("access").getLength() > 0) {
-            databaseMeta
-                .getIDatabase()
-                .setAccessType(
-                    DatabaseMeta.getAccessType(getTextContent(connElement, "access", 0)));
-          }
-          if (connElement.getElementsByTagName("database").getLength() > 0) {
-            databaseMeta.getIDatabase().setDatabaseName(getTextContent(connElement, "database", 0));
-          }
-          if (connElement.getElementsByTagName("port").getLength() > 0) {
-            databaseMeta.getIDatabase().setPort(getTextContent(connElement, "port", 0));
-          }
-          if (connElement.getElementsByTagName("username").getLength() > 0) {
-            databaseMeta.getIDatabase().setUsername(getTextContent(connElement, "username", 0));
-          }
-          if (connElement.getElementsByTagName("password").getLength() > 0) {
-            databaseMeta.getIDatabase().setPassword(getTextContent(connElement, "password", 0));
-          }
-          if (connElement.getElementsByTagName("servername").getLength() > 0
-              && !Utils.isEmpty(getTextContent(connElement, "servername", 0))) {
-            databaseMeta.getIDatabase().setServername(getTextContent(connElement, "servername", 0));
-          }
-          if (connElement.getElementsByTagName("tablespace").getLength() > 0
-              && !Utils.isEmpty(getTextContent(connElement, "tablespace", 0))) {
-            databaseMeta
-                .getIDatabase()
-                .setDataTablespace(getTextContent(connElement, "tablespace", 0));
-          }
-          if (connElement.getElementsByTagName("data_tablespace").getLength() > 0
-              && !Utils.isEmpty(getTextContent(connElement, "data_tablespace", 0))) {
-            databaseMeta
-                .getIDatabase()
-                .setDataTablespace(getTextContent(connElement, "data_tablespace", 0));
-          }
-          if (connElement.getElementsByTagName("index_tablespace").getLength() > 0
-              && !Utils.isEmpty(getTextContent(connElement, "index_tablespace", 0))) {
-            databaseMeta
-                .getIDatabase()
-                .setIndexTablespace(getTextContent(connElement, "index_tablespace", 0));
-          }
-          Map<String, String> attributesMap = new HashMap<>();
-          NodeList connNodeList = connElement.getElementsByTagName("attributes");
-          for (int j = 0; j < connNodeList.getLength(); j++) {
-            if (connNodeList.item(j).getNodeName().equals("attributes")) {
-              Node attributesNode = connNodeList.item(j);
-              for (int k = 0; k < attributesNode.getChildNodes().getLength(); k++) {
-                Node attributeNode = attributesNode.getChildNodes().item(k);
-                String code = "";
-                String attribute = "";
-                for (int l = 0; l < attributeNode.getChildNodes().getLength(); l++) {
-                  if (attributeNode.getChildNodes().item(l).getNodeName().equals("code")) {
-                    code = attributeNode.getChildNodes().item(l).getTextContent();
-                  }
-                  if (attributeNode.getChildNodes().item(l).getNodeName().equals("attribute")) {
-                    attribute = attributeNode.getChildNodes().item(l).getTextContent();
-                  }
-                  if (!Utils.isEmpty(code) && !Utils.isEmpty(attribute)) {
-                    attributesMap.put(code, attribute);
-                  }
+        if (connElement.getElementsByTagName("name").getLength() > 0) {
+          databaseMeta.setName(getTextContent(connElement, "name", 0));
+        }
+        if (connElement.getElementsByTagName("server").getLength() > 0) {
+          databaseMeta.getIDatabase().setHostname(getTextContent(connElement, "server", 0));
+        }
+        if (connElement.getElementsByTagName("access").getLength() > 0) {
+          databaseMeta.getIDatabase().setAccessType(DatabaseMeta.getAccessType(getTextContent(connElement, "access", 0)));
+        }
+        if (connElement.getElementsByTagName("database").getLength() > 0) {
+          databaseMeta.getIDatabase().setDatabaseName(getTextContent(connElement, "database", 0));
+        }
+        if (connElement.getElementsByTagName("port").getLength() > 0) {
+          databaseMeta.getIDatabase().setPort(getTextContent(connElement, "port", 0));
+        }
+        if (connElement.getElementsByTagName("username").getLength() > 0) {
+          databaseMeta.getIDatabase().setUsername(getTextContent(connElement, "username", 0));
+        }
+        if (connElement.getElementsByTagName("password").getLength() > 0) {
+          databaseMeta.getIDatabase().setPassword(getTextContent(connElement, "password", 0));
+        }
+        if (connElement.getElementsByTagName("servername").getLength() > 0 && !Utils.isEmpty(getTextContent(connElement, "servername", 0))) {
+          databaseMeta.getIDatabase().setServername(getTextContent(connElement, "servername", 0));
+        }
+        if (connElement.getElementsByTagName("tablespace").getLength() > 0 && !Utils.isEmpty(getTextContent(connElement, "tablespace", 0))) {
+          databaseMeta.getIDatabase().setDataTablespace(getTextContent(connElement, "tablespace", 0));
+        }
+        if (connElement.getElementsByTagName("data_tablespace").getLength() > 0 && !Utils.isEmpty(getTextContent(connElement, "data_tablespace", 0))) {
+          databaseMeta.getIDatabase().setDataTablespace(getTextContent(connElement, "data_tablespace", 0));
+        }
+        if (connElement.getElementsByTagName("index_tablespace").getLength() > 0 && !Utils.isEmpty(getTextContent(connElement, "index_tablespace", 0))) {
+          databaseMeta.getIDatabase().setIndexTablespace(getTextContent(connElement, "index_tablespace", 0));
+        }
+        Map<String, String> attributesMap = new HashMap<>();
+        NodeList connNodeList = connElement.getElementsByTagName("attributes");
+        for (int j = 0; j < connNodeList.getLength(); j++) {
+          if (connNodeList.item(j).getNodeName().equals("attributes")) {
+            Node attributesNode = connNodeList.item(j);
+            for (int k = 0; k < attributesNode.getChildNodes().getLength(); k++) {
+              Node attributeNode = attributesNode.getChildNodes().item(k);
+              String code = "";
+              String attribute = "";
+              for (int l = 0; l < attributeNode.getChildNodes().getLength(); l++) {
+                if (attributeNode.getChildNodes().item(l).getNodeName().equals("code")) {
+                  code = attributeNode.getChildNodes().item(l).getTextContent();
+                }
+                if (attributeNode.getChildNodes().item(l).getNodeName().equals("attribute")) {
+                  attribute = attributeNode.getChildNodes().item(l).getTextContent();
+                }
+                if (!Utils.isEmpty(code) && !Utils.isEmpty(attribute)) {
+                  attributesMap.put(code, attribute);
                 }
               }
             }
           }
-
-          databaseMeta.getIDatabase().setAttributes(attributesMap);
-          addDatabaseMeta(kettleFile.getName().getURI(), databaseMeta);
-
-        } catch (Exception e) {
-          throw new HopException(
-              "Error importing database type '"
-                  + databaseType
-                  + "' from file '"
-                  + kettleFile.getName().getURI()
-                  + "'",
-              e);
         }
+
+        databaseMeta.getIDatabase().setAttributes(attributesMap);
+        addDatabaseMeta(kettleFile.getName().getURI(), databaseMeta);
+
+      } catch (Exception e) {
+        throw new HopException("Error importing database type '" + databaseType + "' from file '" + kettleFile.getName().getURI() + "'", e);
       }
+      // } // DEEM-MOD
     }
   }
 
@@ -810,7 +806,8 @@ public class KettleImport extends HopImportBase implements IHopImport {
     for (int i = 0; i < repositoryNode.getChildNodes().getLength(); i++) {
       Node childNode = repositoryNode.getChildNodes().item(i);
       if (childNode.getNodeName().equals("directory")) {
-        if (childNode.getTextContent().startsWith(System.getProperty("file.separator"))) {
+        // if (childNode.getTextContent().startsWith(System.getProperty("file.separator"))) {
+        if (childNode.getTextContent().startsWith("\\") || childNode.getTextContent().startsWith("/")) { // DEEM-MOD
           directory += childNode.getTextContent();
         } else {
           directory += System.getProperty("file.separator") + childNode.getTextContent();

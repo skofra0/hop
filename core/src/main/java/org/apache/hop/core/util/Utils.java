@@ -151,7 +151,11 @@ public class Utils {
    * @return true if the supplied list is empty
    */
   public static boolean isEmpty(List<?> list) {
-    return list == null || list.size() == 0;
+    return list == null || list.isEmpty();
+  }
+
+  public static String toStringNullToEmpty(final Object obj) { // DEEM-MOD
+    return (obj == null) ? "" : String.valueOf(obj);
   }
 
   /**

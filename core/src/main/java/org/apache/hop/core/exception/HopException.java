@@ -97,4 +97,19 @@ public class HopException extends Exception {
   public String getSuperMessage() {
     return super.getMessage();
   }
+  
+  // DEEM-MOD
+  public static void rethrow(Throwable e) throws HopException {
+    throw of(e);
+  }
+
+  // DEEM-MOD
+  public static HopException of(Throwable e) {
+    if (e instanceof HopException) {
+      return (HopException) e;
+    } else {
+      return new HopException(e);
+    }
+  }
+
 }

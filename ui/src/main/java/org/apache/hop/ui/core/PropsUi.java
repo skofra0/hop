@@ -133,7 +133,8 @@ public class PropsUi extends Props {
       //
       org.eclipse.swt.graphics.Point extent =
           TextSizeUtilFacade.textExtent("The quick brown fox jumped over the lazy dog!");
-      nativeZoomFactor = (extent.y / (double) ConstUi.SMALL_ICON_SIZE) * globalZoom;
+      // nativeZoomFactor = (extent.y / (double) ConstUi.SMALL_ICON_SIZE) * globalZoom;
+      nativeZoomFactor = (extent.y / (double) (double) 16) * globalZoom; // DEEM-MOD (Adjusted SMALL_ICON_SIZE 16 -> 20)
     }
   }
 

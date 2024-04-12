@@ -75,6 +75,9 @@ import java.util.TimeZone;
 
 public class ValueMetaBase implements IValueMeta {
 
+  public static final String DATE_FORMAT_MSSQL = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"; // DEEM-MOD (DOC)
+  public static final String DATE_FORMAT_MYSQL = "yyyy/MM/dd HH:mm:ss.SSS"; // DEEM-MOD (DOC)
+
   private static final String MSG_UNKNOWN_STORAGE_TYPE = " : Unknown storage type ";
   private static final String MSG_SPECIFIED = " specified.";
   private static final String MSG_DATA_TYPE_ERROR =
@@ -283,7 +286,7 @@ public class ValueMetaBase implements IValueMeta {
             Const.NVL(System.getProperty(Const.HOP_LENIENT_STRING_TO_NUMBER_CONVERSION, "N"), "N"));
     this.emptyStringAndNullAreDifferent =
         convertStringToBoolean(
-            Const.NVL(System.getProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "N"), "N"));
+            Const.NVL(System.getProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "Y"), "Y")); // DEEM-MOD N->Y
 
     this.comparator = comparator;
     determineSingleByteEncoding();
@@ -1281,6 +1284,7 @@ public class ValueMetaBase implements IValueMeta {
         decimalFormatSymbols.setDecimalSeparator(decimalSymbol.charAt(0));
       }
       decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+      decimalFormat.setNegativePrefix("-"); // DEEM-MOD
 
       String decimalPattern = getMask(getType());
       if (!Utils.isEmpty(decimalPattern)) {
@@ -4935,11 +4939,17 @@ public class ValueMetaBase implements IValueMeta {
         // This JDBC Driver doesn't support the isSigned method
         // nothing more we can do here by catch the exception.
       }
+
+      // DEEM-MOD - set correct field size
+      int dbDisplaySize = rm.getColumnDisplaySize(index); // DEEM-MOD
+
       switch (type) {
         case Types.CHAR:
         case Types.VARCHAR:
         case Types.NVARCHAR:
         case Types.LONGVARCHAR: // Character Large Object
+        case Types.NCHAR: // DEEM-MOD
+        case Types.LONGNVARCHAR: // DEEM-MOD
           valtype = IValueMeta.TYPE_STRING;
           if (!ignoreLength) {
             length = rm.getColumnDisplaySize(index);
@@ -4960,10 +4970,12 @@ public class ValueMetaBase implements IValueMeta {
             valtype = IValueMeta.TYPE_INTEGER;
             precision = 0; // Max 9.223.372.036.854.775.807
             length = 15;
-          } else {
+            length = dbDisplaySize; // DEEM-MOD
+         } else {
             valtype = IValueMeta.TYPE_BIGNUMBER;
             precision = 0; // Max 18.446.744.073.709.551.615
             length = 16;
+            length = dbDisplaySize; // DEEM-MOD
           }
           break;
 
@@ -4971,7 +4983,8 @@ public class ValueMetaBase implements IValueMeta {
           valtype = IValueMeta.TYPE_INTEGER;
           precision = 0; // Max 2.147.483.647
           length = 9;
-          break;
+          length = dbDisplaySize; // DEEM-MOD
+         break;
 
         case Types.SMALLINT:
           valtype = IValueMeta.TYPE_INTEGER;
@@ -5001,6 +5014,19 @@ public class ValueMetaBase implements IValueMeta {
           }
 
           if (type == Types.DOUBLE || type == Types.FLOAT || type == Types.REAL) {
+            // DEEM-MOD SQL-SERVER
+            if (databaseMeta.getIDatabase().isMsSqlServerVariant() || databaseMeta.getIDatabase().isMsSqlServerNativeVariant()) {
+              if (length == 0) {
+                length = 18;
+              }
+              if (precision == 0) {
+                precision = 4;
+                if (length >= 15) {
+                  precision = 6;
+                }
+              }
+            }
+            // DEEM-MOD END
             if (precision == 0) {
               precision = -1; // precision is obviously incorrect if the type if
               // Double/Float/Real
@@ -5072,17 +5098,19 @@ public class ValueMetaBase implements IValueMeta {
           break;
 
         case Types.TIMESTAMP:
+        case Types.TIMESTAMP_WITH_TIMEZONE: // DEEM-MOD
           if (databaseMeta.supportsTimestampDataType()) {
             valtype = IValueMeta.TYPE_TIMESTAMP;
             length = rm.getScale(index);
+            break; // DEEM-MOD
           }
-          break;
+          // break; // DEEM-MOD (If not supportsTimestampDataType use TYPE_DATE)
 
         case Types.DATE:
           if (databaseMeta.getIDatabase().isTeradataVariant()) {
             precision = 1;
           }
-        case Types.TIME:
+        case Types.TIME: case Types.TIME_WITH_TIMEZONE: // DEEM-MOD
           valtype = IValueMeta.TYPE_DATE;
           //
           if (databaseMeta.getIDatabase().isMySqlVariant()) {

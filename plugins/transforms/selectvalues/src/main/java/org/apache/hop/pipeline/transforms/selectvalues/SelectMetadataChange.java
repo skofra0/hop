@@ -17,6 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.selectvalues;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.injection.Injection;
 import org.apache.hop.core.row.value.ValueMetaBase;
@@ -131,10 +132,18 @@ public class SelectMetadataChange implements Cloneable {
         .append(
             XmlHandler.addTagValue(
                 "lenient_string_to_number", Boolean.toString(lenientStringToNumber)));
-    xml.append("        ").append(XmlHandler.addTagValue("encoding", encoding));
-    xml.append("        ").append(XmlHandler.addTagValue("decimal_symbol", decimalSymbol));
-    xml.append("        ").append(XmlHandler.addTagValue("grouping_symbol", groupingSymbol));
-    xml.append("        ").append(XmlHandler.addTagValue("currency_symbol", currencySymbol));
+    if (StringUtils.isNotEmpty(encoding)) { // DEEM-MOD
+      xml.append("        ").append(XmlHandler.addTagValue("encoding", encoding));
+    }
+    if (StringUtils.isNotEmpty(decimalSymbol)) { // DEEM-MOD
+      xml.append("        ").append(XmlHandler.addTagValue("decimal_symbol", decimalSymbol));
+    }
+    if (StringUtils.isNotEmpty(groupingSymbol)) { // DEEM-MOD
+      xml.append("        ").append(XmlHandler.addTagValue("grouping_symbol", groupingSymbol));
+    }
+    if (StringUtils.isNotEmpty(currencySymbol)) { // DEEM-MOD
+      xml.append("        ").append(XmlHandler.addTagValue("currency_symbol", currencySymbol));
+    }
     xml.append("        ")
         .append(
             XmlHandler.addTagValue("storage_type", ValueMetaBase.getStorageTypeCode(storageType)));

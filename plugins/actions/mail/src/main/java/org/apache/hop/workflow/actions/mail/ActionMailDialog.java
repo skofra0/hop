@@ -17,6 +17,7 @@
 
 package org.apache.hop.workflow.actions.mail;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.Props;
 import org.apache.hop.core.ResultFile;
@@ -53,6 +54,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -82,6 +84,8 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
   private LabelTextVar wDestinationCc;
 
   private LabelTextVar wDestinationBCc;
+
+  private TextVar wConfigFile; // DEEM-MOD
 
   private LabelTextVar wServer;
 
@@ -437,6 +441,65 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     servergroupLayout.marginHeight = 10;
     wServerGroup.setLayout(servergroupLayout);
 
+    // DEEM-MOD Config file start
+    var wlConfigFile = new Label(wServerGroup, SWT.RIGHT);
+    wlConfigFile.setText(BaseMessages.getString(PKG, "ActionMail.ConfigFile.Label"));
+    PropsUi.setLook(wlConfigFile);
+    var fdlConfigFile = new FormData();
+    fdlConfigFile.left = new FormAttachment(0, 0);
+    fdlConfigFile.top = new FormAttachment(0, margin + 8);
+    fdlConfigFile.right = new FormAttachment(middle, -margin);
+    wlConfigFile.setLayoutData(fdlConfigFile);
+
+    var wbDefaultConfigFile = new Button(wServerGroup, SWT.PUSH | SWT.CENTER);
+    PropsUi.setLook(wbDefaultConfigFile);
+    wbDefaultConfigFile.setText(BaseMessages.getString(PKG, "ActionMail.Default.Button"));
+    var fdbDefaultConfigFile = new FormData();
+    fdbDefaultConfigFile.right = new FormAttachment(100, 0);
+    fdbDefaultConfigFile.top = new FormAttachment(0, margin + 5);
+    wbDefaultConfigFile.setLayoutData(fdbDefaultConfigFile);
+
+    var wbConfigFile = new Button(wServerGroup, SWT.PUSH | SWT.CENTER);
+    PropsUi.setLook(wbConfigFile);
+    wbConfigFile.setText(BaseMessages.getString(PKG, "ActionMail.Browse.Button"));
+    var fdbConfigFile = new FormData();
+    fdbConfigFile.right = new FormAttachment(wbDefaultConfigFile, -margin);
+    fdbConfigFile.top = new FormAttachment(0, margin + 5);
+    wbConfigFile.setLayoutData(fdbConfigFile);
+
+    wConfigFile = new TextVar(variables, wServerGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wConfigFile.setToolTipText(BaseMessages.getString(PKG, "ActionMail.ConfigFile.Tooltip"));
+    PropsUi.setLook(wConfigFile);
+    wConfigFile.addModifyListener(lsMod);
+    var fdConfigFile = new FormData();
+    fdConfigFile.left = new FormAttachment(middle, 0);
+    fdConfigFile.top = new FormAttachment(0, margin + 8);
+    fdConfigFile.right = new FormAttachment(wbConfigFile, -margin);
+    wConfigFile.setLayoutData(fdConfigFile);
+
+    wbConfigFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        final FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+        dialog.setFilterExtensions(new String[] {"*.properties", "*"});
+        if (wConfigFile.getText() != null) {
+          dialog.setFileName(wConfigFile.getText());
+        }
+        if (dialog.open() != null) {
+          wConfigFile.setText(dialog.getFilterPath() + System.getProperty("file.separator") + dialog.getFileName());
+        }
+        setUseAuth();
+      }
+    });
+
+    wbDefaultConfigFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        wConfigFile.setText(ActionMail.DEFAULT_CONFIGFILE);
+      }
+    });
+    // DEEM-MOD Config file end
+
     // Server line
     wServer =
         new LabelTextVar(
@@ -447,7 +510,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wServer.addModifyListener(lsMod);
     FormData fdServer = new FormData();
     fdServer.left = new FormAttachment(0, 0);
-    fdServer.top = new FormAttachment(0, margin);
+    fdServer.top = new FormAttachment(wConfigFile, margin); // DEEM-MOD
     fdServer.right = new FormAttachment(100, 0);
     wServer.setLayoutData(fdServer);
 
@@ -1380,19 +1443,36 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
   }
 
   protected void setUseAuth() {
-    wAuthUser.setEnabled(wUseAuth.getSelection());
-    wAuthPass.setEnabled(wUseAuth.getSelection());
-    wUseSecAuth.setEnabled(wUseAuth.getSelection());
-    wlUseSecAuth.setEnabled(wUseAuth.getSelection());
-    wlUseXOAUTH2.setEnabled(wUseAuth.getSelection());
-    wUseXOAUTH2.setEnabled(wUseAuth.getSelection());
-    if (!wUseAuth.getSelection()) {
+    // DEEM-MOD
+    boolean useConfig = StringUtils.isNotEmpty(wConfigFile.getText());
+    if (useConfig) {
+      wAuthUser.setEnabled(false);
+      wAuthPass.setEnabled(false);
+      wUseSecAuth.setEnabled(false);
+      wlUseSecAuth.setEnabled(false);
+      wlUseXOAUTH2.setEnabled(false);
+      wUseXOAUTH2.setEnabled(false);
       wSecureConnectionType.setEnabled(false);
       wlSecureConnectionType.setEnabled(false);
-      wUseXOAUTH2.setEnabled(false);
     } else {
-      setSecureConnectiontype();
+      wAuthUser.setEnabled(wUseAuth.getSelection());
+      wAuthPass.setEnabled(wUseAuth.getSelection());
+      wUseSecAuth.setEnabled(wUseAuth.getSelection());
+      wlUseSecAuth.setEnabled(wUseAuth.getSelection());
+      wlUseXOAUTH2.setEnabled(wUseAuth.getSelection());
+      wUseXOAUTH2.setEnabled(wUseAuth.getSelection());
+      if (!wUseAuth.getSelection()) {
+        wSecureConnectionType.setEnabled(false);
+        wlSecureConnectionType.setEnabled(false);
+        wUseXOAUTH2.setEnabled(false);
+      } else {
+        setSecureConnectiontype();
+      }
     }
+    // DEEM-MOD
+    wServer.setEnabled(!useConfig);
+    wPort.setEnabled(!useConfig);
+    wUseAuth.setEnabled(!useConfig);
   }
 
   public void getData() {
@@ -1400,6 +1480,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     wDestination.setText(Const.nullToEmpty(action.getDestination()));
     wDestinationCc.setText(Const.nullToEmpty(action.getDestinationCc()));
     wDestinationBCc.setText(Const.nullToEmpty(action.getDestinationBCc()));
+    wConfigFile.setText(Const.nullToEmpty(action.getConfigFile())); // DEEM-MOD
     wServer.setText(Const.nullToEmpty(action.getServer()));
     wPort.setText(Const.nullToEmpty(action.getPort()));
     wReply.setText(Const.nullToEmpty(action.getReplyAddress()));
@@ -1530,6 +1611,7 @@ public class ActionMailDialog extends ActionDialog implements IActionDialog {
     action.setDestination(wDestination.getText());
     action.setDestinationCc(wDestinationCc.getText());
     action.setDestinationBCc(wDestinationBCc.getText());
+    action.setConfigFile(wConfigFile.getText()); // DEEM-MOD
     action.setServer(wServer.getText());
     action.setPort(wPort.getText());
     action.setReplyAddress(wReply.getText());

@@ -18,6 +18,9 @@
 package org.apache.hop.pipeline.transforms.javascript;
 
 import com.google.common.annotations.VisibleForTesting;
+import no.deem.core.utils.Objects;
+import org.apache.hop.compatibility.Row;
+import org.apache.hop.compatibility.Value;
 import org.apache.hop.core.CheckResult;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.ICheckResult;
@@ -116,10 +119,14 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
   @Injection(name = "OPTIMIZATION_LEVEL")
   private String optimizationLevel;
 
+  private boolean compatible = false; // DEEM-MOD
+
   public ScriptValuesMeta() {
     super(); // allocate BaseTransformMeta
     try {
-      parseXmlForAdditionalClasses();
+      if (Objects.isTrue(System.getProperty("SUPPORT_JAVASCRIPT_ADDONS", "N"))) { // DEEM-MOD performance
+        parseXmlForAdditionalClasses();
+      }
     } catch (Exception e) {
       /* Ignore */
     }
@@ -315,6 +322,13 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
   private void readData(Node transformNode) throws HopXmlException {
     try {
       String script = XmlHandler.getTagValue(transformNode, "script");
+      String strCompatible = XmlHandler.getTagValue(transformNode, "compatible"); // DEEM-MOD START
+      if (strCompatible == null) {
+        compatible = true;
+      } else {
+        compatible = "Y".equalsIgnoreCase(strCompatible);
+      } // DEEM-MOD END
+
       optimizationLevel = XmlHandler.getTagValue(transformNode, "optimizationLevel");
 
       // When in compatibility mode, we load the script, not the other tabs...
@@ -385,6 +399,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       replace[i] = false;
     }
 
+    compatible = false; // DEEM-MOD
     optimizationLevel = OPTIMIZATION_LEVEL_DEFAULT;
   }
 
@@ -455,6 +470,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
   public String getXml() {
     StringBuilder retval = new StringBuilder(300);
 
+    retval.append("    ").append(XmlHandler.addTagValue("compatible", compatible)); // DEEM-MOD
     retval.append("    ").append(XmlHandler.addTagValue("optimizationLevel", optimizationLevel));
 
     retval.append("    <jsScripts>");
@@ -649,11 +665,29 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
 
           row[i] = valueData;
 
-          Scriptable jsarg = Context.toObject(valueData, jsscope);
-          jsscope.put(valueMeta.getName(), jsscope, jsarg);
+          if (isCompatible()) { // DEEM-MOD START
+            Value value = Value.createOriginalValue(valueData, valueMeta);
+            Scriptable jsarg = Context.toObject(value, jsscope);
+            jsscope.put(valueMeta.getName(), jsscope, jsarg);
+          } else { // DEEM-MOD END
+            Scriptable jsarg = Context.toObject(valueData, jsscope);
+            jsscope.put(valueMeta.getName(), jsscope, jsarg);
+          }
+        } // DEEM-MOD START
+        // Add support for Value class (new Value())
+        Scriptable jsval = Context.toObject(Value.class, jsscope); // DEEM-MOD
+        jsscope.put("Value", jsscope, jsval); // DEEM-MOD
+
+        // Add the old style row object for compatibility reasons...
+        //
+        if (isCompatible()) { // DEEM-MOD
+          Row v2Row = Row.createOriginalRow(prev, row); // DEEM-MOD
+          Scriptable jsV2Row = Context.toObject(v2Row, jsscope); // DEEM-MOD
+          jsscope.put("row", jsscope, jsV2Row); // DEEM-MOD
+        } else { // DEEM-MOD END
+          Scriptable jsRow = Context.toObject(row, jsscope);
+          jsscope.put("row", jsscope, jsRow);
         }
-        Scriptable jsRow = Context.toObject(row, jsscope);
-        jsscope.put("row", jsscope, jsRow);
       } catch (Exception ev) {
         errorMessage = "Couldn't add Input fields to Script! Error:" + Const.CR + ev.toString();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
@@ -881,4 +915,136 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
   public String getOptimizationLevel() {
     return this.optimizationLevel;
   }
+
+  // DEEM-MOD start
+
+  /** @return the compatible */
+  public boolean isCompatible() {
+    return compatible;
+  }
+
+  /**
+   * @param compatible
+   *        the compatible to set
+   */
+  public void setCompatible(boolean compatible) {
+    this.compatible = compatible;
+  }
+
+  public boolean getValue(Scriptable scope, int i, Value res, StringBuffer message) {
+    boolean errorFound = false;
+
+    if (fieldname[i] != null && fieldname[i].length() > 0) {
+      res.setName(rename[i]);
+      res.setType(type[i]);
+
+      try {
+
+        Object result = scope.get(fieldname[i], scope);
+        if (result != null) {
+
+          String classname = result.getClass().getName();
+
+          switch (type[i]) {
+            case IValueMeta.TYPE_NUMBER:
+              if (classname.equalsIgnoreCase("org.mozilla.javascript.Undefined")) {
+                res.setNull();
+              } else if (classname.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject")) {
+                // Is it a java Value class ?
+                Value v = (Value) Context.jsToJava(result, Value.class);
+                res.setValue(v.getNumber());
+              } else {
+                res.setValue(((Double) result).doubleValue());
+              }
+              break;
+            case IValueMeta.TYPE_INTEGER:
+              if (classname.equalsIgnoreCase("java.lang.Byte")) {
+                res.setValue(((java.lang.Byte) result).longValue());
+              } else if (classname.equalsIgnoreCase("java.lang.Short")) {
+                res.setValue(((Short) result).longValue());
+              } else if (classname.equalsIgnoreCase("java.lang.Integer")) {
+                res.setValue(((Integer) result).longValue());
+              } else if (classname.equalsIgnoreCase("java.lang.Long")) {
+                res.setValue(((Long) result).longValue());
+              } else if (classname.equalsIgnoreCase("org.mozilla.javascript.Undefined")) {
+                res.setNull();
+              } else if (classname.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject")) {
+                // Is it a java Value class ?
+                Value v = (Value) Context.jsToJava(result, Value.class);
+                res.setValue(v.getInteger());
+              } else {
+                res.setValue(Math.round(((Double) result).doubleValue()));
+              }
+              break;
+            case IValueMeta.TYPE_STRING:
+              if (classname.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject") || classname.equalsIgnoreCase("org.mozilla.javascript.Undefined")) {
+                // Is it a java Value class ?
+                try {
+                  Value v = (Value) Context.jsToJava(result, Value.class);
+                  res.setValue(v.getString());
+                } catch (Exception ev) {
+                  // A String perhaps?
+                  String s = (String) Context.jsToJava(result, String.class);
+                  res.setValue(s);
+                }
+              } else {
+                res.setValue(((String) result));
+              }
+              break;
+            case IValueMeta.TYPE_TIMESTAMP: // DEEM-MOD
+            case IValueMeta.TYPE_DATE:
+              double dbl = 0;
+              if (classname.equalsIgnoreCase("org.mozilla.javascript.Undefined")) {
+                res.setNull();
+              } else {
+                if (classname.equalsIgnoreCase("org.mozilla.javascript.NativeDate")) {
+                  dbl = Context.toNumber(result);
+                } else if (classname.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject")) {
+                  // Is it a java Date() class ?
+                  try {
+                    Date dat = (Date) Context.jsToJava(result, java.util.Date.class);
+                    dbl = dat.getTime();
+                  } catch (Exception e) { // Nope, try a Value
+
+                    Value v = (Value) Context.jsToJava(result, Value.class);
+                    Date dat = v.getDate();
+                    if (dat != null) {
+                      dbl = dat.getTime();
+                    } else {
+                      res.setNull();
+                    }
+                  }
+                } else { // Finally, try a number conversion to time
+
+                  dbl = ((Double) result).doubleValue();
+                }
+                long lng = Math.round(dbl);
+                Date dat = new Date(lng);
+                res.setValue(dat);
+              }
+              break;
+            case IValueMeta.TYPE_BOOLEAN:
+              res.setValue(((Boolean) result).booleanValue());
+              break;
+            default:
+              res.setNull();
+          }
+        } else {
+          res.setNull();
+        }
+      } catch (Exception e) {
+        message.append(BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ErrorRetrievingValue", fieldname[i]) + " : " + e.toString());
+        errorFound = true;
+      }
+      res.setLength(length[i], precision[i]);
+
+      message.append(BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.RetrievedValue", fieldname[i], res.toStringMeta()));
+    } else {
+      message.append(BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ValueIsEmpty", String.valueOf(i)));
+      errorFound = true;
+    }
+
+    return errorFound;
+  }
+
 }

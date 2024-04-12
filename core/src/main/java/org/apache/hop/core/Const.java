@@ -436,11 +436,10 @@ public class Const {
    * an empty string and null are different. Otherwise they are not.
    */
   @Variable(
-      value = "N",
+      value = "Y",
       description =
           "NULL vs Empty String. If this setting is set to 'Y', an empty string and null are different. Otherwise they are not")
-  public static final String HOP_EMPTY_STRING_DIFFERS_FROM_NULL =
-      "HOP_EMPTY_STRING_DIFFERS_FROM_NULL";
+  public static final String HOP_EMPTY_STRING_DIFFERS_FROM_NULL = "HOP_EMPTY_STRING_DIFFERS_FROM_NULL"; // DEEM-MOD N->Y
 
   /**
    * System wide flag to allow non-strict string to number conversion for backward compatibility. If
@@ -1686,6 +1685,8 @@ public class Const {
     } else {
       // Only keep until first space to remove the build date
       version = version.split(" ")[0];
+      // DEEM-MOD
+      version = "latest";
     }
 
     return url + version + "/";

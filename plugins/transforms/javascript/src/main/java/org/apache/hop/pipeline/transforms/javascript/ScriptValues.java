@@ -17,6 +17,8 @@
 
 package org.apache.hop.pipeline.transforms.javascript;
 
+import org.apache.hop.compatibility.Row;
+import org.apache.hop.compatibility.Value;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.exception.HopTransformException;
@@ -37,6 +39,8 @@ import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Executes a JavaScript on the values in the input stream. Selected calculated values can then be
@@ -95,6 +99,7 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
 
     // Allocate fields_used
     data.fieldsUsed = new int[nr];
+    data.valuesUsed = new Value[nr]; // DEEM-MOD
 
     nr = 0;
     // Count the occurrences of the values.
@@ -216,8 +221,14 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
 
         // Add the old style row object for compatibility reasons...
         //
-        Scriptable jsrow = Context.toObject(row, data.scope);
-        data.scope.put("row", data.scope, jsrow);
+        if (meta.isCompatible()) { // DEEM-MOD START
+          Row v2Row = Row.createOriginalRow(rowMeta, row);
+          Scriptable jsV2Row = Context.toObject(v2Row, data.scope);
+          data.scope.put("row", data.scope, jsV2Row);
+        } else { // DEEM-MOD START
+          Scriptable jsrow = Context.toObject(row, data.scope);
+          data.scope.put("row", data.scope, jsrow);
+        }
 
         // Add the used fields...
         //
@@ -225,15 +236,21 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
           IValueMeta valueMeta = rowMeta.getValueMeta(data.fieldsUsed[i]);
           Object valueData = row[data.fieldsUsed[i]];
 
-          Object normalStorageValueData = valueMeta.convertToNormalStorageType(valueData);
-          Scriptable jsarg;
-          if (normalStorageValueData != null) {
-            jsarg = Context.toObject(normalStorageValueData, data.scope);
-          } else {
-            jsarg = null;
+          if (meta.isCompatible()) { // DEEM-MOD START
+            data.valuesUsed[i] = Value.createOriginalValue(valueData, valueMeta);
+            Scriptable jsarg = Context.toObject(data.valuesUsed[i], data.scope);
+            data.scope.put(valueMeta.getName(), data.scope, jsarg);
+          } else { // DEEM-MOD END
+            Object normalStorageValueData = valueMeta.convertToNormalStorageType(valueData);
+            Scriptable jsarg;
+            if (normalStorageValueData != null) {
+              jsarg = Context.toObject(normalStorageValueData, data.scope);
+            } else {
+              jsarg = null;
+            }
+            data.scope.put(valueMeta.getName(), data.scope, jsarg);
           }
-          data.scope.put(valueMeta.getName(), data.scope, jsarg);
-        }
+        } // DEEM-MOD
 
         // also add the meta information for the whole row
         //
@@ -313,24 +330,46 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
     // Keep an index...
     int outputIndex = rowMeta.size();
 
+    // Keep track of the changed values DEEM-MOD START
+    final Map<Integer, Value> usedRowValues;
+    if (meta.isCompatible()) {
+      usedRowValues = new Hashtable<>();
+    } else {
+      usedRowValues = null;
+    }
+    // DEEM-MOD END
+
     try {
       try {
-        Scriptable jsrow = Context.toObject(row, data.scope);
-        data.scope.put("row", data.scope, jsrow);
+        if (meta.isCompatible()) { // DEEM-MOD START
+          Row v2Row = Row.createOriginalRow(rowMeta, row);
+          Scriptable jsV2Row = Context.toObject(v2Row, data.scope);
+          data.scope.put("row", data.scope, jsV2Row);
+          v2Row.getUsedValueListeners().add(usedRowValues::put);
+        } else { // DEEM-MOD END
+          Scriptable jsrow = Context.toObject(row, data.scope);
+          data.scope.put("row", data.scope, jsrow);
+        } // DEEM-MOD
 
         for (int i = 0; i < data.fieldsUsed.length; i++) {
           IValueMeta valueMeta = rowMeta.getValueMeta(data.fieldsUsed[i]);
           Object valueData = row[data.fieldsUsed[i]];
 
-          Object normalStorageValueData = valueMeta.convertToNormalStorageType(valueData);
-          Scriptable jsarg;
-          if (normalStorageValueData != null) {
-            jsarg = Context.toObject(normalStorageValueData, data.scope);
-          } else {
-            jsarg = null;
+          if (meta.isCompatible()) { // DEEM-MOD START
+            data.valuesUsed[i] = Value.createOriginalValue(valueData, valueMeta);
+            Scriptable jsarg = Context.toObject(data.valuesUsed[i], data.scope);
+            data.scope.put(valueMeta.getName(), data.scope, jsarg);
+          } else { // DEEM-MOD END
+            Object normalStorageValueData = valueMeta.convertToNormalStorageType(valueData);
+            Scriptable jsarg;
+            if (normalStorageValueData != null) {
+              jsarg = Context.toObject(normalStorageValueData, data.scope);
+            } else {
+              jsarg = null;
+            }
+            data.scope.put(valueMeta.getName(), data.scope, jsarg);
           }
-          data.scope.put(valueMeta.getName(), data.scope, jsarg);
-        }
+        } // DEEM-MOD
 
         // also add the meta information for the hole row
         Scriptable jsrowMeta = Context.toObject(rowMeta, data.scope);
@@ -382,6 +421,19 @@ public class ScriptValues extends BaseTransform<ScriptValuesMeta, ScriptValuesDa
         // --> the field.trim() type of changes...
         // As such we overwrite all the used fields again.
         //
+        if (meta.isCompatible()) { // DEEM-MOD START
+          for (int i = 0; i < data.valuesUsed.length; i++) {
+            IValueMeta valueMeta = rowMeta.getValueMeta(data.fieldsUsed[i]);
+            outputRow[data.fieldsUsed[i]] = Value.getValueData(data.valuesUsed[i], valueMeta);
+          }
+
+          // Grab the variables in the "row" object too.
+          for (Integer index : usedRowValues.keySet()) {
+            Value value = usedRowValues.get(index);
+            IValueMeta valueMeta = rowMeta.getValueMeta(index);
+            outputRow[index] = Value.getValueData(value, valueMeta);
+          }
+        } // DEEM-MOD END
         putRow(data.outputRowMeta, outputRow);
       } else {
         switch (iPipelineStat) {

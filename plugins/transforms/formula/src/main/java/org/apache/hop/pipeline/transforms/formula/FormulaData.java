@@ -20,6 +20,7 @@ package org.apache.hop.pipeline.transforms.formula;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.pipeline.transform.BaseTransformData;
 import org.apache.hop.pipeline.transform.ITransformData;
+import org.apache.hop.pipeline.transforms.formula.runner.FormulaRunner;
 
 public class FormulaData extends BaseTransformData implements ITransformData {
 
@@ -33,6 +34,7 @@ public class FormulaData extends BaseTransformData implements ITransformData {
   public static final int RETURN_TYPE_BOOLEAN = 7;
   public static final int RETURN_TYPE_TIMESTAMP = 9;
 
+  public FormulaRunner runner; // DEEM-MOD
   public IRowMeta outputRowMeta;
   public int[] returnType;
   public int[] replaceIndex;

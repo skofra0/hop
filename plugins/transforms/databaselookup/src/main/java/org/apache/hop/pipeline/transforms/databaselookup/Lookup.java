@@ -64,6 +64,9 @@ public class Lookup {
       injectionKeyDescription = "DatabaseLookupMeta.Injection.EatRowOnFailure")
   private boolean eatingRowOnLookupFailure;
 
+  @HopMetadataProperty(key = "where", injectionKeyDescription = "DatabaseLookupMeta.Injection.Where")
+  private String whereClause; // DEEM-MOD
+
   public Lookup() {
     keyFields = new ArrayList<>();
     returnValues = new ArrayList<>();
@@ -157,6 +160,20 @@ public class Lookup {
   /** @param orderByClause The orderByClause to set */
   public void setOrderByClause(String orderByClause) {
     this.orderByClause = orderByClause;
+  }
+
+  /**
+   * @return Returns the whereClause.
+   */
+  public String getWhereClause() { // DEEM-MOD
+    return whereClause;
+  }
+
+  /**
+   * @param whereClause The whereClause to set.
+   */
+  public void setWhereClause(String whereClause) { // DEEM-MOD
+    this.whereClause = whereClause;
   }
 
   /**

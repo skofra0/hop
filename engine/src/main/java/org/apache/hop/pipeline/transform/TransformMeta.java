@@ -17,6 +17,7 @@
 
 package org.apache.hop.pipeline.transform;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.hop.base.IBaseMeta;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.IAttributes;
@@ -174,12 +175,13 @@ public class TransformMeta
     xml.append("  ").append(XmlHandler.openTag(XML_TAG)).append(Const.CR);
     xml.append("    ").append(XmlHandler.addTagValue("name", getName()));
     xml.append("    ").append(XmlHandler.addTagValue("type", getTransformPluginId()));
-    xml.append("    ").append(XmlHandler.addTagValue("description", description));
+    if (StringUtils.isNotBlank(description)) { // DEEM-MOD
+      xml.append("    ").append(XmlHandler.addTagValue("description", description));
+    }
     xml.append("    ").append(XmlHandler.addTagValue("distribute", distributes));
-    xml.append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "custom_distribution", rowDistribution == null ? null : rowDistribution.getCode()));
+    if (rowDistribution!=null) { // DEEM-MOD
+      xml.append("    ").append(XmlHandler.addTagValue("custom_distribution", rowDistribution.getCode()));
+    }
     xml.append("    ").append(XmlHandler.addTagValue("copies", copiesString));
 
     xml.append(transformPartitioningMeta.getXml());

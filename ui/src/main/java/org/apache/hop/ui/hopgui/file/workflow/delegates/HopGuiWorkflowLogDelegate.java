@@ -32,11 +32,13 @@ import org.apache.hop.ui.core.widget.OsHelper;
 import org.apache.hop.ui.hopgui.HopGui;
 import org.apache.hop.ui.hopgui.file.IHopFileTypeHandler;
 import org.apache.hop.ui.hopgui.file.pipeline.HopGuiLogBrowser;
+import org.apache.hop.ui.hopgui.file.pipeline.HopGuiLogBrowserStyled;
 import org.apache.hop.ui.hopgui.file.workflow.HopGuiWorkflowGraph;
 import org.apache.hop.workflow.WorkflowMeta;
 import org.apache.hop.workflow.action.ActionMeta;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -63,7 +65,8 @@ public class HopGuiWorkflowLogDelegate {
 
   private CTabItem workflowLogTab;
 
-  private Text workflowLogText;
+  // private Text workflowLogText
+  private StyledText workflowLogText; // DEEM-MOD
 
   /** The number of lines in the log tab */
   private Composite workflowLogComposite;
@@ -71,7 +74,8 @@ public class HopGuiWorkflowLogDelegate {
   private ToolBar toolbar;
   private GuiToolbarWidgets toolBarWidgets;
 
-  private HopGuiLogBrowser logBrowser;
+  // private HopGuiLogBrowser logBrowser;
+  private HopGuiLogBrowserStyled logBrowser; // DEEM-MOD
 
   /** @param hopGui */
   public HopGuiWorkflowLogDelegate(HopGui hopGui, HopGuiWorkflowGraph workflowGraph) {
@@ -111,10 +115,8 @@ public class HopGuiWorkflowLogDelegate {
     fd.right = new FormAttachment(100, 0);
     toolbar.setLayoutData(fd);
 
-    workflowLogText =
-        new Text(
-            workflowLogComposite,
-            SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+    // workflowLogText = new Text(workflowLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL)  // DEEM-MOD
+    workflowLogText = new StyledText(workflowLogComposite, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(workflowLogText);
     FormData fdText = new FormData();
     fdText.left = new FormAttachment(0, 0);
@@ -127,7 +129,8 @@ public class HopGuiWorkflowLogDelegate {
       workflowLogText.setText(Const.CR);
     }
 
-    logBrowser = new HopGuiLogBrowser(workflowLogText, workflowGraph);
+    // logBrowser = new HopGuiLogBrowser(workflowLogText, workflowGraph);
+    logBrowser = new HopGuiLogBrowserStyled(workflowLogText, workflowGraph);  // DEEM-MOD
     logBrowser.installLogSniffer();
 
     // If the workflow is closed, we should dispose of all the logging information in the buffer and
