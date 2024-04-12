@@ -38,7 +38,7 @@
         <maven-failsafe-plugin.reuseForks>false</maven-failsafe-plugin.reuseForks>
 
         <!-- Third-party dependencies -->
-        <commons-validator.version>1.7</commons-validator.version>
+        <commons-validator.version>1.8.0</commons-validator.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <jersey2.version>2.38</jersey2.version>
         <jaxrs.version>2.1.6</jaxrs.version>
@@ -537,6 +537,47 @@
             </exclusions>
         </dependency>
 
+        <!-- DEEM-MOD (POI) -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-full</artifactId>
+			<version>${poi.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+			<version>${xmlbeans.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+        <!-- DEEM-MOD (POI END) -->
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.apache.hop</groupId>
@@ -560,19 +601,16 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>${byte-buddy.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy-agent</artifactId>
-            <version>${byte-buddy.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
-            <version>${objenesis.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -626,7 +664,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.2</version>
                 <executions>
                     <execution>
                         <goals>

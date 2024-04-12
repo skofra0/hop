@@ -96,6 +96,20 @@
             </exclusions>
         </dependency>
 
+        <!-- DEEM-MOD provided -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Google Sheets dependencies -->
         <dependency>
             <groupId>com.google.oauth-client</groupId>

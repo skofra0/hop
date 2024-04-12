@@ -31,7 +31,16 @@
 
     <properties>
         <poi.version>5.2.4</poi.version>
+        <libformula.version>9.5.0.0-240</libformula.version>
     </properties>
+
+    <!-- DEEM-MOD -->
+	<repositories>
+		<repository>
+			<id>DeemMaven</id>
+			<url>http://maven.deem.no:8081/repository/maven-public</url>
+		</repository>
+	</repositories>
 
     <dependencies>
         <dependency>
@@ -46,6 +55,18 @@
             <version>${poi.version}</version>
             <scope>compile</scope>
         </dependency>
+		<dependency>
+			<groupId>org.pentaho.reporting.library</groupId>
+			<artifactId>libbase</artifactId>
+			<version>${libformula.version}</version>
+            <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.pentaho.reporting.library</groupId>
+			<artifactId>libformula</artifactId>
+			<version>${libformula.version}</version>
+            <scope>provided</scope>
+		</dependency>
     </dependencies>
     <build>
         <resources>
