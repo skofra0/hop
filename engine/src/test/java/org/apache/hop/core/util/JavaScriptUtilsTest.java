@@ -61,11 +61,11 @@ public class JavaScriptUtilsTest {
   }
 
   private static Scriptable getIntValue() {
-    return Context.toObject(new Long(1), scope);
+    return Context.toObject(Long.valueOf(1), scope);
   }
 
   private static Scriptable getDoubleValue() {
-    return Context.toObject(new Double(1.0), scope);
+    return Context.toObject(Double.valueOf(1.0), scope);
   }
 
   // jsToNumber tests
@@ -172,7 +172,7 @@ public class JavaScriptUtilsTest {
     // TODO: return "1.0" in previous release with org.apache.hop.compatibility.Value
     assertEquals("1", JavaScriptUtils.jsToString(getDoubleValue(), JAVA_OBJECT));
 
-    Scriptable value = Context.toObject(new Double(1.23), scope);
+    Scriptable value = Context.toObject(Double.valueOf(1.23), scope);
     assertEquals("1.23", JavaScriptUtils.jsToString(value, JAVA_OBJECT));
   }
 

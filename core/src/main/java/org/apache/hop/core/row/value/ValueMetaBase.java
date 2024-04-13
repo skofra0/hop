@@ -1190,7 +1190,11 @@ public class ValueMetaBase implements IValueMeta {
 
       return Double.valueOf(number.doubleValue());
     } catch (Exception e) {
-      throw new HopValueException(toString() + " : couldn't convert String to number ", e);
+      try {  // DEEM-MOD
+        return new BigDecimal(string).doubleValue(); // DEEM-MOD
+      } catch (NumberFormatException ex) {  // DEEM-MOD
+        throw new HopValueException(toString() + " : couldn't convert String to number ", e);
+      }
     }
   }
 

@@ -239,7 +239,7 @@ public class ParseMailInputTest {
     MessageParser underTest = mailInput.new MessageParser();
     Object[] r = RowDataUtil.allocateRowData(data.nrFields);
     underTest.parseToArray(r, message);
-    Assert.assertEquals("Message number is correct", new Long(MSG_NUMB), Long.class.cast(r[0]));
+    Assert.assertEquals("Message number is correct", Long.valueOf(MSG_NUMB), Long.class.cast(r[0]));
   }
 
   /**
@@ -452,7 +452,7 @@ public class ParseMailInputTest {
     Object[] r = RowDataUtil.allocateRowData(data.nrFields);
     underTest.parseToArray(r, message);
 
-    Assert.assertEquals("Message Size is correct", new Long(CNTNT_SIZE), Long.class.cast(r[0]));
+    Assert.assertEquals("Message Size is correct", Long.valueOf(CNTNT_SIZE), Long.class.cast(r[0]));
   }
 
   /**
@@ -522,7 +522,7 @@ public class ParseMailInputTest {
     underTest.parseToArray(r, message);
 
     Assert.assertEquals(
-        "Message Attached files count is correct", new Long(ATTCH_COUNT), Long.class.cast(r[0]));
+        "Message Attached files count is correct", Long.valueOf(ATTCH_COUNT), Long.class.cast(r[0]));
   }
 
   /**

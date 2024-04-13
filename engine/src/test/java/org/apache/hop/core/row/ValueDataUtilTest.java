@@ -429,7 +429,7 @@ public class ValueDataUtilTest {
 
     assertNull(ValueDataUtil.sum(metaA, null, metaB, null));
 
-    Long valueB = new Long(2);
+    Long valueB = Long.valueOf(2);
     ValueDataUtil.sum(metaA, null, metaB, valueB);
   }
 
@@ -442,7 +442,7 @@ public class ValueDataUtilTest {
     metaB.setStorageType(IValueMeta.STORAGE_TYPE_BINARY_STRING);
     Object valueB = "2";
 
-    when(metaA.convertData(metaB, valueB)).thenAnswer((Answer<Long>) invocation -> new Long(2));
+    when(metaA.convertData(metaB, valueB)).thenAnswer((Answer<Long>) invocation -> Long.valueOf(2));
 
     Object returnValue = ValueDataUtil.sum(metaA, null, metaB, valueB);
     verify(metaA).convertData(metaB, valueB);

@@ -145,11 +145,11 @@ public class CalculatorUnitTest {
               new Object[][] {
                 {
                   new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2014-01-01 00:00:00"),
-                  new Long(10)
+                  Long.valueOf(10)
                 },
                 {
                   new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2014-10-31 23:59:50"),
-                  new Long(30)
+                  Long.valueOf(30)
                 }
               });
     } catch (ParseException pe) {
@@ -977,20 +977,20 @@ public class CalculatorUnitTest {
   @Test
   public void calculatorReminder() throws Exception {
     assertCalculatorReminder(
-        new Double("0.10000000000000053"),
-        new Object[] {new Long("10"), new Double("3.3")},
+        Double.valueOf("0.10000000000000053"),
+        new Object[] {Long.valueOf("10"), Double.valueOf("3.3")},
         new int[] {IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER});
     assertCalculatorReminder(
-        new Double("1.0"),
-        new Object[] {new Long("10"), new Double("4.5")},
+        Double.valueOf("1.0"),
+        new Object[] {Long.valueOf("10"), Double.valueOf("4.5")},
         new int[] {IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER});
     assertCalculatorReminder(
-        new Double("4.0"),
-        new Object[] {new Double("12.5"), new Double("4.25")},
+        Double.valueOf("4.0"),
+        new Object[] {Double.valueOf("12.5"), Double.valueOf("4.25")},
         new int[] {IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_NUMBER});
     assertCalculatorReminder(
-        new Double("2.6000000000000005"),
-        new Object[] {new Double("12.5"), new Double("3.3")},
+        Double.valueOf("2.6000000000000005"),
+        new Object[] {Double.valueOf("12.5"), Double.valueOf("3.3")},
         new int[] {IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_NUMBER});
   }
 
