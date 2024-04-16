@@ -35,6 +35,7 @@ import org.apache.hop.core.vfs.HopVfs;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.ui.core.FormDataBuilder;
 import org.apache.hop.ui.core.PropsUi;
+import org.apache.hop.ui.core.dialog.BaseDialog.ShellEventCancelHandler;
 import org.apache.hop.ui.core.gui.GuiResource;
 import org.apache.hop.ui.core.gui.WindowProperty;
 import org.apache.hop.ui.core.vfs.HopVfsFileDialog;
@@ -478,6 +479,11 @@ public abstract class BaseDialog extends Dialog {
     this.buttons = buttons;
   }
 
+  
+  @FunctionalInterface public interface ShellEventCancelHandler { boolean accept(); } // DEEM-MOD
+
+  @FunctionalInterface public interface ShellEventHandler {  void accept(ShellEvent event); } // DEEM-MOD
+
   /**
    * Handle the shell specified until the OK (button) is consumed. Set a default icon on the shell,
    * add default selection handlers on fields. Set the appropriate size for the shell. If you have
@@ -489,13 +495,35 @@ public abstract class BaseDialog extends Dialog {
    * @param okConsumer What to do when the dialog information needs to be retained after closing.
    * @param cancelConsumer What to do when the dialog is cancelled.
    */
-  public static void defaultShellHandling(
-      Shell shell, Consumer<Void> okConsumer, Consumer<Void> cancelConsumer) {
+  public static void defaultShellHandling( Shell shell, Consumer<Void> okConsumer,  ShellEventHandler cancelConsumer) {
 
     // If the shell is closed, cancel the dialog
     //
     shell.addListener(SWT.Close, e -> cancelConsumer.accept(null));
 
+    defaultShellOkHandling(shell, okConsumer);
+  }
+
+  public static void defaultShellHandling(Shell shell, Consumer<Void> okConsumer, ShellEventCancelHandler cancelConsumer) {
+
+    // If the shell is closed, cancel the dialog
+    //
+    // shell.addListener(SWT.Close, e -> cancelConsumer.accept(e)); // DEEM-MOD
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        if (e!=null) {
+          e.doit = cancelConsumer.accept();
+        } else {
+          cancelConsumer.accept();
+        }
+      }
+    });
+
+    defaultShellOkHandling(shell, okConsumer);
+  }
+
+  private static void defaultShellOkHandling(Shell shell, Consumer<Void> okConsumer) {
     // Check for enter being pressed in text input fields
     //
     addDefaultListeners(shell, okConsumer);

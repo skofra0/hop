@@ -592,7 +592,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
           }
         });
 
-    BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
+    BaseDialog.defaultShellHandling(shell, c -> ok(), this::cancel);
 
     return transformName;
   }
