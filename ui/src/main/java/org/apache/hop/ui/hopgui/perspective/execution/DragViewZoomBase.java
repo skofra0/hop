@@ -22,13 +22,16 @@ import org.apache.hop.core.gui.DPoint;
 import org.apache.hop.core.gui.Point;
 import org.apache.hop.core.gui.plugin.key.GuiKeyboardShortcut;
 import org.apache.hop.core.gui.plugin.key.GuiOsxKeyboardShortcut;
+import org.apache.hop.core.util.EnvUtil;
 import org.apache.hop.ui.core.PropsUi;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import no.deem.core.utils.Objects;
 
 public abstract class DragViewZoomBase extends Composite {
+  public static final boolean MOUSE_WHEEL_ZOOM = Objects.isTrue(EnvUtil.getSystemProperty("MOUSE_WHEEL_ZOOM", "N")); //  DEEM-MOD
   protected Canvas canvas;
   protected DPoint offset;
   protected Point maximum;
@@ -376,10 +379,12 @@ public abstract class DragViewZoomBase extends Composite {
     // That way we can adjust the offset accordingly to keep the screen centered on the mouse while
     // zooming in or out.
     //
-    if (mouseEvent.count > 0) {
-      zoomIn(mouseEvent);
-    } else {
-      zoomOut(mouseEvent);
+    if (MOUSE_WHEEL_ZOOM) {
+      if (mouseEvent.count > 0) {
+        zoomIn(mouseEvent);
+      } else {
+        zoomOut(mouseEvent);
+      }
     }
   }
 }
