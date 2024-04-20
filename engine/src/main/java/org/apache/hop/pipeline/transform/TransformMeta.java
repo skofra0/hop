@@ -193,7 +193,9 @@ public class TransformMeta
 
     xml.append(transform.getXml());
 
-    xml.append(AttributesUtil.getAttributesXml(attributesMap));
+    if (!attributesMap.isEmpty()) { // DEEM-MOD
+      xml.append(AttributesUtil.getAttributesXml(attributesMap));
+    }
 
     xml.append("    ").append(XmlHandler.openTag("GUI")).append(Const.CR);
     xml.append("      ").append(XmlHandler.addTagValue("xloc", location.x));

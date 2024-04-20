@@ -1530,57 +1530,45 @@ public class PipelineMeta extends AbstractMeta
 
     xml.append("  ").append(XmlHandler.openTag(XML_TAG_INFO)).append(Const.CR);
 
-    xml.append("    ")
-        .append(
-            XmlHandler.addTagValue("name", getName())); // lossy if name is sync'ed with filename
-    xml.append("    ")
-        .append(
-            XmlHandler.addTagValue("name_sync_with_filename", isNameSynchronizedWithFilename()));
-    xml.append("    ").append(XmlHandler.addTagValue("description", getDescription()));
-    xml.append("    ")
-        .append(XmlHandler.addTagValue("extended_description", getExtendedDescription()));
-    xml.append("    ").append(XmlHandler.addTagValue("pipeline_version", getPipelineVersion()));
+    xml.append("    ").append(XmlHandler.addTagValue("name", getName())); // lossy if name is sync'ed with filename
+    xml.append("    ").append(XmlHandler.addTagValue("name_sync_with_filename", isNameSynchronizedWithFilename()));
+    if (StringUtils.isNotEmpty(getDescription())) { // DEEM-MOD
+      xml.append("    ").append(XmlHandler.addTagValue("description", getDescription()));
+    }
+    if (StringUtils.isNotEmpty(getExtendedDescription())) { // DEEM-MOD
+      xml.append("    ").append(XmlHandler.addTagValue("extended_description", getExtendedDescription()));
+    }
+    if (StringUtils.isNotEmpty(getPipelineVersion())) { // DEEM-MOD
+      xml.append("    ").append(XmlHandler.addTagValue("pipeline_version", getPipelineVersion()));
+    }
     xml.append("    ").append(XmlHandler.addTagValue("pipeline_type", getPipelineType().getCode()));
 
     if (pipelineStatus >= 0) {
       xml.append("    ").append(XmlHandler.addTagValue("pipeline_status", pipelineStatus));
     }
 
-    xml.append("    ").append(XmlHandler.openTag(XML_TAG_PARAMETERS)).append(Const.CR);
     String[] parameters = listParameters();
-    for (int idx = 0; idx < parameters.length; idx++) {
-      xml.append("      ").append(XmlHandler.openTag("parameter")).append(Const.CR);
-      xml.append("        ").append(XmlHandler.addTagValue("name", parameters[idx]));
-      xml.append("        ")
-          .append(XmlHandler.addTagValue("default_value", getParameterDefault(parameters[idx])));
-      xml.append("        ")
-          .append(XmlHandler.addTagValue("description", getParameterDescription(parameters[idx])));
-      xml.append("      ").append(XmlHandler.closeTag("parameter")).append(Const.CR);
+    if (parameters.length > 0) { // DEEM-MOD
+      xml.append("    ").append(XmlHandler.openTag(XML_TAG_PARAMETERS)).append(Const.CR);
+      for (int idx = 0; idx < parameters.length; idx++) {
+        xml.append("      ").append(XmlHandler.openTag("parameter")).append(Const.CR);
+        xml.append("        ").append(XmlHandler.addTagValue("name", parameters[idx]));
+        xml.append("        ").append(XmlHandler.addTagValue("default_value", getParameterDefault(parameters[idx])));
+        xml.append("        ").append(XmlHandler.addTagValue("description", getParameterDescription(parameters[idx])));
+        xml.append("      ").append(XmlHandler.closeTag("parameter")).append(Const.CR);
+      }
+      xml.append("    ").append(XmlHandler.closeTag(XML_TAG_PARAMETERS)).append(Const.CR);
     }
-    xml.append("    ").append(XmlHandler.closeTag(XML_TAG_PARAMETERS)).append(Const.CR);
-
     // Performance monitoring
     //
-    xml.append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "capture_transform_performance", isCapturingTransformPerformanceSnapShots()));
-    xml.append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "transform_performance_capturing_delay", getTransformPerformanceCapturingDelay()));
-    xml.append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "transform_performance_capturing_size_limit",
-                getTransformPerformanceCapturingSizeLimit()));
+    xml.append("    ").append(XmlHandler.addTagValue("capture_transform_performance", isCapturingTransformPerformanceSnapShots()));
+    xml.append("    ").append(XmlHandler.addTagValue("transform_performance_capturing_delay", getTransformPerformanceCapturingDelay()));
+    xml.append("    ").append(XmlHandler.addTagValue("transform_performance_capturing_size_limit", getTransformPerformanceCapturingSizeLimit()));
 
     xml.append("    ").append(XmlHandler.addTagValue("created_user", getCreatedUser()));
-    xml.append("    ")
-        .append(XmlHandler.addTagValue("created_date", XmlHandler.date2string(getCreatedDate())));
+    xml.append("    ").append(XmlHandler.addTagValue("created_date", XmlHandler.date2string(getCreatedDate())));
     xml.append("    ").append(XmlHandler.addTagValue("modified_user", getModifiedUser()));
-    xml.append("    ")
-        .append(XmlHandler.addTagValue("modified_date", XmlHandler.date2string(getModifiedDate())));
+    xml.append("    ").append(XmlHandler.addTagValue("modified_date", XmlHandler.date2string(getModifiedDate())));
 
     xml.append("  ").append(XmlHandler.closeTag(XML_TAG_INFO)).append(Const.CR);
 
