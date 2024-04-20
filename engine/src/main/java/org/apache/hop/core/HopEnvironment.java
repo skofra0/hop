@@ -109,6 +109,9 @@ public class HopEnvironment {
       System.setProperties(ConcurrentMapProperties.convertProperties(System.getProperties()));
 
       try {
+        var logInit = new LogbackInitializer(); // DEEM-MOD
+        logInit.init();
+
         // This creates .hop and hop.properties...
         //
         if (!HopClientEnvironment.isInitialized()) {
