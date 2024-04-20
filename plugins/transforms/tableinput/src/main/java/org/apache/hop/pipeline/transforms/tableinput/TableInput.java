@@ -154,10 +154,10 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
         parametersMeta = new RowMeta();
       }
 
-      if (meta.isExecuteEachInputRow() && (parameters == null || parametersMeta.size() == 0)) {
-        setOutputDone(); // signal end to receiver(s)
-        return false; // stop immediately, nothing to do here.
-      }
+      // DEEM-MOD if (meta.isExecuteEachInputRow() && (parameters == null || parametersMeta.size() == 0)) {
+      // DEEM-MOD   setOutputDone(); // signal end to receiver(s)
+      // DEEM-MOD   return false; // stop immediately, nothing to do here.
+      // DEEM-MOD }
 
       boolean success = doQuery(parametersMeta, parameters);
       if (!success) {
@@ -188,7 +188,10 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
     if (data.thisrow == null) { // Finished reading?
 
       boolean done = false;
-      if (meta.isExecuteEachInputRow()) { // Try to get another row from the input stream
+      // DEEM-MOD
+      // Try to get another row from the input stream
+      // if (meta.isExecuteEachInputRow()) {
+      if (data.infoStream.getTransformMeta() != null) { // DEEM-MOD
         Object[] nextRow = getRowFrom(data.rowSet);
         if (nextRow == null) { // Nothing more to get!
 
