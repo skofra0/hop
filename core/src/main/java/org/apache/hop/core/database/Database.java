@@ -472,13 +472,13 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         }
 
         connection = DriverManager.getConnection(url, properties);
-        // DEEM-MOD START MonetDb schema problem
-        if (databaseMeta.supportsSchemas() && StringUtils.isNotBlank(databaseMeta.getPreferredSchemaName())) {
-          String schema = resolve(databaseMeta.getPreferredSchemaName());
-          connection.setSchema(schema);
-        }
-        // DEEM-MOD END
       }
+      // DEEM-MOD START MonetDb schema problem
+      if (databaseMeta.supportsSchemas() && StringUtils.isNotBlank(databaseMeta.getPreferredSchemaName())) {
+        String schema = resolve(databaseMeta.getPreferredSchemaName());
+        connection.setSchema(schema);
+      }
+      // DEEM-MOD END
     } catch (Exception e) {
       throw new HopDatabaseException(
           "Error connecting to database: (using class " + classname + ")", e);
