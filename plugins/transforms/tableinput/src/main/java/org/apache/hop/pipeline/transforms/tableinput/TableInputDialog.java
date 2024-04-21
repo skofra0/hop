@@ -35,8 +35,6 @@ import org.apache.hop.pipeline.PipelinePreviewFactory;
 import org.apache.hop.pipeline.transform.ITransformDialog;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.pipeline.transform.stream.IStream;
-import org.apache.hop.pipeline.transforms.tableinput.addon.SqlValuesHighlight;
-import org.apache.hop.pipeline.transforms.tableinput.addon.StyledTextComp;
 import org.apache.hop.pipeline.transforms.tableinput.addon.TableInputVariableDialog;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.database.dialog.DatabaseExplorerDialog;
@@ -47,6 +45,8 @@ import org.apache.hop.ui.core.dialog.MessageBox;
 import org.apache.hop.ui.core.dialog.PreviewRowsDialog;
 import org.apache.hop.ui.core.widget.MetaSelectionLine;
 import org.apache.hop.ui.core.widget.TextVar;
+import org.apache.hop.ui.hopgui.styled.IStyledTextComp;
+import org.apache.hop.ui.hopgui.styled.rap.WrappedStyledTextComp;
 import org.apache.hop.ui.pipeline.dialog.PipelinePreviewProgressDialog;
 import org.apache.hop.ui.pipeline.transform.BaseTransformDialog;
 import org.eclipse.swt.SWT;
@@ -71,7 +71,7 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
 
   private MetaSelectionLine<DatabaseMeta> wConnection;
 
-  private StyledTextComp wSql;
+  private IStyledTextComp wSql;
 
   private CCombo wDataFrom;
 
@@ -273,8 +273,8 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
     wbTable.setLayoutData(fdbTable);
 
     // DEEM-MOD (change import org.apache.hop.pipeline.transforms.tableinput.addon.StyledTextComp)
-    wSql = new StyledTextComp(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-    PropsUi.setLook(wSql, Props.WIDGET_STYLE_FIXED);
+    wSql = IStyledTextComp.of(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    PropsUi.setLook(wSql.getWrapped(), Props.WIDGET_STYLE_FIXED);
     wSql.addModifyListener(lsMod);
     FormData fdSql = new FormData();
     fdSql.left = new FormAttachment(0, 0);
@@ -331,7 +331,7 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
         });
 
     // Text highlighting (DEEM-MOD)
-    wSql.addLineStyleListener(new SqlValuesHighlight());
+    wSql.setSqlValuesHighlight();
 
     // Add listeners
     wCancel.addListener(SWT.Selection, e -> cancel());

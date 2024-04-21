@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.pipeline.transforms.tableinput.addon;
+package org.apache.hop.ui.hopgui.styled.rpc;
 
 import java.io.IOException;
 import java.io.StringReader;

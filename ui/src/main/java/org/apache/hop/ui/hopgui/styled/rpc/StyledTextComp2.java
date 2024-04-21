@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.pipeline.transforms.tableinput.addon;
+package org.apache.hop.ui.hopgui.styled.rpc;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,8 +56,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-public class StyledTextComp extends Composite {
-  private static final Class<?> PKG = StyledTextComp.class; // For Translator
+public class StyledTextComp2 extends Composite {
+  private static final Class<?> PKG = StyledTextComp2.class; // For Translator
   private static final int MAX_STACK_SIZE = 25;
 
   // Modification for Undo/Redo on Styled Text
@@ -71,16 +71,15 @@ public class StyledTextComp extends Composite {
   private boolean bFullSelection = false;
   private KeyListener kls;
 
-  public StyledTextComp(IVariables variables, Composite parent, int args) {
+  public StyledTextComp2(IVariables variables, Composite parent, int args) {
     this(variables, parent, args, true, false);
   }
 
-  public StyledTextComp(IVariables variables, Composite parent, int args, boolean varsSensitive) {
+  public StyledTextComp2(IVariables variables, Composite parent, int args, boolean varsSensitive) {
     this(variables, parent, args, varsSensitive, false);
   }
 
-  public StyledTextComp(IVariables variables, Composite parent, int args, boolean varsSensitive, boolean variableIconOnTop) {
-
+  public StyledTextComp2(IVariables variables, Composite parent, int args, boolean varsSensitive, boolean variableIconOnTop) {
     super(parent, SWT.NONE);
     textWidget = new StyledText(this, args);
     styledTextPopupmenu = new Menu(parent.getShell(), SWT.POP_UP);
@@ -97,7 +96,7 @@ public class StyledTextComp extends Composite {
       @Override
       public void keyPressed(KeyEvent e) {
         if (e.keyCode == 'h' && (e.stateMask & SWT.MOD1 & SWT.SHIFT) != 0) {
-          new StyledTextCompReplace(styledTextPopupmenu.getShell(), textWidget).open();
+          new StyledTextComp2Replace(styledTextPopupmenu.getShell(), textWidget).open();
         } else if (e.keyCode == 'z' && (e.stateMask & SWT.MOD1) != 0) {
           undo();
         } else if (e.keyCode == 'y' && (e.stateMask & SWT.MOD1) != 0) {
@@ -106,7 +105,7 @@ public class StyledTextComp extends Composite {
           bFullSelection = true;
           textWidget.selectAll();
         } else if (e.keyCode == 'f' && (e.stateMask & SWT.MOD1) != 0) {
-          new StyledTextCompFind(styledTextPopupmenu.getShell(), textWidget, BaseMessages.getString(PKG, "WidgetDialog.Styled.Find")).open();
+          new StyledTextComp2Find(styledTextPopupmenu.getShell(), textWidget, BaseMessages.getString(PKG, "WidgetDialog.Styled.Find")).open();
         }
       }
     };
@@ -118,7 +117,6 @@ public class StyledTextComp extends Composite {
       textWidget.addKeyListener(new ControlSpaceKeyAdapter(variables, textWidget));
       image = GuiResource.getInstance().getImageVariableMini();
       if (variableIconOnTop) {
-
         final Label wIcon = new Label(this, SWT.RIGHT);
         PropsUi.setLook(wIcon);
         wIcon.setToolTipText(BaseMessages.getString(PKG, "StyledTextComp.tooltip.InsertVariable"));
@@ -279,14 +277,14 @@ public class StyledTextComp extends Composite {
     MenuItem findItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     findItem.setText(OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Find")));
     findItem.addListener(SWT.Selection, e -> {
-      StyledTextCompFind stFind = new StyledTextCompFind(textWidget.getShell(), textWidget, BaseMessages.getString(PKG, "WidgetDialog.Styled.FindString"));
+      StyledTextComp2Find stFind = new StyledTextComp2Find(textWidget.getShell(), textWidget, BaseMessages.getString(PKG, "WidgetDialog.Styled.FindString"));
       stFind.open();
     });
     MenuItem replaceItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     replaceItem.setText(OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Replace")));
     replaceItem.setAccelerator(SWT.MOD1 | 'H');
     replaceItem.addListener(SWT.Selection, e -> {
-      StyledTextCompReplace stReplace = new StyledTextCompReplace(textWidget.getShell(), textWidget);
+      StyledTextComp2Replace stReplace = new StyledTextComp2Replace(textWidget.getShell(), textWidget);
       stReplace.open();
     });
 

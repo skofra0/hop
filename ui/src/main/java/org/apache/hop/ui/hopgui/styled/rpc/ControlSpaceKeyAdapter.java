@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with
+ * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.pipeline.transforms.tableinput.addon;
+package org.apache.hop.ui.hopgui.styled.rpc;
 
 import java.util.Arrays;
 import org.apache.hop.core.Const;
@@ -71,7 +71,6 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
    * @param insertTextInterface
    */
   public ControlSpaceKeyAdapter(IVariables variables, final Control control, final IGetCaretPosition getCaretPositionInterface, final IInsertText insertTextInterface) {
-
     this.variables = variables;
     this.control = control;
     this.getCaretPositionInterface = getCaretPositionInterface;
@@ -201,8 +200,8 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
         text.insert(extra);
       } else if (control instanceof CCombo) {
         ((CCombo) control).setText(extra); // We can't know the location of the cursor yet. All we can do is overwrite.
-      } else if (control instanceof StyledTextComp) {
-        ((StyledTextComp) control).insert(extra);
+      } else if (control instanceof StyledTextComp2) {
+        ((StyledTextComp2) control).insert(extra);
       } else if (control instanceof StyledText) {
         ((StyledText) control).insert(extra);
       }

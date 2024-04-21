@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.pipeline.transforms.tableinput.addon;
+package org.apache.hop.ui.hopgui.styled.rpc;
 
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.i18n.BaseMessages;
@@ -36,8 +36,8 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class StyledTextCompFind extends org.eclipse.swt.widgets.Dialog {
-  private static Class<?> PKG = StyledTextCompFind.class; // For Translator
+public class StyledTextComp2Find extends org.eclipse.swt.widgets.Dialog {
+  private static Class<?> PKG = StyledTextComp2Find.class; // For Translator
 
   private Shell sShell = null;
   private Text searchText;
@@ -51,7 +51,7 @@ public class StyledTextCompFind extends org.eclipse.swt.widgets.Dialog {
   private Button btnWrapSearch;
   private Button optForward;
 
-  public StyledTextCompFind(Shell parent, StyledText text, String strHeader) {
+  public StyledTextComp2Find(Shell parent, StyledText text, String strHeader) {
     super(parent);
     this.text = text;
     this.strHeader = strHeader;

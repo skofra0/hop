@@ -17,6 +17,13 @@
 
 package org.apache.hop.ui.hopgui.file.pipeline;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.config.HopConfig;
 import org.apache.hop.core.logging.HopLogLayout;
@@ -35,6 +42,8 @@ import org.apache.hop.ui.core.gui.GuiResource;
 import org.apache.hop.ui.core.widget.text.Format;
 import org.apache.hop.ui.core.widget.text.TextFormatter;
 import org.apache.hop.ui.hopgui.HopGui;
+import org.apache.hop.ui.hopgui.styled.IStyledText;
+import org.apache.hop.ui.hopgui.styled.rap.WrappedStyledText;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -43,14 +52,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HopGuiLogBrowser {
   private static final Class<?> PKG = HopGui.class; // For Translator
@@ -61,8 +62,8 @@ public class HopGuiLogBrowser {
   private Date lastLogRegistryChange;
   private AtomicBoolean paused;
 
-  public HopGuiLogBrowser(final Text text, final ILogParentProvided logProvider) {
-    this.text = text;
+  public HopGuiLogBrowser(final IStyledText text, final ILogParentProvided logProvider) {
+    this.text = ((WrappedStyledText)text).getWrappedText();
     this.logProvider = logProvider;
     this.paused = new AtomicBoolean(false);
   }

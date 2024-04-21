@@ -27,6 +27,7 @@ import org.apache.hop.core.Const;
 import org.apache.hop.core.gui.plugin.GuiRegistry;
 import org.apache.hop.core.gui.plugin.toolbar.GuiToolbarItem;
 import org.apache.hop.core.plugins.IPlugin;
+import org.apache.hop.core.plugins.JarCache;
 import org.apache.hop.core.plugins.PluginRegistry;
 import org.apache.hop.core.svg.SvgCache;
 import org.apache.hop.core.svg.SvgCacheEntry;
@@ -39,7 +40,6 @@ import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.ApplicationConfiguration;
 import org.eclipse.rap.rwt.client.WebClient;
 import org.eclipse.rap.rwt.service.ResourceLoader;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -141,7 +141,7 @@ public class HopWeb implements ApplicationConfiguration {
     System.out.println("Hop web: selected theme is: " + themeId);
 
     Map<String, String> properties = new HashMap<>();
-    properties.put(WebClient.PAGE_TITLE, "Apache Hop Web");
+    properties.put(WebClient.PAGE_TITLE, "Deem Integrator"); // DEEM-MOD
     properties.put(WebClient.FAVICON, "ui/images/logo_icon.png");
     properties.put(WebClient.THEME_ID, themeId);
     properties.put(WebClient.HEAD_HTML, readTextFromResource("head.html", "UTF-8"));
@@ -155,6 +155,7 @@ public class HopWeb implements ApplicationConfiguration {
     System.out.println("HOP_CONFIG_FOLDER: " + Const.HOP_CONFIG_FOLDER);
     System.out.println("HOP_AUDIT_FOLDER: " + Const.HOP_AUDIT_FOLDER);
     System.out.println("HOP_GUI_ZOOM_FACTOR: " + System.getProperty("HOP_GUI_ZOOM_FACTOR"));
+    System.out.println("HOP_PLUGIN_BASE_FOLDERS: " + String.join(",",JarCache.getInstance().getPluginFolders()));
   }
 
   private void addResource(
