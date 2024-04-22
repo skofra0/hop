@@ -32,7 +32,7 @@
     <description />
 
     <properties>
-        <dependency.jgit.revision>6.7.0.202309050840-r</dependency.jgit.revision>
+      <!-- <dependency.jgit.revision>6.7.0.202309050840-r</dependency.jgit.revision> -->
     </properties>
 
     <dependencies>
@@ -42,6 +42,7 @@
             <version>${project.version}</version>
         </dependency>
 
+         <!-- DEEM-MOD moved to core (PROVIDED)
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
@@ -52,6 +53,11 @@
             <artifactId>org.eclipse.jgit.http.apache</artifactId>
             <version>${dependency.jgit.revision}</version>
         </dependency>
+		<dependency>
+		    <groupId>org.eclipse.jgit</groupId>
+		    <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
+            <version>${dependency.jgit.revision}</version>
+		</dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -62,7 +68,8 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
             <version>${httpccore.version}</version>
-        </dependency>
+        </dependency> -->
+        
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit.junit</artifactId>

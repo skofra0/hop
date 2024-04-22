@@ -81,6 +81,8 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
+import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
+import org.eclipse.jgit.transport.sshd.SshdSessionFactoryBuilder;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
@@ -88,6 +90,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
@@ -118,6 +121,19 @@ public class UIGit extends VCS {
      * https://bugs.eclipse.org/bugs/show_bug.cgi?id=296201 for more details.
      */
     HttpTransport.setConnectionFactory(new HttpClientConnectionFactory());
+    // DEEM-MOD GIT SSH
+    try {
+      File sshDir = new File(FS.DETECTED.userHome(), "/.ssh");
+      if (sshDir.exists()) {
+        SshdSessionFactory sshSessionFactory = new SshdSessionFactoryBuilder()
+                .setPreferredAuthentications("publickey")
+                .setHomeDirectory(FS.DETECTED.userHome())
+                .setSshDirectory(sshDir)
+                .build(null);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private Git git;

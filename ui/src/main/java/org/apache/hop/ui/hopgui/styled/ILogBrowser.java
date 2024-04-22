@@ -3,6 +3,7 @@ package org.apache.hop.ui.hopgui.styled;
 import org.apache.hop.core.logging.ILogParentProvided;
 import org.apache.hop.ui.util.EnvironmentUtils;
 
+//DEEM-MOD
 public interface ILogBrowser {
 
   void installLogSniffer();

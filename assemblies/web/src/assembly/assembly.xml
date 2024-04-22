@@ -65,7 +65,7 @@
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>
-        <!-- hop lib/beam jar files -->
+        <!-- hop lib/beam jar files DEEM-MOD
         <dependencySet>
             <includes>
                 <include>org.apache.hop:hop-assemblies-libs-beam:zip</include>
@@ -74,8 +74,8 @@
             <outputDirectory>WEB-INF/lib</outputDirectory>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <useProjectArtifact>false</useProjectArtifact>
-        </dependencySet>
-        <!-- the engine-beam lib -->
+        </dependencySet> -->
+        <!-- the engine-beam lib DEEM-MOD
         <dependencySet>
             <includes>
                 <include>org.apache.hop:hop-engine-beam</include>
@@ -83,7 +83,7 @@
             <outputDirectory>WEB-INF/lib</outputDirectory>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <useProjectArtifact>false</useProjectArtifact>
-        </dependencySet>
+        </dependencySet> -->
 
         <!-- static files like the shell scripts -->
         <dependencySet>

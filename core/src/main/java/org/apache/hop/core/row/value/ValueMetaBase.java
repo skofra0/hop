@@ -1510,7 +1510,11 @@ public class ValueMetaBase implements IValueMeta {
       }
       return Long.valueOf(number.longValue());
     } catch (Exception e) {
-      throw new HopValueException(toString() + " : couldn't convert String to Integer", e);
+      try {  // DEEM-MOD
+        return new BigDecimal(string).longValue(); // DEEM-MOD
+      } catch (NumberFormatException ex) {  // DEEM-MOD
+        throw new HopValueException(toString() + " : couldn't convert String to Integer", e);
+      }
     }
   }
 

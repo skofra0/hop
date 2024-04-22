@@ -5,6 +5,7 @@ import org.apache.hop.ui.hopgui.file.pipeline.HopGuiLogBrowser;
 import org.apache.hop.ui.hopgui.styled.ILogBrowser;
 import org.apache.hop.ui.hopgui.styled.IStyledText;
 
+//DEEM-MOD
 public class WrappedLogBrowser implements ILogBrowser {
 
   private HopGuiLogBrowser wrapped;

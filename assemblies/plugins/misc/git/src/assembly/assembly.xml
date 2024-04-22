@@ -54,6 +54,7 @@
                 <include>org.eclipse.jgit:org.eclipse.jgit</include>
                 <include>com.googlecode.javaewah:JavaEWAH</include>
                 <include>org.eclipse.jgit:org.eclipse.jgit.http.apache</include>
+                <include>org.eclipse.jgit:org.eclipse.jgit.ssh.apache</include>
             </includes>
         </dependencySet>
     </dependencySets>

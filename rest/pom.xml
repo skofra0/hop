@@ -113,6 +113,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- 
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-engine-beam</artifactId>
@@ -127,7 +128,7 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-ui</artifactId>

@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+//DEEM-MOD
 public class StyledTextComp2Find extends org.eclipse.swt.widgets.Dialog {
   private static Class<?> PKG = StyledTextComp2Find.class; // For Translator
 

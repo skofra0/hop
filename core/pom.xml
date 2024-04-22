@@ -56,8 +56,9 @@
     <dependencies>
         <!-- DEEM-MOD dependencies -->
 		<dependency>
-			<groupId>no.deem.insight</groupId>
-			<artifactId>deem-core</artifactId>
+	        <groupId>org.apache.hop</groupId>
+            <artifactId>hop-core-deem</artifactId>
+            <version>${project.version}</version>
 		</dependency>
 
         <!-- Third-party dependencies -->

@@ -56,6 +56,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
+//DEEM-MOD
 public class StyledTextComp2 extends Composite {
   private static final Class<?> PKG = StyledTextComp2.class; // For Translator
   private static final int MAX_STACK_SIZE = 25;

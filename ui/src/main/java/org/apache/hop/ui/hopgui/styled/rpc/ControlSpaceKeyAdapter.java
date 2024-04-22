@@ -44,6 +44,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolTip;
 
+//DEEM-MOD
 public class ControlSpaceKeyAdapter extends KeyAdapter {
 
   private static final Class<?> PKG = ControlSpaceKeyAdapter.class; // For Translator

@@ -5,6 +5,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Widget;
 
+//DEEM-MOD
 public class WrappedStyledText implements IStyledText {
 
   protected StyledText wrapped;

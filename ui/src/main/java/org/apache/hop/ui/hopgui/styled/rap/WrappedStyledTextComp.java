@@ -10,6 +10,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 
+//DEEM-MOD
 public class WrappedStyledTextComp implements IStyledTextComp {
 
   protected StyledTextComp wrapped;

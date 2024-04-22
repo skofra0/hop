@@ -106,9 +106,32 @@
         <!-- License Configuration -->
         <license.licenseName>apache_v2</license.licenseName>
 
+        <!-- Deem Configuration 
+           <logback.version>1.5.6</logback.version>
+		   <slf4j.version>2.0.13</slf4j.version>
+  		   <jackson.version>2.17.0</jackson.version>
+		   <jandex.version>3.1.7</jandex.version>
+		   <asm.version>9.7</asm.version>
+        -->
 		<deem-insight.version>24.2.2</deem-insight.version>
-		<slf4j.version>2.0.12</slf4j.version>
-		<logback.version>1.5.4</logback.version>
+	    <dependency.jgit.revision>6.9.0.202403050737-r</dependency.jgit.revision> 
+		<deem-insight.version>24.2.2</deem-insight.version>
+		<pentaho-reporting.version>9.0.0.3-582</pentaho-reporting.version>
+		<jasperreports.version>6.21.3</jasperreports.version>
+		<jasperreports-fonts.version>6.20.0</jasperreports-fonts.version>
+		<janino.version>3.1.12</janino.version>
+		<groovy.version>4.0.21</groovy.version>
+		<rhino.version>1.7.14</rhino.version>
+		<velocity-engine-core.version>2.3</velocity-engine-core.version>
+		
+        <mariadb.version>2.6.2</mariadb.version>
+        <jt400.version>11.2</jt400.version>
+        <monetdb.version>3.3</monetdb.version>
+        <mssqlnative.version>12.2.0.jre11</mssqlnative.version>
+        <postgresql.version>42.7.3</postgresql.version>
+
+		<junit.jupiter.version>5.10.2</junit.jupiter.version>
+		
 
         <!-- Third-party dependencies -->
         <akka.version>2.5.32</akka.version>
@@ -180,7 +203,8 @@
         <protobuf.version>3.23.2</protobuf.version>
         <rhino.version>1.7.14</rhino.version>
         <scala.version>2.12.17</scala.version>
-        <slf4j.version>2.0.12</slf4j.version>
+		<slf4j.version>2.0.13</slf4j.version>
+		<logback.version>1.5.6</logback.version>
         <sshlib.version>2.2.23</sshlib.version>
         <snappy-java.version>1.1.10.5</snappy-java.version>
         <snakeyaml.version>2.2</snakeyaml.version>
@@ -284,16 +308,6 @@
 				<version>${deem-insight.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>${logback.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.ow2.asm</groupId>
 				<artifactId>asm</artifactId>
 				<version>${asm.version}</version>
@@ -309,9 +323,34 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.logging.log4j</groupId>
+			    <artifactId>log4j-to-slf4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>com.microsoft.azure</groupId>
 				<artifactId>msal4j</artifactId>
-				<version>1.14.3</version>
+				<version>1.15.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.nimbusds</groupId>
@@ -828,7 +867,7 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <argLine>@{argLine} --illegal-access=permit -Dfile.encoding=${project.build.sourceEncoding}
+                            <argLine>@{argLine} -Dfile.encoding=${project.build.sourceEncoding}
                                 ${maven-surefire-plugin.argLine}
                             </argLine> <!-- this is set by jacoco's prepare-agent execution -->
                             <forkCount>${maven-surefire-plugin.forkCount}</forkCount>
@@ -954,6 +993,7 @@
                 </property>
             </activation>
             <modules>
+                <module>core-deem</module>
                 <module>core</module>
                 <module>engine</module>
                 <module>engine-beam</module>

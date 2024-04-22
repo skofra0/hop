@@ -4,6 +4,7 @@ import org.apache.hop.ui.util.EnvironmentUtils;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Widget;
 
+//DEEM-MOD
 public interface IStyledText {
 
   Widget getWidget();
