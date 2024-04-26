@@ -46,7 +46,6 @@ import org.apache.hop.ui.core.dialog.PreviewRowsDialog;
 import org.apache.hop.ui.core.widget.MetaSelectionLine;
 import org.apache.hop.ui.core.widget.TextVar;
 import org.apache.hop.ui.hopgui.styled.IStyledTextComp;
-import org.apache.hop.ui.hopgui.styled.rap.WrappedStyledTextComp;
 import org.apache.hop.ui.pipeline.dialog.PipelinePreviewProgressDialog;
 import org.apache.hop.ui.pipeline.transform.BaseTransformDialog;
 import org.eclipse.swt.SWT;
@@ -147,8 +146,7 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
     // DEEM-MOD
     var wEditVariables = new Button(shell, SWT.PUSH);
     wEditVariables.setText("Variables");
-
-    setButtonPositions(new Button[] {wOk, wPreview, wCancel}, margin, null);
+    setButtonPositions(new Button[] {wOk, wPreview, wEditVariables, wCancel}, margin, null); // DEEM-MOD
 
     // Limit input ...
     Label wlLimit = new Label(shell, SWT.RIGHT);
