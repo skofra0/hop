@@ -113,9 +113,9 @@
 		   <jandex.version>3.1.7</jandex.version>
 		   <asm.version>9.7</asm.version>
         -->
-		<deem-insight.version>24.2.2</deem-insight.version>
+		<deem-insight.version>24.2.3</deem-insight.version>
 	    <dependency.jgit.revision>6.9.0.202403050737-r</dependency.jgit.revision> 
-		<deem-insight.version>24.2.2</deem-insight.version>
+		<deem-insight.version>24.2.3</deem-insight.version>
 		<pentaho-reporting.version>9.0.0.3-582</pentaho-reporting.version>
 		<jasperreports.version>6.21.3</jasperreports.version>
 		<jasperreports-fonts.version>6.20.0</jasperreports-fonts.version>
