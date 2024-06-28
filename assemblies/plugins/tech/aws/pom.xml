@@ -34,10 +34,10 @@
 
     <properties>
         <!-- Third-party dependencies -->
-        <aws-java-sdk-s3.version>1.12.721</aws-java-sdk-s3.version>
-        <aws-java-sdk-core.version>1.12.721</aws-java-sdk-core.version>
-        <aws-java-sdk-sns.version>1.12.721</aws-java-sdk-sns.version>
-        <aws-java-sdk-sqs.version>1.12.721</aws-java-sdk-sqs.version>
+        <aws-java-sdk-s3.version>1.12.752</aws-java-sdk-s3.version>
+        <aws-java-sdk-core.version>1.12.752</aws-java-sdk-core.version>
+        <aws-java-sdk-sns.version>1.12.752</aws-java-sdk-sns.version>
+        <aws-java-sdk-sqs.version>1.12.752</aws-java-sdk-sqs.version>
         <redshift.jdbc.version>2.1.0.27</redshift.jdbc.version>
 
         <!-- Test dependencies -->
