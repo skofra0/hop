@@ -34,7 +34,8 @@
         <dependency>
             <groupId>net.sf.jt400</groupId>
             <artifactId>jt400</artifactId>
-            <version>11.2</version>
+			<version>${jt400.version}</version>
+			<classifier>${jt400.classifier}</classifier>
             <scope>compile</scope>
         </dependency>
     </dependencies>

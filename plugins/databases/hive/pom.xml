@@ -31,7 +31,7 @@
     <name>Hop Plugins Databases Apache Hive</name>
 
     <properties>
-        <hive.version>2.3.9</hive.version>
+        <hive.version>4.0.0</hive.version>
     </properties>
 
     <dependencies>

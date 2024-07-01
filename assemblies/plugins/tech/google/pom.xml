@@ -32,7 +32,7 @@
     <description />
 
     <properties>
-        <gax.version>2.48.0</gax.version>
+        <gax.version>2.50.0</gax.version>
         <commons-vfs2.version>2.9.0</commons-vfs2.version>
         <google-api-sheets.version>v4-rev20240423-2.0.0</google-api-sheets.version>
         <google-api-drive.version>v3-rev20240327-2.0.0</google-api-drive.version>
@@ -63,12 +63,12 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.25.3</version>
+            <version>${protobuf.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
-            <version>3.25.3</version>
+            <version>${protobuf.version}</version>
         </dependency>
 
         <!-- force lib version to match Beam -->

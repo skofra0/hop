@@ -183,17 +183,16 @@
 		<dependency>
 			<groupId>com.microsoft.azure</groupId>
 			<artifactId>msal4j</artifactId>
-			<version>1.15.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.nimbusds</groupId>
 			<artifactId>oauth2-oidc-sdk</artifactId>
-			<version>11.10.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jt400</groupId>
 			<artifactId>jt400</artifactId>
 			<version>${jt400.version}</version>
+			<classifier>${jt400.classifier}</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
