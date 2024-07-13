@@ -142,7 +142,7 @@
         <commons-compress.version>1.26.2</commons-compress.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
-        <commons-logging.version>1.3.2</commons-logging.version>
+        <commons-logging.version>1.3.3</commons-logging.version>
         <commons-vfs2.version>2.9.0</commons-vfs2.version>
         <curator.version>5.7.0</curator.version>
         <encoder.version>1.2.3</encoder.version>
@@ -163,7 +163,7 @@
         <httpclient.version>4.5.14</httpclient.version>
         <httpccore.version>4.4.16</httpccore.version>
         <jackcess.version>4.0.7</jackcess.version>
-        <jackson.version>2.17.1</jackson.version>
+        <jackson.version>2.17.2</jackson.version>
         <jakarta.version>3.1.0</jakarta.version>
         <jakarta-mail.version>2.0.1</jakarta-mail.version>
         <jandex.version>3.2.0</jandex.version>
@@ -210,7 +210,7 @@
         <hive.version>4.0.0</hive.version>
 
         <!-- Test dependencies -->
-        <byte-buddy.version>1.14.17</byte-buddy.version>
+        <byte-buddy.version>1.14.18</byte-buddy.version>
         <java-hamcrest.version>2.0.0.0</java-hamcrest.version>
         <junit.version>4.13.2</junit.version>
         <mockito-core.version>3.12.4</mockito-core.version>
