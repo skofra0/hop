@@ -107,13 +107,13 @@
         <license.licenseName>apache_v2</license.licenseName>
 
     
-		<deem-insight.version>24.2.23</deem-insight.version>
+		<deem-insight.version>24.3.2</deem-insight.version>
 	    <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision> 
 		<pentaho-reporting.version>9.0.0.3-582</pentaho-reporting.version>
 		<jasperreports.version>6.21.3</jasperreports.version>
 		<jasperreports-fonts.version>6.20.0</jasperreports-fonts.version>
 		<janino.version>3.1.12</janino.version>
-		<groovy.version>4.0.21</groovy.version>
+		<groovy.version>4.0.22</groovy.version>
 		<rhino.version>1.7.15</rhino.version>
 		<velocity-engine-core.version>2.3</velocity-engine-core.version>
 		
@@ -124,7 +124,7 @@
         <mssqlnative.version>12.2.0.jre11</mssqlnative.version>
         <postgresql.version>42.7.3</postgresql.version>
 
-		<junit.jupiter.version>5.10.2</junit.jupiter.version>
+		<junit.jupiter.version>5.10.3</junit.jupiter.version>
 		
 
         <!-- Third-party dependencies -->
@@ -138,10 +138,10 @@
         <aws-java-sdk.version>1.12.753</aws-java-sdk.version>
         <batik.version>1.17</batik.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
-        <commons-codec.version>1.17.0</commons-codec.version>
-        <commons-compress.version>1.26.2</commons-compress.version>
+        <commons-codec.version>1.17.1</commons-codec.version>
+        <commons-compress.version>1.27.0</commons-compress.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-lang3.version>3.16.0</commons-lang3.version>
         <commons-logging.version>1.3.3</commons-logging.version>
         <commons-vfs2.version>2.9.0</commons-vfs2.version>
         <curator.version>5.7.0</curator.version>
@@ -166,7 +166,7 @@
         <jackson.version>2.17.2</jackson.version>
         <jakarta.version>3.1.0</jakarta.version>
         <jakarta-mail.version>2.0.1</jakarta-mail.version>
-        <jandex.version>3.2.0</jandex.version>
+        <jandex.version>3.2.2</jandex.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jetty.version>9.4.54.v20240208</jetty.version>
         <joda-time.version>2.12.7</joda-time.version>
@@ -197,7 +197,7 @@
         <protobuf.version>3.25.3</protobuf.version>
         <rhino.version>1.7.15</rhino.version>
         <scala.version>2.12.17</scala.version>
-		<slf4j.version>2.0.13</slf4j.version>
+		<slf4j.version>2.0.16</slf4j.version>
 		<logback.version>1.5.6</logback.version>
         <sshlib.version>2.2.23</sshlib.version>
         <snappy-java.version>1.1.0</snappy-java.version>
