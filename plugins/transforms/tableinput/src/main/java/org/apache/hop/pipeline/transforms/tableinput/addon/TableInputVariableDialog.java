@@ -243,7 +243,9 @@ public class TableInputVariableDialog extends BaseTransformDialog {
     IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
     if (row == null || row.isEmpty()) {
       TransformMeta[] infoTransform = pipelineMeta.getInfoTransform(transformMeta);
-      row = pipelineMeta.getTransformFields(variables, infoTransform);
+      if (infoTransform != null) {
+        row = pipelineMeta.getTransformFields(variables, infoTransform);
+      }
     }
     return row;
   }
