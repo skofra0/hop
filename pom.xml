@@ -135,7 +135,7 @@
         <apache-spark.version>3.4.3</apache-spark.version>
         <apache-flink.version>1.16.3</apache-flink.version>
         <asm.version>9.7</asm.version>
-        <aws-java-sdk.version>1.12.753</aws-java-sdk.version>
+        <aws-java-sdk.version>1.12.768</aws-java-sdk.version>
         <batik.version>1.17</batik.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-codec.version>1.17.1</commons-codec.version>
@@ -145,7 +145,7 @@
         <commons-logging.version>1.3.3</commons-logging.version>
         <commons-vfs2.version>2.9.0</commons-vfs2.version>
         <curator.version>5.7.0</curator.version>
-        <encoder.version>1.2.3</encoder.version>
+        <encoder.version>1.3.0</encoder.version>
         <gax.version>2.50.0</gax.version>
         <google-api-common.version>2.31.0</google-api-common.version>
         <google-api-client.version>2.5.0</google-api-client.version>
@@ -188,9 +188,9 @@
         <okhttp.version>4.12.0</okhttp.version>
         <opencensus-api.version>0.31.1</opencensus-api.version>
         <opencensus-contrib-http-util.version>0.31.1</opencensus-contrib-http-util.version>
-        <org.eclipse.platform.version>3.125.0</org.eclipse.platform.version>
-        <org.eclipse.commands.version>3.12.0</org.eclipse.commands.version>
-        <org.eclipse.equinox.version>3.19.0</org.eclipse.equinox.version>
+        <org.eclipse.platform.version>3.126.0</org.eclipse.platform.version>
+        <org.eclipse.commands.version>3.12.100</org.eclipse.commands.version>
+        <org.eclipse.equinox.version>3.19.100</org.eclipse.equinox.version>
         <opencsv.version>5.7.1</opencsv.version>
         <paranamer.version>2.8</paranamer.version>
         <perfmark.version>0.26.0</perfmark.version>
