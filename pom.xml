@@ -204,8 +204,8 @@
         <snakeyaml.version>2.2</snakeyaml.version>
         <woodstox.version>7.0.0</woodstox.version>
         <zookeeper.version>3.8.4</zookeeper.version>
-        <poi.version>5.2.5</poi.version>
-		<xmlbeans.version>5.2.0</xmlbeans.version>
+        <poi.version>5.3.0</poi.version>
+		<xmlbeans.version>5.2.1</xmlbeans.version>
         <xerces.version>2.12.2</xerces.version>
         <hive.version>4.0.0</hive.version>
 
