@@ -107,7 +107,7 @@
         <license.licenseName>apache_v2</license.licenseName>
 
     
-		<deem-insight.version>24.3.2</deem-insight.version>
+		<deem-insight.version>24.3.3</deem-insight.version>
 	    <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision> 
 		<pentaho-reporting.version>9.0.0.3-582</pentaho-reporting.version>
 		<jasperreports.version>6.21.3</jasperreports.version>
