@@ -107,7 +107,7 @@
         <license.licenseName>apache_v2</license.licenseName>
 
     
-		<deem-insight.version>24.3.6</deem-insight.version>
+		<deem-insight.version>24.3.8</deem-insight.version>
 	    <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision> 
 		<pentaho-reporting.version>9.0.0.3-582</pentaho-reporting.version>
 		<jasperreports.version>6.21.3</jasperreports.version>
@@ -135,17 +135,17 @@
         <apache-spark.version>3.4.3</apache-spark.version>
         <apache-flink.version>1.16.3</apache-flink.version>
         <asm.version>9.7</asm.version>
-        <aws-java-sdk.version>1.12.768</aws-java-sdk.version>
+        <aws-java-sdk.version>1.12.772</aws-java-sdk.version>
         <batik.version>1.17</batik.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-codec.version>1.17.1</commons-codec.version>
-        <commons-compress.version>1.27.0</commons-compress.version>
+        <commons-compress.version>1.27.1</commons-compress.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-lang3.version>3.16.0</commons-lang3.version>
         <commons-logging.version>1.3.4</commons-logging.version>
         <commons-vfs2.version>2.9.0</commons-vfs2.version>
         <curator.version>5.7.0</curator.version>
-        <encoder.version>1.3.0</encoder.version>
+        <encoder.version>1.3.1</encoder.version>
         <gax.version>2.50.0</gax.version>
         <google-api-common.version>2.31.0</google-api-common.version>
         <google-api-client.version>2.5.0</google-api-client.version>
@@ -158,7 +158,7 @@
         <google-oauth-client.version>1.36.0</google-oauth-client.version>
         <grpc.version>1.65.0</grpc.version>
         <gson.version>2.11.0</gson.version>
-        <guava.version>33.2.1-jre</guava.version>
+        <guava.version>33.3.0-jre</guava.version>
         <hadoop.version>3.4.0</hadoop.version>
         <httpclient.version>4.5.14</httpclient.version>
         <httpccore.version>4.4.16</httpccore.version>
@@ -178,7 +178,7 @@
         <kafka-clients.version>3.7.0</kafka-clients.version>
         <kryo.version>5.6.0</kryo.version>
         <libthrift.version>0.9.3</libthrift.version>
-        <log4j.version>2.23.1</log4j.version>
+        <log4j.version>2.24.0</log4j.version>
         <lz4.version>1.8.0</lz4.version>
         <metrics.version>4.2.25</metrics.version>
         <minlog.version>1.3.1</minlog.version>
@@ -198,7 +198,7 @@
         <rhino.version>1.7.15</rhino.version>
         <scala.version>2.12.17</scala.version>
 		<slf4j.version>2.0.16</slf4j.version>
-		<logback.version>1.5.7</logback.version>
+		<logback.version>1.5.8</logback.version>
         <sshlib.version>2.2.23</sshlib.version>
         <snappy-java.version>1.1.0</snappy-java.version>
         <snakeyaml.version>2.2</snakeyaml.version>
@@ -210,7 +210,7 @@
         <hive.version>4.0.0</hive.version>
 
         <!-- Test dependencies -->
-        <byte-buddy.version>1.15.0</byte-buddy.version>
+        <byte-buddy.version>1.15.1</byte-buddy.version>
         <java-hamcrest.version>2.0.0.0</java-hamcrest.version>
         <junit.version>4.13.2</junit.version>
         <mockito-core.version>3.12.4</mockito-core.version>

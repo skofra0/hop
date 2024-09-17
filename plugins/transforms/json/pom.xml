@@ -32,7 +32,7 @@
 
     <properties>
         <commons-codec.version>1.17.1</commons-codec.version>
-        <encoder.version>1.3.0</encoder.version>
+        <encoder.version>1.3.1</encoder.version>
         <dependency.com.tinkerpop.blueprints.version>2.6.0</dependency.com.tinkerpop.blueprints.version>
         <dependency.org.powermock.version>2.0.9</dependency.org.powermock.version>
         <json-path.version>2.9.0</json-path.version>
