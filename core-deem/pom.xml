@@ -75,22 +75,7 @@
 		</dependency>
 		<dependency>
 			<groupId>no.deem.insight</groupId>
-			<artifactId>deem-cloudapi-xledger</artifactId>
-			<version>${deem-insight.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>no.deem.insight</groupId>
-			<artifactId>deem-cloudapi-rambase</artifactId>
-			<version>${deem-insight.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>no.deem.insight</groupId>
-			<artifactId>deem-cloudapi-dynamics365</artifactId>
-			<version>${deem-insight.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>no.deem.insight</groupId>
-			<artifactId>deem-cloudapi-quickbooks</artifactId>
+			<artifactId>deem-cloudapi-erp-rest</artifactId>
 			<version>${deem-insight.version}</version>
 		</dependency>
 
