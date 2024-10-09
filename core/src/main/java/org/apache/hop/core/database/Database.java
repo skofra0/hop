@@ -1744,12 +1744,6 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
   /**
    * See if the view specified exists.
-   * <p>
-   * This is a smarter implementation of {@link #checkTableExists(String)} where metadata is used
-   * first and we only use statements when absolutely necessary.
-   * <p>
-   * Contrary to previous versions of similar duplicated methods, this implementation does not
-   * require quoted identifiers.
    * @param viewName The unquoted name of the table to check.<br>
    *        This is NOT the properly quoted name of the table or the complete schema-table name
    *        combination.
