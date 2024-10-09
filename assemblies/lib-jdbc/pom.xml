@@ -37,7 +37,7 @@
         <h2.version>2.3.230</h2.version>
         <hyersonic.version>2.7.2</hyersonic.version>
         <monetdb.version>3.3</monetdb.version>
-        <mssqlnative.version>12.2.0.jre11</mssqlnative.version>
+        <mssqlnative.version>12.6.3.jre11</mssqlnative.version>
         <postgresql.version>42.7.3</postgresql.version>
         <redshift.version>2.1.0.19</redshift.version>
         <snowflake.jdbc.version>3.14.3</snowflake.jdbc.version>

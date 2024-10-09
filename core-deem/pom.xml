@@ -166,6 +166,12 @@
             <version>${mssqlnative.version}</version>
 		</dependency>
 		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>mssql-jdbc_auth</artifactId>
+		    <version>${mssqlnative_auth.version}</version>
+		    <type>dll</type>
+		</dependency>
+		<dependency>
 			<groupId>com.microsoft.azure</groupId>
 			<artifactId>msal4j</artifactId>
 		</dependency>

@@ -120,7 +120,8 @@
 		<jt400.version>20.0.7</jt400.version> <!-- 11.2 -->
 		<jt400.classifier>java11</jt400.classifier> <!-- jd400-jdk8 -->
         <monetdb.version>3.3</monetdb.version>
-        <mssqlnative.version>12.2.0.jre11</mssqlnative.version>
+        <mssqlnative.version>12.6.3.jre11</mssqlnative.version>
+        <mssqlnative_auth.version>12.6.3.x64</mssqlnative_auth.version>
         <postgresql.version>42.7.3</postgresql.version>
 		<junit.jupiter.version>5.10.3</junit.jupiter.version>
 		<slf4j.version>2.0.16</slf4j.version>
