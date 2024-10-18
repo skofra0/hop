@@ -3267,7 +3267,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           case java.sql.Types.DATE:
           case java.sql.Types.TIME:
           case java.sql.Types.TIMESTAMP:
-          case java.sql.Types.TIME_WITH_TIMEZONE: // DEEM-MOD
+          case java.sql.Types.TIME_WITH_TIMEZONE:
           case java.sql.Types.TIMESTAMP_WITH_TIMEZONE: // DEEM-MOD
             val = new ValueMetaDate(name);
             break;

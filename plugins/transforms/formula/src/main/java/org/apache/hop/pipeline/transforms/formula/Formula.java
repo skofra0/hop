@@ -73,8 +73,7 @@ public class Formula extends BaseTransform<FormulaMeta, FormulaData> {
       return false;
     }
 
-    int tempIndex = getInputRowMeta().size();
-
+    int tempIndex = getInputRowMeta().size(); // DEEM-MOD
     if (first) {
       first = false;
 

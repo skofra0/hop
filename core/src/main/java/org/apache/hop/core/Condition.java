@@ -45,8 +45,8 @@ import static org.apache.hop.core.Condition.Function.EQUAL;
 import static org.apache.hop.core.Condition.Function.NOT_NULL;
 import static org.apache.hop.core.Condition.Function.NULL;
 import static org.apache.hop.core.Condition.Function.TRUE;
-import static org.apache.hop.core.Condition.Function.IS_EMPTY; // DEEM-MOD
-import static org.apache.hop.core.Condition.Function.NOT_IS_EMPTY; // DEEM-MOD
+import static org.apache.hop.core.Condition.Function.IS_EMPTY;
+import static org.apache.hop.core.Condition.Function.NOT_IS_EMPTY;
 import static org.apache.hop.core.Condition.Operator.AND;
 import static org.apache.hop.core.Condition.Operator.NONE;
 

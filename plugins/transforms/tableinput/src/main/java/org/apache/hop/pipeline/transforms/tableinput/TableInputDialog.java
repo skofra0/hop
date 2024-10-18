@@ -62,7 +62,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import no.deem.core.utils.Strings;
 
 public class TableInputDialog extends BaseTransformDialog implements ITransformDialog {
@@ -111,7 +114,7 @@ public class TableInputDialog extends BaseTransformDialog implements ITransformD
     shell.setText(BaseMessages.getString(PKG, "TableInputDialog.TableInput"));
 
     int middle = props.getMiddlePct();
-    int margin = PropsUi.getMargin(); // DEEM-MOD
+    int margin = PropsUi.getMargin();
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);

@@ -62,6 +62,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+
 public class MailDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = MailMeta.class; // For Translator
 
@@ -2499,6 +2502,7 @@ public class MailDialog extends BaseTransformDialog implements ITransformDialog 
     wPort.setEnabled(!useConfig);
     wUseAuth.setEnabled(!useConfig);
   }
+
   /** Copy information from the meta-data input to the dialog fields. */
   public void getData() {
 

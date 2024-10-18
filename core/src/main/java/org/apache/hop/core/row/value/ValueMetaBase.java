@@ -4956,7 +4956,7 @@ public class ValueMetaBase implements IValueMeta {
         case Types.VARCHAR:
         case Types.NVARCHAR:
         case Types.LONGVARCHAR: // Character Large Object
-        case Types.NCHAR: // DEEM-MOD
+        case Types.NCHAR:
         case Types.LONGNVARCHAR: // DEEM-MOD
           valtype = IValueMeta.TYPE_STRING;
           if (!ignoreLength) {

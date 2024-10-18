@@ -22,6 +22,9 @@ import no.deem.core.utils.Slf4j;
 import no.deem.core.version.SemanticVersion;
 import no.deem.core.version.Versions;
 
+/*
+ * DEEM-MOD
+ */
 public final class LogbackInitializer {
 
   private static final String HOME_FOLDER = "HOP_CLIENT";
