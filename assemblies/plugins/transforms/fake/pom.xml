@@ -41,10 +41,11 @@
             <artifactId>hop-transform-fake</artifactId>
             <version>${project.version}</version>
         </dependency>
+		<!-- DEEM-MOD -->
         <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
+			<groupId>no.deem</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.4</version>
         </dependency>
         <dependency>
             <groupId>dk.brics.automaton</groupId>

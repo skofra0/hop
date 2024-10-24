@@ -107,7 +107,7 @@
         <license.licenseName>apache_v2</license.licenseName>
 
 		<!-- DEEM-MOD -->    
-		<deem-insight.version>24.4.0</deem-insight.version>
+		<deem-insight.version>24.4.2-SNAPSHOT</deem-insight.version>
 	    <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision> 
 		<pentaho-reporting.version>9.0.0.3-582</pentaho-reporting.version>
 		<jasperreports.version>6.21.3</jasperreports.version>
@@ -248,9 +248,8 @@
         <spring-security.version>4.1.5.RELEASE</spring-security.version>
 
         <!-- jdk version -->
-        <source.jdk.version>11</source.jdk.version>
-        <target.jdk.version>11</target.jdk.version>
-        <maven.compiler.source>${source.jdk.version}</maven.compiler.source>
+        <target.jdk.version>17</target.jdk.version>
+        <maven.compiler.source>${target.jdk.version}</maven.compiler.source>
         <maven.compiler.target>${target.jdk.version}</maven.compiler.target>
 
         <!-- PHASE BINDINGS -->
@@ -703,7 +702,7 @@
                                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                             </manifest>
                             <manifestEntries>
-                                <Source-Java-Version>${source.jdk.version}</Source-Java-Version>
+                                <Source-Java-Version>${target.jdk.version}</Source-Java-Version>
                                 <Target-Java-Version>${target.jdk.version}</Target-Java-Version>
                                 <Implementation-ProductID>${project.artifactId}</Implementation-ProductID>
                                 <Implementation-Version>${project.version} (${maven.build.timestamp})</Implementation-Version>                                
@@ -715,8 +714,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-                        <release>${source.jdk.version}</release>
-                        <source>${source.jdk.version}</source>
+                        <release>${target.jdk.version}</release>
+                        <source>${target.jdk.version}</source>
                         <target>${target.jdk.version}</target>
                         <compilerArgument>${compilerArgument}</compilerArgument>
                     </configuration>
