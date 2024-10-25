@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Copyright © 2023 Deem
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -16,9 +15,9 @@
  */
 package org.apache.hop.databases.mariadb;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.database.DatabaseMeta;
 import org.apache.hop.core.database.DatabaseMetaPlugin;
@@ -44,11 +43,11 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
   public static final String INFOBRIGHT_DECIMAL_TYPE = "INFOBRIGHT_DECIMAL_TYPE";
   public static final String INFOBRIGHT_DECIMAL_TYPE_DEFAULT = "DOUBLE";
 
-  @Variable(description = "This list of fields separated by ',' should not have COMMENT LOOKUP ",
-      value = "customer_order_number,delivery_number")
+  @Variable(description = "Fields separated by ',' skips COMMENT LOOKUP ", value = "customer_order_number,delivery_number")
   public static final String INFOBRIGHT_STRING_DBLOOKUP_IGNORE = "INFOBRIGHT_STRING_DBLOOKUP_IGNORE";
+  public static final String INFOBRIGHT_STRING_DBLOOKUP_IGNORE_DEFAULT = "customer_order_number,delivery_number";
 
-  protected List<String> stringDbLookupIgnore = Collections.emptyList();
+  protected Set<String> stringDbLookupIgnore = Collections.emptySet();
 
   public static final String COMMENT_LOOKUP = " COMMENT \"LOOKUP\"";
 
@@ -65,12 +64,14 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
     intLookupLimit = Integer.parseInt(System.getProperty(INFOBRIGHT_INT_DBLOOKUP_LIMIT, INFOBRIGHT_INT_DBLOOKUP_LIMIT_DEFAULT));
     decimalType = System.getProperty(INFOBRIGHT_DECIMAL_TYPE, INFOBRIGHT_DECIMAL_TYPE_DEFAULT);
 
-    if (Strings.isNotBlank(INFOBRIGHT_STRING_DBLOOKUP_IGNORE)) {
-      String[] columns = INFOBRIGHT_STRING_DBLOOKUP_IGNORE.split(",");
-      stringDbLookupIgnore = new ArrayList<>();
+    var ignoreColumn = System.getProperty(INFOBRIGHT_STRING_DBLOOKUP_IGNORE, INFOBRIGHT_STRING_DBLOOKUP_IGNORE_DEFAULT);
+    if (Strings.isNotBlank(ignoreColumn)) {
+      String[] columns = ignoreColumn.split(",");
+      stringDbLookupIgnore = new HashSet<>();
       for (String col : columns) {
         if (Strings.isNotBlank(col)) {
-          stringDbLookupIgnore.add(col.trim());
+          stringDbLookupIgnore.add(col.trim().toLowerCase());
+          stringDbLookupIgnore.add(quote(col.trim().toLowerCase()));
         }
       }
     }
@@ -86,8 +87,6 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
 
   @Override
   public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldname, boolean addCr) {
-    reloadVariables();
-
     String retval = "";
     String fieldname = Strings.nullToEmpty(v.getName());
     int length = v.getLength();
@@ -115,9 +114,7 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
         }
         break;
 
-      case IValueMeta.TYPE_NUMBER:
-      case IValueMeta.TYPE_INTEGER:
-      case IValueMeta.TYPE_BIGNUMBER:
+      case IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_BIGNUMBER:
         if (fieldname.equalsIgnoreCase(tk) || // Technical key
             fieldname.equalsIgnoreCase(pk)) { // Primary key
           if (useAutoinc) {
@@ -129,7 +126,7 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
           // Integer values...
           if (precision == 0) {
             String commentLookup = COMMENT_LOOKUP;
-            if (length > intLookupLimit) {
+            if (length > intLookupLimit || hasLookupIgnore(fieldname)) {
               commentLookup = "";
             }
             if (length > 9) {
@@ -181,7 +178,7 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
         if (length > 0) {
           if (length == 1) {
             retval += "CHAR(1)" + COMMENT_LOOKUP;
-          } else if (length <= stringLookupLimit && !stringDbLookupIgnore.contains(removeQuotes(fieldname, getStartQuote()))) {
+          } else if (length <= stringLookupLimit && !hasLookupIgnore(fieldname)) {
             retval += "VARCHAR(" + length + ")" + COMMENT_LOOKUP;
           } else if (length < 256) {
             retval += "VARCHAR(" + length + ")";
@@ -218,20 +215,11 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
     return true;
   }
 
-  public static String removeQuotes(final String str, String quote) {
-    String result = null;
-    if (Strings.isEmpty(str)) {
-      result = str;
-    } else {
-      final var length = str.length();
-      final var firstChar = str.substring(0, 1);
-      final var lastChar = str.substring(length - 1);
-      final var startsWithQuote = firstChar.equalsIgnoreCase(quote);
-      final var endsWithQuote = lastChar.equalsIgnoreCase(quote);
-      final var startIdx = startsWithQuote ? 1 : 0;
-      final var endIdx = endsWithQuote ? length - 1 : length;
-      result = str.substring(startIdx, endIdx);
-    }
-    return result;
+  private boolean hasLookupIgnore(String fieldname) {
+    return stringDbLookupIgnore.contains(fieldname.toLowerCase());
+  }
+
+  private String quote(final String value) {
+    return getStartQuote() + value + getEndQuote();
   }
 }
