@@ -75,6 +75,7 @@ public class StreamLookup extends BaseTransform<StreamLookupMeta, StreamLookupDa
           }
           break;
         case IValueMeta.TYPE_DATE:
+        case IValueMeta.TYPE_TIMESTAMP: // DEEM-MOD
           try {
             data.nullIf[i] = DateFormat.getInstance().parse(meta.getValueDefault()[i]);
           } catch (Exception e) {

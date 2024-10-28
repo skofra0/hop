@@ -33,6 +33,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -45,6 +48,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSelector;
 import org.apache.commons.vfs2.FileType;
 import org.apache.hop.core.Const;
+import org.apache.hop.core.encryption.Encr;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.logging.ILogChannel;
 import org.apache.hop.core.row.RowDataUtil;
@@ -113,7 +117,7 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
       }
 
       // Check is SMTP server is provided
-      if (Utils.isEmpty(meta.getServer())) {
+      if (Utils.isEmpty(meta.getServer()) && !meta.isUsingConfigFile()) { // DEEM-MOD
         throw new HopException(BaseMessages.getString(PKG, "Mail.Log.ServerFieldEmpty"));
       }
 
@@ -248,7 +252,7 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
       if (data.indexOfServer < 0) {
         String realServer = meta.getServer();
         data.indexOfServer = data.previousRowMeta.indexOfValue(realServer);
-        if (data.indexOfServer < 0) {
+        if (data.indexOfServer < 0 && !meta.isUsingConfigFile()) { // DEEM-MOD
           throw new HopException(
               BaseMessages.getString(PKG, "Mail.Exception.CouldnotFindServerField", realServer));
         }
@@ -259,7 +263,7 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
 
         String realPort = meta.getPort();
         data.indexOfPort = data.previousRowMeta.indexOfValue(realPort);
-        if (data.indexOfPort < 0) {
+        if (data.indexOfPort < 0 && !meta.isUsingConfigFile()) { // DEEM-MOD
           throw new HopException(
               BaseMessages.getString(PKG, "Mail.Exception.CouldnotFindPortField", realPort));
         }
@@ -443,12 +447,44 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
           }
         }
       }
+      data.usingAuthentication = meta.isUsingAuthentication(); // DEEM-MOD
+      data.usingConfig = meta.isUsingConfigFile(); // DEEM-MOD
     } // end if first
 
     boolean sendToErrorRow = false;
     String errorMessage = null;
 
     try {
+      // DEEM-MOD START
+      if (meta.isUsingConfigFile()) {
+        if (data.props.isEmpty()) {
+          String path = resolve(meta.getConfigFile());
+          InputStream inStream = Files.newInputStream(Paths.get(path));
+          data.props.load(inStream);
+          if (!Utils.toStringNullToEmpty(data.props.get("mail.smtps.host")).isEmpty()) {
+            data.protocol = "smtps";
+          }
+          data.server =
+              Utils.toStringNullToEmpty(data.props.get("mail." + data.protocol + ".host"));
+          data.authenticationUser =
+              Utils.toStringNullToEmpty(data.props.get("mail." + data.protocol + ".user"));
+          data.authenticationPassword =
+              Utils.toStringNullToEmpty(data.props.get("mail." + data.protocol + ".password"));
+          data.usingAuthentication =
+              Utils.toStringNullToEmpty(data.props.get("mail." + data.protocol + ".auth"))
+                  .equalsIgnoreCase("true");
+
+          String strPort =
+              Utils.toStringNullToEmpty(data.props.get("mail." + data.protocol + ".port"));
+          if (!strPort.isEmpty()) {
+            data.port = Integer.parseInt(strPort);
+          }
+        }
+      } else {
+        data.usingAuthentication = meta.isUsingAuthentication();
+      }
+      // DEEM-MOD END
+
       // get values
       String maildestination = data.previousRowMeta.getString(r, data.indexOfDestination);
       if (Utils.isEmpty(maildestination)) {
@@ -484,24 +520,27 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
         contactphone = data.previousRowMeta.getString(r, data.indexOfContactPhone);
       }
 
-      String servername = data.previousRowMeta.getString(r, data.indexOfServer);
-      if (Utils.isEmpty(servername)) {
+      if (!meta.isUsingConfigFile()) { // DEEM-MOD
+        data.server = data.previousRowMeta.getString(r, data.indexOfServer);
+      }
+      if (Utils.isEmpty(data.server)) { // DEEM-MOD
         throw new HopException("Mail.Error.MailServerEmpty");
       }
-      int port = -1;
+      // int port = -1; // DEEM-MOD
       if (data.indexOfPort > -1) {
-        port = Const.toInt("" + data.previousRowMeta.getInteger(r, data.indexOfPort), -1);
+        data.port =
+            Const.toInt("" + data.previousRowMeta.getInteger(r, data.indexOfPort), -1); // DEEM-MOD
       }
 
-      String authuser = null;
+      //  String authuser = null; // DEEM-MOD
       if (data.indexOfAuthenticationUser > -1) {
-        authuser = data.previousRowMeta.getString(r, data.indexOfAuthenticationUser);
+        data.authenticationUser =
+            data.previousRowMeta.getString(r, data.indexOfAuthenticationUser); // DEEM-MOD
       }
-      String authpass = null;
+      //  String authpass = null; // DEEM-MOD
       if (data.indexOfAuthenticationPass > -1) {
-        authpass =
-            Utils.resolvePassword(
-                variables, data.previousRowMeta.getString(r, data.indexOfAuthenticationPass));
+        data.authenticationPassword =
+            data.previousRowMeta.getString(r, data.indexOfAuthenticationPass); // DEEM-MOD
       }
 
       String subject = null;
@@ -518,8 +557,8 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
       String message =
           sendMail(
               r,
-              servername,
-              port,
+              // servername, // DEEM-MOD
+              // port,  // DEEM-MOD
               mailsenderaddress,
               mailsendername,
               maildestination,
@@ -527,8 +566,8 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
               maildestinationBCc,
               contactperson,
               contactphone,
-              authuser,
-              authpass,
+              // authuser,  // DEEM-MOD
+              // authpass,  // DEEM-MOD
               subject,
               comment,
               mailreplyToAddresses);
@@ -568,8 +607,8 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
 
   public String sendMail(
       Object[] r,
-      String server,
-      int port,
+      // String server, // DEEM-MOD
+      // int port, // DEEM-MOD
       String senderAddress,
       String senderName,
       String destination,
@@ -577,8 +616,8 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
       String destinationBCc,
       String contactPerson,
       String contactPhone,
-      String authenticationUser,
-      String authenticationPassword,
+      // String authenticationUser,  // DEEM-MOD
+      // String authenticationPassword,  // DEEM-MOD
       String mailsubject,
       String comment,
       String replyToAddresses)
@@ -587,40 +626,41 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
     // Send an e-mail...
     // create some properties and get the default Session
 
-    String protocol = "smtp";
-    if (meta.isUsingSecureAuthentication()) {
-      if (meta.isUseXOAUTH2()) {
-        data.props.put("mail.smtp.ssl.enable", "true");
-        data.props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
+    if (!data.usingConfig) { // DEEM-MOD
+      data.protocol = "smtp"; // DEEM-MOD
+      if (meta.isUsingSecureAuthentication()) {
+        if (meta.isUseXOAUTH2()) {
+          data.props.put("mail.smtp.ssl.enable", "true");
+          data.props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
+        }
+        if (meta.getSecureConnectionType().equals("TLS")) {
+          // Allow TLS authentication
+          data.props.put("mail.smtp.starttls.enable", "true");
+        } else if (meta.getSecureConnectionType().equals("TLS 1.2")) {
+          // Allow TLS 1.2 authentication
+          data.props.put("mail.smtp.starttls.enable", "true");
+          data.props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        } else {
+          data.protocol = "smtps"; // DEEM-MOD
+          // required to get rid of a SSL exception :
+          // nested exception is:
+          // javax.net.ssl.SSLException: Unsupported record version Unknown
+          data.props.put("mail.smtps.quitwait", "false");
+        }
       }
-      if (meta.getSecureConnectionType().equals("TLS")) {
-        // Allow TLS authentication
-        data.props.put("mail.smtp.starttls.enable", "true");
-      } else if (meta.getSecureConnectionType().equals("TLS 1.2")) {
-        // Allow TLS 1.2 authentication
-        data.props.put("mail.smtp.starttls.enable", "true");
-        data.props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-      } else {
-        protocol = "smtps";
-        // required to get rid of a SSL exception :
-        // nested exception is:
-        // javax.net.ssl.SSLException: Unsupported record version Unknown
-        data.props.put("mail.smtps.quitwait", "false");
+      data.props.put("mail." + data.protocol + ".host", data.server); // DEEM-MOD
+      if (data.port != -1) {
+        data.props.put(
+            "mail." + data.protocol + ".port",
+            "" + data.port); // DEEM-MOD // needs to be supplied as a string, not as an integer
       }
-    }
-    data.props.put(CONST_MAIL + protocol + ".host", server);
-    if (port != -1) {
-      data.props.put(
-          CONST_MAIL + protocol + ".port",
-          "" + port); // needs to be supplied as a string, not as an integer
+      if (meta.isUsingAuthentication()) {
+        data.props.put("mail." + data.protocol + ".auth", "true"); // DEEM-MOD
+      }
     }
 
     if (isDebug()) {
       data.props.put("mail.debug", "true");
-    }
-
-    if (meta.isUsingAuthentication()) {
-      data.props.put(CONST_MAIL + protocol + ".auth", "true");
     }
 
     Session session = Session.getInstance(data.props);
@@ -787,19 +827,20 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
 
     Transport transport = null;
     try {
-      transport = session.getTransport(protocol);
-      if (meta.isUsingAuthentication()) {
-        if (port != -1) {
+      transport = session.getTransport(data.protocol); // DEEM-MOD
+      String authPass = getPassword(data.authenticationPassword); // DEEM-MOD
+      if (data.usingAuthentication) {
+        if (data.port != -1) {
           transport.connect(
-              Const.NVL(server, ""),
-              port,
-              Const.NVL(authenticationUser, ""),
-              Const.NVL(authenticationPassword, ""));
+              Const.NVL(data.server, ""),
+              data.port,
+              Const.NVL(data.authenticationUser, ""),
+              authPass); // DEEM-MOD
         } else {
           transport.connect(
-              Const.NVL(server, ""),
-              Const.NVL(authenticationUser, ""),
-              Const.NVL(authenticationPassword, ""));
+              Const.NVL(data.server, ""),
+              Const.NVL(data.authenticationUser, ""),
+              authPass); // DEEM-MOD
         }
       } else {
         transport.connect();
@@ -814,6 +855,11 @@ public class Mail extends BaseTransform<MailMeta, MailData> {
     msg.writeTo(emlMsg);
     emlMsg.close();
     return emlMsg.toString();
+  }
+
+  // DEEM-MOD
+  public String getPassword(String authPassword) {
+    return Encr.decryptPasswordOptionallyEncrypted(resolve(Const.NVL(authPassword, "")));
   }
 
   private void setAttachedFilesList(Object[] r, ILogChannel log) throws Exception {

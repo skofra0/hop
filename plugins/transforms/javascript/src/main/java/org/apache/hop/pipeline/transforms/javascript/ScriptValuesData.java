@@ -17,6 +17,7 @@
 
 package org.apache.hop.pipeline.transforms.javascript;
 
+import org.apache.hop.compatibility.Value;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.pipeline.transform.BaseTransformData;
 import org.apache.hop.pipeline.transform.ITransformData;
@@ -31,6 +32,7 @@ public class ScriptValuesData extends BaseTransformData implements ITransformDat
   public Script script;
 
   public int[] fieldsUsed;
+  Value[] valuesUsed; // DEEM-MOD
 
   public IRowMeta outputRowMeta;
   public int[] replaceIndex;

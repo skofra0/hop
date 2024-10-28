@@ -174,35 +174,35 @@ public class XmlMetadataUtil {
         } else {
           xml += XmlHandler.addTagValue(tag, ((Enum) value).name());
         }
-      } else if (value instanceof java.util.List) {
+      } else if (value instanceof java.util.List listItems) {
+        if (!listItems.isEmpty()) { // DEEM-MOD
 
-        // Serialize a list of values
-        // Use the key on the annotation to open a new block
-        // Store the items in that block
-        //
-        if (StringUtils.isNotEmpty(groupKey)) {
-          xml += XmlHandler.openTag(groupKey) + Const.CR;
+          // Serialize a list of values
+          // Use the key on the annotation to open a new block
+          // Store the items in that block
+          //
+          if (StringUtils.isNotEmpty(groupKey)) {
+            xml += XmlHandler.openTag(groupKey) + Const.CR;
+          }
+
+          // Add the elements...
+          //
+          for (Object listItem : listItems) {
+            xml +=
+                serializeObjectToXml(
+                    property,
+                    listItem,
+                    groupKey,
+                    tag,
+                    password,
+                    storeWithCode,
+                    property.intCodeConverter());
+          }
+
+          if (StringUtils.isNotEmpty(groupKey)) {
+            xml += XmlHandler.closeTag(groupKey) + Const.CR;
+          }
         }
-
-        // Add the elements...
-        //
-        List listItems = (List) value;
-        for (Object listItem : listItems) {
-          xml +=
-              serializeObjectToXml(
-                  property,
-                  listItem,
-                  groupKey,
-                  tag,
-                  password,
-                  storeWithCode,
-                  property.intCodeConverter());
-        }
-
-        if (StringUtils.isNotEmpty(groupKey)) {
-          xml += XmlHandler.closeTag(groupKey) + Const.CR;
-        }
-
       } else {
 
         // POJO : serialize to XML...

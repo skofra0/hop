@@ -160,6 +160,7 @@ public class ScriptValuesDialog extends BaseTransformDialog {
 
   private final ScriptValuesMeta input;
   private ScriptValuesHelp scVHelp;
+  private Button wCompatible; // DEEM-MOD
   private TextVar wOptimizationLevel;
 
   private TreeItem iteminput;
@@ -304,6 +305,31 @@ public class ScriptValuesDialog extends BaseTransformDialog {
     fdlScript.top = new FormAttachment(0, 0);
     wlScript.setLayoutData(fdlScript);
 
+    // DEEM-MOD START
+    Label wlCompatible = new Label(wTop, SWT.NONE);
+    wlCompatible.setText("Compatible");
+    PropsUi.setLook(wlCompatible);
+    FormData fdlCompatible = new FormData();
+    fdlCompatible.left = new FormAttachment(wTree, margin);
+    fdlCompatible.right = new FormAttachment(middle, -30);
+    fdlCompatible.bottom = new FormAttachment(100, -margin);
+    wlCompatible.setLayoutData(fdlCompatible);
+
+    wCompatible = new Button(wTop, SWT.CHECK);
+    wCompatible.setToolTipText(
+        "(Deprecated) Select this option if you want the turn on\nthe compatibility with script created with the previous versions");
+    PropsUi.setLook(wCompatible);
+    FormData fdCompatible = new FormData();
+    fdCompatible.left = new FormAttachment(wlCompatible, margin);
+    fdCompatible.top = new FormAttachment(wlCompatible, 0, SWT.CENTER);
+    wCompatible.setLayoutData(fdCompatible);
+    wCompatible.addListener(
+        SWT.Selection,
+        e -> {
+          setInputOutputFields();
+          input.setChanged(true);
+        });
+    // DEEM-MOD END
     // some information at the bottom...
     //
     // The optimisation level...
@@ -313,7 +339,8 @@ public class ScriptValuesDialog extends BaseTransformDialog {
         BaseMessages.getString(PKG, "ScriptValuesDialogMod.OptimizationLevel.Label"));
     PropsUi.setLook(wlOptimizationLevel);
     FormData fdlOptimizationLevel = new FormData();
-    fdlOptimizationLevel.left = new FormAttachment(wTree, margin * 2);
+    // fdlOptimizationLevel.left = new FormAttachment(wTree, margin * 2); // DEEM-MOD
+    fdlOptimizationLevel.left = new FormAttachment(wCompatible, margin * 2); // DEEM-MOD
     fdlOptimizationLevel.bottom = new FormAttachment(100, -margin);
     wlOptimizationLevel.setLayoutData(fdlOptimizationLevel);
 
@@ -482,6 +509,8 @@ public class ScriptValuesDialog extends BaseTransformDialog {
     wTreeScriptsItem.setText(
         BaseMessages.getString(PKG, "ScriptValuesDialogMod.TransformScript.Label"));
 
+    // Set the shell size, based upon previous time...
+    setSize(); // DEEM-MOD
     getData();
 
     // Adding the Rest (Functions, InputItems, etc.) to the Tree
@@ -772,6 +801,7 @@ public class ScriptValuesDialog extends BaseTransformDialog {
 
   /** Copy information from the meta-data input to the dialog fields. */
   public void getData() {
+    wCompatible.setSelection(input.isCompatible()); // DEEM-MOD
     if (!Utils.isEmpty(Const.trim(input.getOptimizationLevel()))) {
       wOptimizationLevel.setText(input.getOptimizationLevel().trim());
     } else {
@@ -868,6 +898,7 @@ public class ScriptValuesDialog extends BaseTransformDialog {
   }
 
   private void getInfo(ScriptValuesMeta meta) {
+    meta.setCompatible(wCompatible.getSelection()); // DEEM-MOD
     meta.setOptimizationLevel(wOptimizationLevel.getText());
     int nrFields = wFields.nrNonEmpty();
     meta.allocate(nrFields);
@@ -978,7 +1009,7 @@ public class ScriptValuesDialog extends BaseTransformDialog {
             String format = valueMeta.getFormatMask();
             boolean setValueMetaFormat = false;
             switch (valueMeta.getType()) {
-              case IValueMeta.TYPE_DATE:
+              case IValueMeta.TYPE_DATE, IValueMeta.TYPE_TIMESTAMP: // DEEM-MOD
                 if (format == null) {
                   format = "yyyy/MM/dd HH:mm:ss";
                   setValueMetaFormat = true;

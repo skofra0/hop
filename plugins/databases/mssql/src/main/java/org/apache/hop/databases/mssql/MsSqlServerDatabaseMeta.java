@@ -18,6 +18,8 @@
 package org.apache.hop.databases.mssql;
 
 import java.sql.ResultSet;
+import no.deem.core.utils.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.database.BaseDatabaseMeta;
 import org.apache.hop.core.database.Database;
@@ -41,6 +43,18 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   public static final String CONST_ALTER_TABLE = "ALTER TABLE ";
+  public static final String ATTRIBUTE_USE_INTEGRATED_SECURITY =
+      "MSSQLUseIntegratedSecurity"; // DEEM-MOD
+  public static final String ATTRIBUTE_ENCRYPT = "encrypt"; // DEEM-MOD
+  public static final String ATTRIBUTE_TRUST_SERVER_CERTIFICATE =
+      "trustServerCertificate"; // DEEM-MOD
+
+  public static final String DRIVER_CLASS_JTDS = "net.sourceforge.jtds.jdbc.Driver"; // DEEM-MOD
+  public static final String DRIVER_CLASS_MSSQL =
+      "com.microsoft.sqlserver.jdbc.SQLServerDriver"; // DEEM-MOD
+  protected static String driverClass = ""; // DEEM-MOD
+  protected static boolean supportIntAsDecimal =
+      Objects.isTrue(System.getProperty("MSSQL_SUPPORT_INT_AS_DECIMAL", "Y")); // DEEM-MOD
 
   @GuiWidgetElement(
       id = "instanceName",
@@ -166,7 +180,9 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
   @Override
   public String getSqlQueryFields(String tableName) {
-    return "SELECT TOP 1 * FROM " + tableName;
+    return "SELECT TOP 1 * FROM "
+        + tableName
+        + " WHERE 1=0"; // DEEM-MOD  WITH (NOLOCK) problem Synapse
   }
 
   @Override
@@ -180,7 +196,11 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
   }
 
   public String getSqlQueryColumnFields(String columnname, String tableName) {
-    return "SELECT TOP 1 " + columnname + " FROM " + tableName;
+    return "SELECT TOP 1 "
+        + columnname
+        + " FROM "
+        + tableName
+        + " WHERE 1=0"; // DEEM-MOD WITH (NOLOCK)  problem Synapse
   }
 
   /**
@@ -273,7 +293,15 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
     int type = v.getType();
     switch (type) {
       case IValueMeta.TYPE_TIMESTAMP, IValueMeta.TYPE_DATE:
-        retval += "DATETIME";
+        if ((length >= 8 && length <= 10)) { // DEEM-MOD
+          retval += "DATE"; // DEEM-MOD
+        } else {
+          if (isSupportDatetime2()) {
+            retval += "DATETIME2"; // DEEM-MOD
+          } else {
+            retval += "DATETIME";
+          }
+        }
         break;
       case IValueMeta.TYPE_BOOLEAN:
         if (isSupportsBooleanDataType()) {
@@ -294,7 +322,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
           }
         } else {
           if (precision == 0) {
-            if (length > 18) {
+            if (length > 18 || (supportIntAsDecimal && length > 0)) { // DEEM-MOD
               retval += "DECIMAL(" + length + ",0)";
             } else {
               if (length > 9) {
@@ -316,12 +344,16 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
         if (length < getMaxVARCHARLength()) {
           // Maybe use some default DB String length in case length<=0
           if (length > 0) {
-            retval += "VARCHAR(" + length + ")";
+            if (length == 1) {
+              retval += "NCHAR(" + length + ")"; // DEEM-MOD (BOOLEAN)
+            } else {
+              retval += "NVARCHAR(" + length + ")"; // DEEM-MOD
+            }
           } else {
-            retval += "VARCHAR(100)";
+            retval += "NVARCHAR(100)"; // DEEM-MOD
           }
         } else {
-          retval += "TEXT"; // Up to 2bilion characters.
+          retval += "NVARCHAR(MAX)"; // DEEM-MOD // Up to 2 billion characters.
         }
         break;
       case IValueMeta.TYPE_BINARY:
@@ -765,20 +797,66 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
     }
 
     try {
+      // DEEM-MOD START JDBC (Try JDBC meta function first)
+      try (ResultSet indexList =
+          database
+              .getDatabaseMetaData()
+              .getIndexInfo(
+                  null,
+                  StringUtils.trimToNull(database.resolve(schemaName)),
+                  database.resolve(tableName),
+                  false,
+                  true)) {
+        while (indexList.next()) {
+          String column = indexList.getString("COLUMN_NAME");
+          int idx = Const.indexOfString(column, idxFields);
+          if (idx >= 0) {
+            exists[idx] = true;
+          }
+        }
+      }
+
+      // See if all the fields are indexed...
+      boolean all = true;
+      for (int i = 0; i < exists.length && all; i++) {
+        if (!exists[i]) {
+          all = false;
+        }
+      }
+
+      if (all) {
+        return true;
+      }
+      // DEEM-MOD END JDBC
+
       //
       // Get the info from the data dictionary...
       //
       StringBuilder sql = new StringBuilder(128);
-      sql.append("select i.name table_name, c.name column_name ");
-      sql.append("from     sysindexes i, sysindexkeys k, syscolumns c ");
-      sql.append("where    i.name = '" + schemaTable + "' ");
-      sql.append("AND      i.id = k.id ");
-      sql.append("AND      i.id = c.id ");
-      sql.append("AND      k.colid = c.colid ");
+      // DEEM-MOD (Rewrite index sql)
+      // sql.append( "select i.name table_name, c.name column_name " );
+      // sql.append( "from sysindexes i, sysindexkeys k, syscolumns c " );
+      // sql.append( "where i.name = '" + tablename + "' " );
+      // sql.append( "AND i.id = k.id " );
+      // sql.append( "AND i.id = c.id " );
+      // sql.append( "AND k.colid = c.colid " );
+      sql.append(
+          "select s.name as schemas, t.name as table_name, i.name as index_name, c.name as column_name ");
+      sql.append(" from sys.tables t ");
+      sql.append(" inner join sys.schemas s on t.schema_id = s.schema_id ");
+      sql.append(" inner join sys.indexes i on i.object_id = t.object_id ");
+      sql.append(" inner join sys.index_columns ic on ic.object_id = t.object_id ");
+      sql.append(
+          " inner join sys.columns c on c.object_id = t.object_id and ic.column_id = c.column_id ");
+      sql.append("where i.index_id>0 ");
+      sql.append(" and i.type in (1, 2)  "); // clustered & nonclustered only
+      sql.append(" and i.is_primary_key=0 "); // do not include PK indexes
+      sql.append(
+          " and i.is_unique_constraint=0 and i.is_disabled=0 and i.is_hypothetical = 0 and ic.key_ordinal > 0 ");
+      sql.append(" and  t.name = '" + database.resolve(tableName) + "' ");
+      sql.append("order by s.name, t.name, i.name, ic.key_ordinal ");
 
-      ResultSet res = null;
-      try {
-        res = database.openQuery(sql.toString());
+      try (ResultSet res = database.openQuery(sql.toString())) {
         if (res != null) {
           Object[] row = database.getRow(res);
           while (row != null) {
@@ -793,14 +871,10 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
         } else {
           return false;
         }
-      } finally {
-        if (res != null) {
-          database.closeQuery(res);
-        }
       }
 
       // See if all the fields are indexed...
-      boolean all = true;
+      all = true; // DEEM-MOD
       for (int i = 0; i < exists.length && all; i++) {
         if (!exists[i]) {
           all = false;
@@ -893,7 +967,8 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
   @Override
   public int getMaxVARCHARLength() {
-    return 8000;
+    // return 8000;
+    return 4000; // DEEM-MOD
   }
 
   @Override
@@ -909,5 +984,20 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
   @Override
   public String getEndQuote() {
     return "";
+  }
+
+  // DEEM-MOD
+  public boolean isSupportDatetime2() {
+    return !isJtdsDriver();
+  }
+
+  // DEEM-MOD
+  public boolean isJtdsDriver() {
+    return DRIVER_CLASS_JTDS.equals(getDriverClass());
+  }
+
+  // DEEM-MOD
+  public String getDatabaseTypeCode() {
+    return "MSSQL";
   }
 }

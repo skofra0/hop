@@ -19,23 +19,13 @@ package org.apache.hop.pipeline.transforms.memgroupby;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import org.apache.beam.sdk.Pipeline;
-import org.apache.beam.sdk.transforms.PTransform;
-import org.apache.beam.sdk.values.PCollection;
-import org.apache.hop.beam.core.BeamHop;
-import org.apache.hop.beam.core.HopRow;
-import org.apache.hop.beam.engines.IBeamPipelineEngineRunConfiguration;
-import org.apache.hop.beam.pipeline.IBeamPipelineTransformHandler;
 import org.apache.hop.core.CheckResult;
 import org.apache.hop.core.ICheckResult;
 import org.apache.hop.core.annotations.Transform;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.exception.HopPluginException;
-import org.apache.hop.core.logging.ILogChannel;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.row.IValueMeta;
-import org.apache.hop.core.row.JsonRowMeta;
 import org.apache.hop.core.row.RowMeta;
 import org.apache.hop.core.row.value.ValueMetaFactory;
 import org.apache.hop.core.row.value.ValueMetaNone;
@@ -47,7 +37,6 @@ import org.apache.hop.metadata.api.IHopMetadataProvider;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
-import org.apache.hop.pipeline.transforms.memgroupby.beam.GroupByTransform;
 
 @Transform(
     id = "MemoryGroupBy",
@@ -58,8 +47,8 @@ import org.apache.hop.pipeline.transforms.memgroupby.beam.GroupByTransform;
         "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
     keywords = "i18n::MemoryGroupByMeta.keyword",
     documentationUrl = "/pipeline/transforms/memgroupby.html")
-public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGroupByData>
-    implements IBeamPipelineTransformHandler {
+public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGroupByData> {
+  //  implements IBeamPipelineTransformHandler // DEEM-MOD
   private static final Class<?> PKG = MemoryGroupByMeta.class;
 
   /** Fields to group over */
@@ -234,12 +223,12 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
     }
   }
 
-  @Override
+  // @Override DEEM-MOD remove beam support
   public boolean isInput() {
     return false;
   }
 
-  @Override
+  // @Override DEEM-MOD remove beam support
   public boolean isOutput() {
     return false;
   }
@@ -263,6 +252,10 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
    * @param parentLogChannelId
    * @throws HopException
    */
+
+  /*
+   * DEEM-MOD remove beam support
+
   @Override
   public void handleTransform(
       ILogChannel log,
@@ -321,6 +314,7 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
             + previousTransforms.size()
             + " previous transform(s)");
   }
+  */
 
   @SuppressWarnings("java:S115")
   public enum GroupType implements IEnumHasCode {

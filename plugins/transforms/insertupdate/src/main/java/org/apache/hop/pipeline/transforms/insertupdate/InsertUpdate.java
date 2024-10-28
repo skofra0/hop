@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.hop.core.Const;
+import org.apache.hop.core.SqlStatement;
 import org.apache.hop.core.database.Database;
 import org.apache.hop.core.database.DatabaseMeta;
 import org.apache.hop.core.exception.HopDatabaseException;
@@ -519,7 +520,27 @@ public class InsertUpdate extends BaseTransform<InsertUpdateMeta, InsertUpdateDa
           return false;
         }
         data.db = new Database(this, this, databaseMeta);
+
         data.db.connect();
+        // DEEM-MOD start : Auto create tables when running workflow
+        String schemaTable =
+            data.db
+                .getDatabaseMeta()
+                .getQuotedSchemaTableCombination(
+                    variables, meta.getSchemaName(), meta.getTableName());
+        if (getVariable("DI_AUTO_CREATE_TABLES", "N").startsWith("Y")
+            && !data.db.checkTableExists(resolve(schemaTable))) {
+          IRowMeta prev =
+              getPipelineMeta().getPrevTransformFields(variables, getTransformMeta().getName());
+          SqlStatement sql =
+              meta.getSqlStatements(
+                  variables, getPipelineMeta(), getTransformMeta(), prev, metadataProvider);
+          if (!sql.hasError() && sql.hasSql()) {
+            data.db.execStatements(sql.getSql());
+          }
+        }
+        // DEEM-MOD end
+
         data.db.setCommit(meta.getCommitSizeVar(this));
 
         return true;

@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileType;
 import org.apache.hop.core.Const;
@@ -86,6 +87,9 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
   public static final String CONST_DESTINATION = "destination";
 
   private String server;
+
+  public static final String DEFAULT_CONFIGFILE = "${MAIL_CONFIG_FILE}"; // DEEM-MOD
+  private String configFile = ""; // DEEM-MOD
 
   private String destination;
 
@@ -194,6 +198,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
     retval.append(super.getXml());
 
+    retval.append("      ").append(XmlHandler.addTagValue("configFile", configFile)); // DEEM-MOD
     retval.append(CONST_SPACES).append(XmlHandler.addTagValue(CONST_SERVER, server));
     retval.append(CONST_SPACES).append(XmlHandler.addTagValue("port", port));
     retval.append(CONST_SPACES).append(XmlHandler.addTagValue(CONST_DESTINATION, destination));
@@ -267,6 +272,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       throws HopXmlException {
     try {
       super.loadXml(entrynode);
+      setConfigFile(XmlHandler.getTagValue(entrynode, "configFile")); // DEEM-MOD
       setServer(XmlHandler.getTagValue(entrynode, CONST_SERVER));
       setPort(XmlHandler.getTagValue(entrynode, "port"));
       setDestination(XmlHandler.getTagValue(entrynode, CONST_DESTINATION));
@@ -329,6 +335,18 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     } catch (HopException xe) {
       throw new HopXmlException("Unable to load action of type 'mail' from XML node", xe);
     }
+  }
+
+  public void setConfigFile(String configFile) { // DEEM-MOD
+    this.configFile = configFile;
+  }
+
+  public String getConfigFile() { // DEEM-MOD
+    return this.configFile;
+  }
+
+  boolean isUsingConfigFile() { // DEEM-MOD
+    return StringUtils.isNotEmpty(this.configFile);
   }
 
   public void setServer(String s) {
@@ -649,6 +667,16 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     // Send an e-mail...
     // create some properties and get the default Session
     Properties props = new Properties();
+
+    // DEEM-MOD TODO
+    boolean usingConfig = isUsingConfigFile();
+    String protocol = "smtp";
+    String dataServer = this.server;
+    String dataPort = this.port;
+    String dataAuthenticationUser = this.authenticationUser;
+    String dataAuthenticationPassword = this.authenticationPassword;
+    boolean dataUsingAuthentication = this.usingAuthentication;
+
     if (Utils.isEmpty(server)) {
       logError(BaseMessages.getString(PKG, "ActionMail.Error.HostNotSpecified"));
 
@@ -657,7 +685,6 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
       return result;
     }
 
-    String protocol = "smtp";
     if (usingSecureAuthentication) {
       if (usexoauth2) {
         props.put("mail.smtp.auth.mechanisms", "XOAUTH2");

@@ -18,6 +18,8 @@
 package org.apache.hop.core;
 
 import static org.apache.hop.core.Condition.Function.EQUAL;
+import static org.apache.hop.core.Condition.Function.IS_EMPTY;
+import static org.apache.hop.core.Condition.Function.NOT_IS_EMPTY;
 import static org.apache.hop.core.Condition.Function.NOT_NULL;
 import static org.apache.hop.core.Condition.Function.NULL;
 import static org.apache.hop.core.Condition.Function.TRUE;
@@ -102,7 +104,9 @@ public class Condition implements Cloneable {
         "STARTS WITH",
         "ENDS WITH",
         "LIKE",
-        "TRUE"
+        "TRUE",
+        "IS EMPTY", // DEEM-MOD
+        "NOT IS EMPTY" // DEEM-MOD
       };
 
   public static final int FUNC_EQUAL = 0;
@@ -120,6 +124,8 @@ public class Condition implements Cloneable {
   public static final int FUNC_ENDS_WITH = 12;
   public static final int FUNC_LIKE = 13;
   public static final int FUNC_TRUE = 14;
+  public static final int FUNC_IS_EMPTY = 15; // DEEM-MOD
+  public static final int FUNC_NOT_IS_EMPTY = 16; // DEEM-MOD
 
   //
   // These parameters allow for:
@@ -497,6 +503,14 @@ public class Condition implements Cloneable {
               evaluation = false;
             }
             break;
+          case IS_EMPTY: // DEEM-MOD
+            string = fieldMeta.getCompatibleString(field);
+            evaluation = string == null || string.isEmpty();
+            break;
+          case NOT_IS_EMPTY: // DEEM-MOD
+            string = fieldMeta.getCompatibleString(field);
+            evaluation = !(string == null || string.isEmpty());
+            break;
           case LIKE:
             // Converts to a regular expression
             //
@@ -711,7 +725,8 @@ public class Condition implements Cloneable {
         retval.append(" TRUE");
       } else {
         retval.append(leftValueName + " " + getFunctionDesc());
-        if (function != NULL && function != NOT_NULL) {
+        // if (function != NULL && function != NOT_NULL) {
+        if (Function.hasParameter(function)) { // DEEM-MOD
           if (rightValueName != null) {
             retval.append(" ");
             retval.append(rightValueName);
@@ -1105,7 +1120,9 @@ public class Condition implements Cloneable {
     ENDS_WITH("ENDS WITH", FUNC_ENDS_WITH),
     LIKE("LIKE", FUNC_LIKE),
     TRUE("TRUE", FUNC_TRUE),
-    ;
+    IS_EMPTY("IS EMPTY", FUNC_IS_EMPTY), // DEEM-MOD
+    NOT_IS_EMPTY("NOT IS EMPTY", FUNC_NOT_IS_EMPTY) // DEEM-MOD
+  ;
     private final String code;
     private final String description;
     private final int type;
@@ -1132,6 +1149,19 @@ public class Condition implements Cloneable {
         }
       }
       return null;
+    }
+
+    // DEEM-MOD
+    public boolean hasParameter() {
+      return !(this == NOT_NULL
+          || this == NULL
+          || this == Function.IS_EMPTY
+          || this == Function.NOT_IS_EMPTY);
+    }
+
+    // DEEM-MOD
+    public static boolean hasParameter(Function f) {
+      return f == null || f.hasParameter();
     }
 
     /**

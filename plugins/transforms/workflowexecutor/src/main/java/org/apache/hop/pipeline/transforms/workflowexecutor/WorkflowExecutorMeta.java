@@ -320,6 +320,14 @@ public class WorkflowExecutorMeta
       runConfigurationName = XmlHandler.getTagValue(transformNode, "run_configuration");
       filename = XmlHandler.getTagValue(transformNode, CONST_FILENAME);
 
+      if (StringUtils.isEmpty(filename)) { // DEEM-MOD start
+        var jobName = XmlHandler.getTagValue(transformNode, "job_name");
+        var directoryPath = XmlHandler.getTagValue(transformNode, "directory_path");
+        if (StringUtils.isNotBlank(jobName)) {
+          filename = "${PROJECT_HOME}" + StringUtils.trimToEmpty(directoryPath) + jobName + ".hwf";
+        }
+      } // DEEM-MOD end
+
       groupSize = XmlHandler.getTagValue(transformNode, "group_size");
       groupField = XmlHandler.getTagValue(transformNode, "group_field");
       groupTime = XmlHandler.getTagValue(transformNode, "group_time");

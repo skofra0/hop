@@ -340,10 +340,16 @@ public class WorkflowMeta extends AbstractMeta
             XmlHandler.addTagValue(
                 "name_sync_with_filename", info.isNameSynchronizedWithFilename()));
 
-    xml.append("  ").append(XmlHandler.addTagValue(CONST_DESCRIPTION, info.getDescription()));
-    xml.append("  ")
-        .append(XmlHandler.addTagValue("extended_description", info.getExtendedDescription()));
-    xml.append("  ").append(XmlHandler.addTagValue("workflow_version", workflowVersion));
+    if (StringUtils.isNotEmpty(info.getDescription())) { // DEEM-MOD
+      xml.append("  ").append(XmlHandler.addTagValue(CONST_DESCRIPTION, info.getDescription()));
+    }
+    if (StringUtils.isNotEmpty(info.getExtendedDescription())) { // DEEM-MOD
+      xml.append("  ")
+          .append(XmlHandler.addTagValue("extended_description", info.getExtendedDescription()));
+    }
+    if (StringUtils.isNotEmpty(workflowVersion)) { // DEEM-MOD
+      xml.append("  ").append(XmlHandler.addTagValue("workflow_version", workflowVersion));
+    }
     if (workflowStatus >= 0) {
       xml.append("  ").append(XmlHandler.addTagValue("workflow_status", workflowStatus));
     }
@@ -358,26 +364,29 @@ public class WorkflowMeta extends AbstractMeta
             XmlHandler.addTagValue(
                 "modified_date", XmlHandler.date2string(info.getModifiedDate())));
 
-    xml.append("    ").append(XmlHandler.openTag(XML_TAG_PARAMETERS)).append(Const.CR);
     String[] parameters = listParameters();
-    for (int idx = 0; idx < parameters.length; idx++) {
-      xml.append("      ").append(XmlHandler.openTag(CONST_PARAMETER)).append(Const.CR);
-      xml.append(CONST_SPACE).append(XmlHandler.addTagValue("name", parameters[idx]));
-      try {
-        xml.append(CONST_SPACE)
-            .append(XmlHandler.addTagValue("default_value", getParameterDefault(parameters[idx])));
-        xml.append(CONST_SPACE)
-            .append(
-                XmlHandler.addTagValue(
-                    CONST_DESCRIPTION, getParameterDescription(parameters[idx])));
-      } catch (UnknownParamException e) {
-        // skip the default value and/or description. This exception should never happen because we
-        // use listParameters()
-        // above.
+    if (parameters.length > 0) { // DEEM-MOD
+      xml.append("    ").append(XmlHandler.openTag(XML_TAG_PARAMETERS)).append(Const.CR);
+      for (int idx = 0; idx < parameters.length; idx++) {
+        xml.append("      ").append(XmlHandler.openTag(CONST_PARAMETER)).append(Const.CR);
+        xml.append(CONST_SPACE).append(XmlHandler.addTagValue("name", parameters[idx]));
+        try {
+          xml.append(CONST_SPACE)
+              .append(
+                  XmlHandler.addTagValue("default_value", getParameterDefault(parameters[idx])));
+          xml.append(CONST_SPACE)
+              .append(
+                  XmlHandler.addTagValue(
+                      CONST_DESCRIPTION, getParameterDescription(parameters[idx])));
+        } catch (UnknownParamException e) {
+          // skip the default value and/or description. This exception should never happen because
+          // we use listParameters()
+          // above.
+        }
+        xml.append("      ").append(XmlHandler.closeTag(CONST_PARAMETER)).append(Const.CR);
       }
-      xml.append("      ").append(XmlHandler.closeTag(CONST_PARAMETER)).append(Const.CR);
+      xml.append("    ").append(XmlHandler.closeTag(XML_TAG_PARAMETERS)).append(Const.CR);
     }
-    xml.append("    ").append(XmlHandler.closeTag(XML_TAG_PARAMETERS)).append(Const.CR);
 
     xml.append("  ").append(XmlHandler.openTag(XML_TAG_ACTIONS)).append(Const.CR);
     for (int i = 0; i < nrActions(); i++) {

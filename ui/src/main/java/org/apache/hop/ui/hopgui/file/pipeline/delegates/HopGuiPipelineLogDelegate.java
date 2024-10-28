@@ -35,15 +35,15 @@ import org.apache.hop.ui.core.gui.GuiToolbarWidgets;
 import org.apache.hop.ui.core.widget.OsHelper;
 import org.apache.hop.ui.hopgui.HopGui;
 import org.apache.hop.ui.hopgui.file.IHopFileTypeHandler;
-import org.apache.hop.ui.hopgui.file.pipeline.HopGuiLogBrowser;
 import org.apache.hop.ui.hopgui.file.pipeline.HopGuiPipelineGraph;
+import org.apache.hop.ui.hopgui.styled.ILogBrowser;
+import org.apache.hop.ui.hopgui.styled.IStyledText;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
@@ -63,14 +63,16 @@ public class HopGuiPipelineLogDelegate {
   private HopGui hopGui;
   private CTabItem pipelineLogTab;
 
-  private Text pipelineLogText;
+  // private Text pipelineLogText  DEEM-MOD
+  private IStyledText pipelineLogText;
 
   private ToolBar toolbar;
   private GuiToolbarWidgets toolBarWidgets;
 
   private Composite pipelineLogComposite;
 
-  private HopGuiLogBrowser logBrowser;
+  // private HopGuiLogBrowser logBrowser DEEM-MOD
+  private ILogBrowser logBrowser;
 
   /**
    * @param hopGui
@@ -113,11 +115,12 @@ public class HopGuiPipelineLogDelegate {
     fd.right = new FormAttachment(100, 0);
     toolbar.setLayoutData(fd);
 
+    // pipelineLogText = new Text(pipelineLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI |
+    // SWT.V_SCROLL | SWT.H_SCROLL); // DEEM-MOD
     pipelineLogText =
-        new Text(
-            pipelineLogComposite,
-            SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
-    PropsUi.setLook(pipelineLogText);
+        IStyledText.of(
+            pipelineLogComposite, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+    PropsUi.setLook(pipelineLogText.getWidget());
     FormData fdText = new FormData();
     fdText.left = new FormAttachment(0, 0);
     fdText.right = new FormAttachment(100, 0);
@@ -129,7 +132,8 @@ public class HopGuiPipelineLogDelegate {
       pipelineLogText.setText(Const.CR);
     }
 
-    logBrowser = new HopGuiLogBrowser(pipelineLogText, pipelineGraph);
+    // logBrowser = new HopGuiLogBrowser(pipelineLogText, pipelineGraph);
+    logBrowser = ILogBrowser.of(pipelineLogText, pipelineGraph); // DEEM-MOD
     logBrowser.installLogSniffer();
 
     // If the pipeline is closed, we should dispose of all the logging information in the buffer and
@@ -320,7 +324,7 @@ public class HopGuiPipelineLogDelegate {
     }
   }
 
-  public HopGuiLogBrowser getLogBrowser() {
+  public ILogBrowser getLogBrowser() { // DEEM-MOD HopGuiLogBrowser
     return logBrowser;
   }
 

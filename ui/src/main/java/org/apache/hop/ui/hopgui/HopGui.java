@@ -548,6 +548,7 @@ public class HopGui
           if (image != null) {
             item.setImage(image);
           }
+          // new ToolItem(this.perspectivesToolbar, SWT.SEPARATOR); // DEEM-MOD test spacing
         }
         item.setData(perspective);
 

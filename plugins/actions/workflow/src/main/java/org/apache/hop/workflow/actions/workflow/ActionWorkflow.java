@@ -167,7 +167,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
   @HopMetadataProperty(key = "create_parent_folder")
   private boolean createParentFolder;
 
-  @HopMetadataProperty(key = "wait_until_finished")
+  @HopMetadataProperty(key = "wait_until_finished", defaultBoolean = true) // DEEM-MOD
   private boolean waitingToFinish = true;
 
   @HopMetadataProperty(key = "parameters")

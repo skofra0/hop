@@ -34,6 +34,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import no.deem.core.query.QueryContext;
+import no.deem.core.query.QueryDateTime;
+import no.deem.core.query.QueryTools;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.hop.core.Const;
@@ -259,8 +262,15 @@ public class Project extends ConfigFile implements IConfigFile {
       String realValue = variables.resolve(dataSetsCsvFolder);
       variables.setVariable(ProjectsUtil.VARIABLE_HOP_DATASETS_FOLDER, realValue);
     }
+    // DEEM-MOD
+    QueryContext context = new QueryContext();
+    context.put("time", QueryDateTime.now());
+    context.put("tools", new QueryTools());
     for (DescribedVariable variable : getDescribedVariables()) {
-      if (variable.getName() != null) {
+      if (StringUtils.isNotEmpty(variable.getValue())
+          && variable.getValue().contains("$time")) { // DEEM-MOD
+        variables.setVariable(variable.getName(), context.parse(variable.getValue())); // DEEM-MOD
+      } else {
         variables.setVariable(variable.getName(), variable.getValue());
       }
     }

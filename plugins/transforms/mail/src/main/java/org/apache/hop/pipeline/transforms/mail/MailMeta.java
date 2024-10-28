@@ -18,6 +18,7 @@
 package org.apache.hop.pipeline.transforms.mail;
 
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.CheckResult;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.ICheckResult;
@@ -49,6 +50,9 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
   private static final Class<?> PKG = MailMeta.class;
   private static final String CONST_SPACE = "      ";
   private static final String CONST_SPACE_SHORT = "    ";
+
+  public static final String DEFAULT_CONFIGFILE = "${MAIL_CONFIG_FILE}"; // DEEM-MOD
+  private String configFile; // DEEM-MOD external config file
 
   private String server;
 
@@ -168,6 +172,7 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
   }
 
   private void readData(Node transformNode) {
+    setConfigFile(XmlHandler.getTagValue(transformNode, "configFile")); // DEEM-MOD
     setServer(XmlHandler.getTagValue(transformNode, "server"));
     setPort(XmlHandler.getTagValue(transformNode, "port"));
     setDestination(XmlHandler.getTagValue(transformNode, "destination"));
@@ -255,7 +260,7 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
 
   @Override
   public void setDefault() {
-    // Do nothing
+    this.configFile = ""; // DEEM-MOD
   }
 
   @Override
@@ -270,6 +275,9 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     retval
         .append(CONST_SPACE)
         .append(XmlHandler.addTagValue("message_output_field", this.messageOutputField));
+    retval
+        .append(CONST_SPACE)
+        .append(XmlHandler.addTagValue("configFile", this.configFile)); // DEEM-MOD
     retval.append(CONST_SPACE).append(XmlHandler.addTagValue("server", this.server));
     retval.append(CONST_SPACE).append(XmlHandler.addTagValue("port", this.port));
     retval.append(CONST_SPACE).append(XmlHandler.addTagValue("destination", this.destination));
@@ -361,6 +369,18 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     retval.append("      </embeddedimages>").append(Const.CR);
 
     return retval.toString();
+  }
+
+  public void setConfigFile(String configFile) { // DEEM-MOD
+    this.configFile = configFile;
+  }
+
+  public String getConfigFile() { // DEEM-MOD
+    return this.configFile;
+  }
+
+  boolean isUsingConfigFile() { // DEEM-MOD
+    return StringUtils.isNotEmpty(this.configFile);
   }
 
   public void setServer(String s) {
@@ -848,7 +868,7 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     remarks.add(cr);
 
     // Servername
-    if (Utils.isEmpty(server)) {
+    if (Utils.isEmpty(server) && !isUsingConfigFile()) { // DEEM-MOD
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
@@ -874,7 +894,7 @@ public class MailMeta extends BaseTransformMeta<Mail, MailData> {
     }
 
     // port number
-    if (Utils.isEmpty(port)) {
+    if (Utils.isEmpty(port) && !isUsingConfigFile()) { // DEEM-MOD
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_WARNING,

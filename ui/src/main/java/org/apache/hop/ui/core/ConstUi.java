@@ -35,7 +35,7 @@ public class ConstUi {
 
   public static final int LARGE_ICON_SIZE = 48;
 
-  public static final int SMALL_ICON_SIZE = 16;
+  public static final int SMALL_ICON_SIZE = 20; // 16 DEEM-MOD
 
   public static final int MEDIUM_ICON_SIZE = 24;
 

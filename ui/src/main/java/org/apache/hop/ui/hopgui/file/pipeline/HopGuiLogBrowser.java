@@ -42,6 +42,8 @@ import org.apache.hop.ui.core.gui.GuiResource;
 import org.apache.hop.ui.core.widget.text.Format;
 import org.apache.hop.ui.core.widget.text.TextFormatter;
 import org.apache.hop.ui.hopgui.HopGui;
+import org.apache.hop.ui.hopgui.styled.IStyledText;
+import org.apache.hop.ui.hopgui.styled.rap.WrappedStyledText;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -60,8 +62,8 @@ public class HopGuiLogBrowser {
   private Date lastLogRegistryChange;
   private AtomicBoolean paused;
 
-  public HopGuiLogBrowser(final Text text, final ILogParentProvided logProvider) {
-    this.text = text;
+  public HopGuiLogBrowser(final IStyledText text, final ILogParentProvided logProvider) {
+    this.text = ((WrappedStyledText) text).getWrappedText();
     this.logProvider = logProvider;
     this.paused = new AtomicBoolean(false);
   }

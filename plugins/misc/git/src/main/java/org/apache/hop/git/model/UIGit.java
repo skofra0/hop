@@ -126,6 +126,23 @@ public class UIGit extends VCS {
      * https://bugs.eclipse.org/bugs/show_bug.cgi?id=296201 for more details.
      */
     HttpTransport.setConnectionFactory(new HttpClientConnectionFactory());
+    // DEEM-MOD GIT SSH
+
+    /*
+    try {
+      File sshDir = new File(FS.DETECTED.userHome(), "/.ssh");
+      if (sshDir.exists()) {
+        var sshSessionFactory =
+            new org.eclipse.jgit.transport.sshd.SshdSessionFactoryBuilder()
+                .setPreferredAuthentications("publickey")
+                .setHomeDirectory(FS.DETECTED.userHome())
+                .setSshDirectory(sshDir)
+                .build(null);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    */
   }
 
   private Git git;

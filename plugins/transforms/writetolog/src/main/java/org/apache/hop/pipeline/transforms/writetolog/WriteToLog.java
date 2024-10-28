@@ -85,19 +85,21 @@ public class WriteToLog extends BaseTransform<WriteToLogMeta, WriteToLogData> {
       data.fieldnr = data.fieldnrs.length;
       data.logLevel = (meta.getLogLevel() == null) ? LogLevel.BASIC : meta.getLogLevel();
       data.logMessage = Const.NVL(this.resolve(meta.getLogMessage()), "");
-      if (!Utils.isEmpty(data.logMessage)) {
-        data.logMessage += Const.CR + Const.CR;
+      if (!Utils.isEmpty(data.logMessage) && data.fieldnr > 1) { // DEEM-MOD
+        // data.logMessage += Const.CR + Const.CR; // DEEM-MOD
+        data.logMessage += Const.CR;
       }
     } // end if first
 
     StringBuilder out = new StringBuilder();
-    out.append(
-        Const.CR
-            + "------------> "
-            + BaseMessages.getString(PKG, "WriteToLog.Log.NLigne", "" + getLinesRead())
-            + "------------------------------"
-            + Const.CR);
-
+    if (meta.getLimitRowsNumber() != 1) { // DEEM-MOD
+      out.append(
+          Const.CR
+              + "------------> "
+              + BaseMessages.getString(PKG, "WriteToLog.Log.NLigne", "" + getLinesRead())
+              + "------------------------------"
+              + Const.CR);
+    }
     out.append(getRealLogMessage());
 
     // Loop through fields
@@ -111,8 +113,9 @@ public class WriteToLog extends BaseTransform<WriteToLogMeta, WriteToLogData> {
         out.append(fieldvalue + Const.CR);
       }
     }
-    out.append(Const.CR + "====================");
-
+    if (meta.getLimitRowsNumber() != 1) { // DEEM-MOD
+      out.append(Const.CR + "====================");
+    }
     setLog(data.logLevel, out);
 
     // Increment counter

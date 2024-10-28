@@ -153,6 +153,10 @@ public class Utils {
     return list == null || list.isEmpty();
   }
 
+  public static String toStringNullToEmpty(final Object obj) { // DEEM-MOD
+    return (obj == null) ? "" : String.valueOf(obj);
+  }
+
   /**
    * Resolves password from variable if it's necessary and decrypts if the password was encrypted
    *
