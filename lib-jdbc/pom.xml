@@ -35,7 +35,7 @@
         <jt400.version>20.0.7</jt400.version>
         <monetdb.version>3.3</monetdb.version>
         <mysql.version>9.0.0</mysql.version>
-        <postgresql.version>42.7.2</postgresql.version>
+        <postgresql.version>42.7.4</postgresql.version>
         <redshift.version>2.1.0.29</redshift.version>
         <snowflake.jdbc.version>3.17.0</snowflake.jdbc.version>
         <vertica.jdbc.version>23.3.0-0</vertica.jdbc.version>
@@ -57,6 +57,7 @@
                 <groupId>io.crate</groupId>
                 <artifactId>crate-jdbc</artifactId>
                 <version>${cratedb-jdbc.version}</version>
+                <scope>provided</scope> <!-- DEEM-MOD -->
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
@@ -76,31 +77,37 @@
                 <groupId>monetdb</groupId>
                 <artifactId>monetdb-jdbc</artifactId>
                 <version>${monetdb.version}</version>
+                <scope>provided</scope> <!-- DEEM-MOD -->
             </dependency>
             <dependency>
                 <groupId>net.sf.jt400</groupId>
                 <artifactId>jt400</artifactId>
                 <version>${jt400.version}</version>
+                <scope>provided</scope> <!-- DEEM-MOD -->
             </dependency>
             <dependency>
                 <groupId>net.snowflake</groupId>
                 <artifactId>snowflake-jdbc</artifactId>
                 <version>${snowflake.jdbc.version}</version>
+                <scope>provided</scope> <!-- DEEM-MOD -->
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbyclient</artifactId>
                 <version>${derby.version}</version>
+                <scope>provided</scope> <!-- DEEM-MOD -->
             </dependency>
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>${hsqldb.version}</version>
+                <scope>provided</scope> <!-- DEEM-MOD -->
             </dependency>
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
+                <scope>provided</scope> <!-- DEEM-MOD -->
             </dependency>
             <dependency>
                 <groupId>com.mysql</groupId>

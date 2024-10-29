@@ -66,12 +66,24 @@
             <artifactId>hop-engine-beam</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
+			<exclusions>   <!-- DEEM-MOD -->
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-engines-beam</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
+			<exclusions>  <!-- DEEM-MOD -->
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.hop</groupId>

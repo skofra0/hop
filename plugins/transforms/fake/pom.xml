@@ -48,29 +48,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>${javafaker.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.yaml</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>dk.brics.automaton</groupId>
             <artifactId>automaton</artifactId>
             <version>${automaton.version}</version>
         </dependency>
+        <!-- DEEM-MOD -->
         <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <scope>provided</scope>
+            <groupId>no.deem</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.4</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.apache.commons</groupId>
+            		<artifactId>commons-lang3</artifactId>
+            	</exclusion>
+            	<exclusion>
+            		<groupId>org.yaml</groupId>
+            		<artifactId>snakeyaml</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

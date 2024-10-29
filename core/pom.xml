@@ -29,7 +29,7 @@
     <name>Hop Core</name>
 
     <properties>
-        <batik.version>1.17</batik.version>
+        <batik.version>1.18</batik.version>
     </properties>
 
     <dependencyManagement>
@@ -120,6 +120,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- DEEM-MOD dependencies -->
+        <dependency>
+            <groupId>org.apache.hop</groupId>
+            <artifactId>hop-core-deem</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -141,6 +147,7 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
@@ -348,11 +355,12 @@
             <artifactId>slf4j-api</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
+        <!-- DEEM-MOD 
+         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <scope>compile</scope>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis-ext</artifactId>

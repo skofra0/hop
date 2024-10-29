@@ -29,7 +29,7 @@
     <name>Hop Plugins Databases MS SQL Server (native)</name>
 
     <properties>
-        <mssqlnative.version>12.6.3.jre11</mssqlnative.version>
+        <mssqlnative.version>12.2.0.jre11</mssqlnative.version>
     </properties>
 
     <dependencies>
@@ -37,6 +37,7 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>${mssqlnative.version}</version>
+            <scope>provided</scope> <!-- DEEM-MOD -->
         </dependency>
         <dependency>
             <groupId>org.apache.hop</groupId>
