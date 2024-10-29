@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Text;
 // DEEM-MOD
 public class StyledTextComp2Replace extends org.eclipse.swt.widgets.Dialog {
 
-  private static Class<?> PKG = StyledTextComp2Replace.class; // For Translator
+  private static Class<?> PKG = StyledTextComp2Replace.class;
 
   private Shell sShell = null;
   private Text searchText;

@@ -46,7 +46,7 @@ import org.eclipse.swt.widgets.ToolTip;
 
 public class ControlSpaceKeyAdapter extends KeyAdapter {
 
-  private static final Class<?> PKG = ControlSpaceKeyAdapter.class; // For Translator
+  private static final Class<?> PKG = ControlSpaceKeyAdapter.class;
 
   private final IGetCaretPosition getCaretPositionInterface;
 

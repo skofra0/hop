@@ -102,6 +102,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
@@ -128,7 +129,7 @@ public class UIGit extends VCS {
     HttpTransport.setConnectionFactory(new HttpClientConnectionFactory());
     // DEEM-MOD GIT SSH
 
-    /*
+    /* */
     try {
       File sshDir = new File(FS.DETECTED.userHome(), "/.ssh");
       if (sshDir.exists()) {
@@ -142,7 +143,6 @@ public class UIGit extends VCS {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    */
   }
 
   private Git git;

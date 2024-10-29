@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 // DEEM-MOD
 public class TableInputVariableDialog extends BaseTransformDialog {
-  private static final Class<?> PKG = TableInputVariableField.class; // For Translator
+  private static final Class<?> PKG = TableInputVariableField.class;
 
   public static final String STRING_USAGE_WARNING_PARAMETER = "SetVariableUsageWarning";
 

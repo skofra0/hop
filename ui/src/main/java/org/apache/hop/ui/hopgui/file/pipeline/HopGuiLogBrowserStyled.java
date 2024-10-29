@@ -52,7 +52,7 @@ import org.eclipse.swt.widgets.MenuItem;
 
 // DEEM-MOD
 public class HopGuiLogBrowserStyled {
-  private static final Class<?> PKG = HopGui.class; // For Translator
+  private static final Class<?> PKG = HopGui.class;
 
   private StyledText text;
   private ILogParentProvided logProvider;

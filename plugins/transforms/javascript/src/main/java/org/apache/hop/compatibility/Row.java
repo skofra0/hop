@@ -48,7 +48,7 @@ import org.w3c.dom.Node;
  * @see Value
  */
 public class Row implements IXml, Comparable<Row>, Serializable {
-  private static final Class<?> PKG = Row.class; // For Translator
+  private static final Class<?> PKG = Row.class;
 
   public static final String XML_TAG = "row";
 

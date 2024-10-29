@@ -44,10 +44,12 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
 
   public static final String INFOBRIGHT_INT_DBLOOKUP_LIMIT_DEFAULT = "9";
 
-  @Variable(description = "", value = "DOUBLE")
+  @Variable(
+      description = "Select DECIMAL or DOUBLE, DECIMAL gived beter performance ",
+      value = "DECIMAL")
   public static final String INFOBRIGHT_DECIMAL_TYPE = "INFOBRIGHT_DECIMAL_TYPE";
 
-  public static final String INFOBRIGHT_DECIMAL_TYPE_DEFAULT = "DOUBLE";
+  public static final String INFOBRIGHT_DECIMAL_TYPE_DEFAULT = "DECIMAL";
 
   @Variable(
       description = "Fields separated by ',' skips COMMENT LOOKUP ",
@@ -64,7 +66,7 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
 
   private int stringLookupLimit = 9;
   private int intLookupLimit = 9;
-  private String decimalType = "DECIMAL";
+  private String decimalType = INFOBRIGHT_DECIMAL_TYPE_DEFAULT;
 
   public DeemInfobrightMeta() {
     reloadVariables();
