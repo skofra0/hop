@@ -30,7 +30,7 @@
     <name>Hop GUI</name>
 
     <properties>
-        <xmlgraphics-commons.version>2.9</xmlgraphics-commons.version>
+        <xmlgraphics-commons.version>2.10</xmlgraphics-commons.version>
     </properties>
 
     <dependencyManagement>

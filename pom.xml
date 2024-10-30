@@ -99,21 +99,21 @@
     <properties>
         <!-- DEEM-MOD-->
         <asm.version>9.7.1</asm.version>
-        <commons-lang3.version>3.16.0</commons-lang3.version>
-        <deem-insight.version>24.4.2</deem-insight.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <deem-insight.version>24.4.3</deem-insight.version>
         <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision>
         <groovy.version>4.0.23</groovy.version>
         <httpccore.version>4.4.16</httpccore.version>
         <httpclient.version>4.5.14</httpclient.version>
-        <jackson.version>2.18.0</jackson.version>
-        <jackson.databind.version>2.18.0</jackson.databind.version>
+        <jackson.version>2.18.1</jackson.version>
+        <jackson.databind.version>2.18.1</jackson.databind.version>
         <janino.version>3.1.12</janino.version>
         <jasperreports-fonts.version>6.20.0</jasperreports-fonts.version>
         <jasperreports.version>6.21.3</jasperreports.version>
         <json-smart.version>2.5.1</json-smart.version>
         <jt400.classifier>java11</jt400.classifier>
         <jt400.version>20.0.7</jt400.version>
-        <junit.jupiter.version>5.10.3</junit.jupiter.version>
+        <junit.jupiter.version>5.11.3</junit.jupiter.version>
         <log4j.version>2.24.1</log4j.version>
         <logback.version>1.5.12</logback.version>
         <mariadb.version>2.6.2</mariadb.version>
@@ -133,13 +133,13 @@
         <assembly_package-phase>package</assembly_package-phase>
         <attach-sources-phase>verify</attach-sources-phase>
         <build.dependenciesDirectory>${project.build.directory}/dependency</build.dependenciesDirectory>
-        <byte-buddy.version>1.14.15</byte-buddy.version>
+        <byte-buddy.version>1.15.7</byte-buddy.version>
         <cyclonedx-maven-plugin.version>2.8.1</cyclonedx-maven-plugin.version>
         <hadoop.version>3.1.0</hadoop.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <jandex.version>3.2.3</jandex.version>
         <java-hamcrest.version>2.0.0.0</java-hamcrest.version>
-        <junit.version>5.10.2</junit.version>
+        <junit.version>5.11.3</junit.version>
         <license.bundleLicenseFile>META-INF/LICENSE.txt</license.bundleLicenseFile>
         <license.failOnLicenseCheck>false</license.failOnLicenseCheck>
         <license.inceptionYear>2020</license.inceptionYear>
@@ -573,7 +573,16 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.16.2</version>
+				<configuration>
+					<rulesUri>
+						file://${maven.multiModuleProjectDirectory}/rules.xml</rulesUri>
+				</configuration>
+			</plugin>
+		</plugins>
     </build>
 
     <reporting>

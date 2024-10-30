@@ -713,19 +713,25 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
-         <!-- DEEM
-        <dependency>
-            <groupId>org.apache.hop</groupId>
-            <artifactId>hop-tech-aws</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-tech-azure</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+        <dependency>
+            <groupId>org.apache.hop</groupId>
+            <artifactId>hop-tech-google</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hop</groupId>
+            <artifactId>hop-tech-aws</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+        </dependency>
+         <!-- DEEM
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-tech-cassandra</artifactId>
@@ -735,12 +741,6 @@
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-tech-dropbox</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hop</groupId>
-            <artifactId>hop-tech-google</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
