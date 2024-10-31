@@ -560,25 +560,26 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+    	<!-- DEEM-MOD
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-databases-netezza</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
-        </dependency>
-    	<!-- DEEM-MOD
+        </dependency> -->
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-databases-oracle</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
-        </dependency> -->
+        </dependency> 
+    	<!-- DEEM-MOD
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-databases-oraclerdb</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-databases-postgresql</artifactId>
