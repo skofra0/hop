@@ -30,6 +30,7 @@
     <name>Hop Plugins Technology Azure</name>
 
     <properties>
+        <azure-storage.version>8.6.6</azure-storage.version>
         <azure-eventhubs.version>3.3.0</azure-eventhubs.version>
         <azure-sdk-bom.version>1.2.26</azure-sdk-bom.version>
     </properties>
@@ -70,16 +71,53 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
+                <exclusion>
+                	<groupId>io.netty</groupId>
+                	<artifactId>
+                		netty-transport-native-unix-common
+                	</artifactId>
+                </exclusion>
+                <exclusion>
+                	<groupId>io.netty</groupId>
+                	<artifactId>
+                		netty-transport-native-epoll
+                	</artifactId>
+                </exclusion>
+                <exclusion>
+                	<groupId>io.netty</groupId>
+                	<artifactId>
+                		netty-transport-native-kqueue
+                	</artifactId>
+                </exclusion>
+                <exclusion>
+                	<groupId>io.netty</groupId>
+                	<artifactId>
+                		netty-tcnative-boringssl-static
+                	</artifactId>
+                </exclusion>
+                <exclusion>
+                	<groupId>io.netty</groupId>
+                	<artifactId>
+                		netty-resolver-dns-native-macos
+                	</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-file-datalake</artifactId>
         </dependency>
+        <!-- DEM-MOD -->
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-storage</artifactId>
+            <version>${azure-storage.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-eventhubs</artifactId>
             <version>${azure-eventhubs.version}</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
@@ -115,6 +153,7 @@
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-eventhubs-eph</artifactId>
             <version>${azure-eventhubs.version}</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>

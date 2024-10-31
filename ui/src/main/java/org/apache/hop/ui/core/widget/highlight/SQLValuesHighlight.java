@@ -1,11 +1,12 @@
 /*
- * Copyright © 2023 Deem
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.pipeline.transforms.tableinput.addon;
+
+package org.apache.hop.ui.core.widget.highlight;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import org.apache.hop.core.database.SqlScriptStatement;
+import org.apache.hop.core.util.Utils;
 import org.apache.hop.ui.core.gui.GuiResource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.LineStyleEvent;
@@ -31,11 +34,11 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 
-public class SqlValuesHighlight implements LineStyleListener {
+public class SQLValuesHighlight implements LineStyleListener {
   JavaScanner scanner = new JavaScanner();
   int[] tokenColors;
   Color[] colors;
-  List<int[]> blockComments = new Vector<>();
+  Vector<int[]> blockComments = new Vector<>();
 
   public static final int EOF = -1;
   public static final int EOL = 10;
@@ -53,13 +56,15 @@ public class SqlValuesHighlight implements LineStyleListener {
 
   private List<SqlScriptStatement> scriptStatements;
 
-  public SqlValuesHighlight() {
+  public SQLValuesHighlight() {
     initializeColors();
     scriptStatements = new ArrayList<>();
     scanner = new JavaScanner();
   }
 
-  public SqlValuesHighlight(String[] strArrSQLFunctions) {
+  public SQLValuesHighlight(List<String> sqlKeywords) {
+    String[] strArrSQLFunctions = new String[sqlKeywords.size()];
+    strArrSQLFunctions = sqlKeywords.toArray(strArrSQLFunctions);
     initializeColors();
     scriptStatements = new ArrayList<>();
     scanner = new JavaScanner();
@@ -76,7 +81,7 @@ public class SqlValuesHighlight implements LineStyleListener {
 
   boolean inBlockComment(int start, int end) {
     for (int i = 0; i < blockComments.size(); i++) {
-      int[] offsets = blockComments.get(i);
+      int[] offsets = blockComments.elementAt(i);
       // start of comment in the line
       if ((offsets[0] >= start) && (offsets[0] <= end)) {
         return true;
@@ -93,14 +98,13 @@ public class SqlValuesHighlight implements LineStyleListener {
   }
 
   void initializeColors() {
-    // Display display = Display.getDefault();
     colors =
         new Color[] {
-          GuiResource.getInstance().getColor(0, 0, 0), // black
-          GuiResource.getInstance().getColor(255, 0, 0), // red
-          GuiResource.getInstance().getColor(63, 127, 95), // green
-          GuiResource.getInstance().getColor(0, 0, 255), // blue
-          GuiResource.getInstance().getColor(255, 0, 255) // SQL Functions / Rose
+          GuiResource.getInstance().getColorBlack(), // black
+          GuiResource.getInstance().getColorRed(), // red
+          GuiResource.getInstance().getColorDarkGreen(), // green DEEM-MOD DI (63, 127, 95)
+          GuiResource.getInstance().getColorBlue(), // blue
+          GuiResource.getInstance().getColorMagenta() // SQL Functions / Rose
         };
     tokenColors = new int[MAXIMUM_TOKEN];
     tokenColors[WORD] = 0;
@@ -154,9 +158,6 @@ public class SqlValuesHighlight implements LineStyleListener {
             StyleRange style =
                 new StyleRange(
                     scanner.getStartOffset() + event.lineOffset, scanner.getLength(), color, null);
-            // if ( token == KEY ) {
-            // style.fontStyle = SWT.BOLD;
-            // }
             if (styles.isEmpty()) {
               styles.addElement(style);
             } else {
@@ -186,12 +187,12 @@ public class SqlValuesHighlight implements LineStyleListener {
 
         if (statement.isComplete()) {
           if (statement.isOk()) {
-            // GUIResource.getInstance().getColor(63, 127, 95), // green
+            // GuiResource.getInstance().getColor(63, 127, 95), // green
 
             styleRange.background = GuiResource.getInstance().getColor(244, 238, 224); // honey dew
           } else {
-            styleRange.background = GuiResource.getInstance().getColor(250, 235, 215); // Antique
-            // White
+            styleRange.background =
+                GuiResource.getInstance().getColor(250, 235, 215); // Antique White
           }
         } else {
           styleRange.background = GuiResource.getInstance().getColorWhite();
@@ -221,7 +222,7 @@ public class SqlValuesHighlight implements LineStyleListener {
             {
               if (blkComment) {
                 offsets[1] = cnt;
-                blockComments.add(offsets);
+                blockComments.addElement(offsets);
               }
               done = true;
               break;
@@ -248,7 +249,7 @@ public class SqlValuesHighlight implements LineStyleListener {
                 if (ch == '/') {
                   blkComment = false;
                   offsets[1] = cnt;
-                  blockComments.add(offsets);
+                  blockComments.addElement(offsets);
                 }
               }
               cnt++;
@@ -273,7 +274,7 @@ public class SqlValuesHighlight implements LineStyleListener {
     protected Map<String, Integer> kfKeys = null;
     protected Map<?, ?> kfFunctions = null;
 
-    protected StringBuffer fBuffer = new StringBuffer();
+    protected StringBuilder fBuffer = new StringBuilder();
     protected String fDoc;
     protected int fPos;
     protected int fEnd;
@@ -764,16 +765,7 @@ public class SqlValuesHighlight implements LineStyleListener {
               }
             }
 
-          case '0':
-          case '1':
-          case '2':
-          case '3':
-          case '4':
-          case '5':
-          case '6':
-          case '7':
-          case '8':
-          case '9':
+          case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
             do {
               c = read();
             } while (Character.isDigit((char) c));
@@ -845,7 +837,7 @@ public class SqlValuesHighlight implements LineStyleListener {
   }
 
   public void addKeyWords(String[] reservedWords) {
-    if (reservedWords == null || reservedWords.length == 0) {
+    if (Utils.isEmpty(reservedWords)) {
       return;
     }
 

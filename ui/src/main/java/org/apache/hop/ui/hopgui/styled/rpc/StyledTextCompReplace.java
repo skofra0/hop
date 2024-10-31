@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.pipeline.transforms.tableinput.addon;
+package org.apache.hop.ui.hopgui.styled.rpc;
 
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.i18n.BaseMessages;
@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+// DEEM-MOD
 public class StyledTextCompReplace extends org.eclipse.swt.widgets.Dialog {
 
   private static Class<?> PKG = StyledTextCompReplace.class;

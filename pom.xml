@@ -122,7 +122,7 @@
         <mssqlnative_auth.version>12.2.0.x64</mssqlnative_auth.version>
         <pentaho-reporting.version>9.0.0.3-582</pentaho-reporting.version>
         <postgresql.version>42.7.4</postgresql.version>
-        <protobuf-java.version>3.25.5</protobuf-java.version>
+        <protobuf-java.version>4.28.3</protobuf-java.version>
         <rhino.version>1.7.15</rhino.version>
         <slf4j.version>2.0.16</slf4j.version>
         <velocity-engine-core.version>2.4.1</velocity-engine-core.version>

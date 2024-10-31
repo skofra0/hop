@@ -17,6 +17,11 @@
 
 package org.apache.hop.pipeline.transforms.tableinput;
 
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import no.deem.core.utils.Strings;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +29,7 @@ import org.apache.hop.core.Const;
 import org.apache.hop.core.Props;
 import org.apache.hop.core.database.Database;
 import org.apache.hop.core.database.DatabaseMeta;
+import org.apache.hop.core.exception.HopDatabaseException;
 import org.apache.hop.core.exception.HopException;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.row.IValueMeta;
@@ -44,10 +50,13 @@ import org.apache.hop.ui.core.dialog.EnterTextDialog;
 import org.apache.hop.ui.core.dialog.MessageBox;
 import org.apache.hop.ui.core.dialog.PreviewRowsDialog;
 import org.apache.hop.ui.core.widget.MetaSelectionLine;
+import org.apache.hop.ui.core.widget.SQLStyledTextComp;
+import org.apache.hop.ui.core.widget.StyledTextComp;
+import org.apache.hop.ui.core.widget.TextComposite;
 import org.apache.hop.ui.core.widget.TextVar;
-import org.apache.hop.ui.hopgui.styled.IStyledTextComp;
 import org.apache.hop.ui.pipeline.dialog.PipelinePreviewProgressDialog;
 import org.apache.hop.ui.pipeline.transform.BaseTransformDialog;
+import org.apache.hop.ui.util.EnvironmentUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.FocusAdapter;
@@ -72,7 +81,7 @@ public class TableInputDialog extends BaseTransformDialog {
 
   private MetaSelectionLine<DatabaseMeta> wConnection;
 
-  private IStyledTextComp wSql;
+  private TextComposite wSql;
 
   private CCombo wDataFrom;
 
@@ -272,11 +281,16 @@ public class TableInputDialog extends BaseTransformDialog {
     fdbTable.top = new FormAttachment(wConnection, margin * 2);
     wbTable.setLayoutData(fdbTable);
 
-    // DEEM-MOD (change import org.apache.hop.pipeline.transforms.tableinput.addon.StyledTextComp)
-    wSql =
-        IStyledTextComp.of(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-    PropsUi.setLook(wSql.getWrapped(), Props.WIDGET_STYLE_FIXED);
+    if (EnvironmentUtils.getInstance().isWeb()) {
+      wSql =
+          new StyledTextComp(
+              variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    } else {
+      wSql =
+          new SQLStyledTextComp(
+              variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    }
+    PropsUi.setLook(wSql, Props.WIDGET_STYLE_FIXED);
     wSql.addModifyListener(lsMod);
     FormData fdSql = new FormData();
     fdSql.left = new FormAttachment(0, 0);
@@ -332,8 +346,9 @@ public class TableInputDialog extends BaseTransformDialog {
           }
         });
 
-    // Text highlighting (DEEM-MOD)
-    wSql.setSqlValuesHighlight();
+    final List<String> sqlKeywords = getSqlReservedWords();
+
+    wSql.addLineStyleListener(sqlKeywords);
 
     // Add listeners
     wCancel.addListener(SWT.Selection, e -> cancel());
@@ -350,6 +365,47 @@ public class TableInputDialog extends BaseTransformDialog {
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
 
     return transformName;
+  }
+
+  private List<String> getSqlReservedWords() {
+    DatabaseMeta databaseMeta = pipelineMeta.findDatabase(input.getConnection(), variables);
+    if (databaseMeta == null) {
+      logError("Database connection not found. Proceding without keywords.");
+      return new ArrayList<>();
+    }
+
+    var words = databaseMeta.getReservedWords();
+    if (words != null && words.length > 0) {
+      return Arrays.asList(words);
+    }
+
+    Database db = new Database(loggingObject, variables, databaseMeta);
+    DatabaseMetaData databaseMetaData = null;
+    try {
+      db.connect();
+      databaseMetaData = db.getDatabaseMetaData();
+      if (databaseMetaData == null) {
+        logError("Couldn't get database metadata");
+        return new ArrayList<>();
+      }
+      List<String> sqlKeywords = new ArrayList<>();
+      try {
+        final ResultSet functionsResultSet = databaseMetaData.getFunctions(null, null, null);
+        while (functionsResultSet.next()) {
+          sqlKeywords.add(functionsResultSet.getString("FUNCTION_NAME"));
+        }
+        sqlKeywords.addAll(Arrays.asList(databaseMetaData.getSQLKeywords().split(",")));
+      } catch (SQLException e) {
+        logError("Couldn't extract keywords from database metadata. Proceding without them.");
+      }
+      return sqlKeywords;
+    } catch (HopDatabaseException e) {
+      logError("Couldn't extract keywords from database metadata. Proceding without them.");
+      return new ArrayList<>();
+    } finally {
+      db.disconnect();
+      db.close();
+    }
   }
 
   public void setPosition() {

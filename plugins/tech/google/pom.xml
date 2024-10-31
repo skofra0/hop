@@ -73,27 +73,32 @@
                     <artifactId>protobuf-java-util</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>
             <version>${google-api-client.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-drive</artifactId>
             <version>${google-api-drive.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-sheets</artifactId>
             <version>${google-api-sheets.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-sqladmin</artifactId>
             <version>${google-api-sqladmin.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Google Cloud Storage VFS dependencies -->
@@ -146,15 +151,18 @@
             <groupId>com.google.oauth-client</groupId>
             <artifactId>google-oauth-client-jetty</artifactId>
             <version>${google-oauth-client.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jetty-client</artifactId>
             <version>${jetty-client.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

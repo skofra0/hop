@@ -1,6 +1,7 @@
 package org.apache.hop.ui.hopgui.styled;
 
 import org.apache.hop.core.variables.IVariables;
+import org.apache.hop.ui.core.widget.TextComposite;
 import org.apache.hop.ui.util.EnvironmentUtils;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.KeyAdapter;
@@ -12,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 // DEEM-MOD
 public interface IStyledTextComp {
 
-  Composite getWrapped();
+  TextComposite getWrapped();
 
   void addModifyListener(ModifyListener lsMod);
 

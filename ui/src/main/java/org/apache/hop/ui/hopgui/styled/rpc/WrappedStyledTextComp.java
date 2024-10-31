@@ -1,6 +1,8 @@
 package org.apache.hop.ui.hopgui.styled.rpc;
 
 import org.apache.hop.core.variables.IVariables;
+import org.apache.hop.ui.core.widget.TextComposite;
+import org.apache.hop.ui.core.widget.highlight.SQLValuesHighlight;
 import org.apache.hop.ui.hopgui.styled.IStyledTextComp;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.KeyAdapter;
@@ -19,7 +21,7 @@ public class WrappedStyledTextComp implements IStyledTextComp {
   }
 
   @Override
-  public Composite getWrapped() {
+  public TextComposite getWrapped() {
     return wrapped;
   }
 
@@ -60,7 +62,7 @@ public class WrappedStyledTextComp implements IStyledTextComp {
 
   @Override
   public void setSqlValuesHighlight() {
-    wrapped.addLineStyleListener(new SqlValuesHighlight());
+    wrapped.addLineStyleListener(new SQLValuesHighlight());
   }
 
   @Override

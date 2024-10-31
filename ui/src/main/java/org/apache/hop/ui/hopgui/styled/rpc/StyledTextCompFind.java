@@ -37,8 +37,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 // DEEM-MOD
-public class StyledTextComp2Find extends org.eclipse.swt.widgets.Dialog {
-  private static Class<?> PKG = StyledTextComp2Find.class;
+public class StyledTextCompFind extends org.eclipse.swt.widgets.Dialog {
+  private static Class<?> PKG = StyledTextCompFind.class;
 
   private Shell sShell = null;
   private Text searchText;
@@ -52,7 +52,7 @@ public class StyledTextComp2Find extends org.eclipse.swt.widgets.Dialog {
   private Button btnWrapSearch;
   private Button optForward;
 
-  public StyledTextComp2Find(Shell parent, StyledText text, String strHeader) {
+  public StyledTextCompFind(Shell parent, StyledText text, String strHeader) {
     super(parent);
     this.text = text;
     this.strHeader = strHeader;

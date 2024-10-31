@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,10 +18,12 @@
 
 package org.apache.hop.ui.hopgui.perspective.execution;
 
+import no.deem.core.utils.Objects;
 import org.apache.hop.core.gui.DPoint;
 import org.apache.hop.core.gui.Point;
 import org.apache.hop.core.gui.plugin.key.GuiKeyboardShortcut;
 import org.apache.hop.core.gui.plugin.key.GuiOsxKeyboardShortcut;
+import org.apache.hop.core.util.EnvUtil;
 import org.apache.hop.ui.core.PropsUi;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -29,6 +31,9 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 public abstract class DragViewZoomBase extends Composite {
+  public static final boolean MOUSE_WHEEL_ZOOM =
+      Objects.isTrue(EnvUtil.getSystemProperty("MOUSE_WHEEL_ZOOM", "N")); // DEEM-MOD
+
   protected Canvas canvas;
   protected DPoint offset;
   protected Point maximum;
@@ -287,7 +292,7 @@ public abstract class DragViewZoomBase extends Composite {
     int wiggleX = viewPort.width;
     int wiggleY = viewPort.height;
 
-    // What's that in percentages?  We draw the little rectangle at 25% size.
+    // What's that in percentages? We draw the little rectangle at 25% size.
     //
     double deltaXPct = wiggleX == 0 ? 0 : deltaX / (wiggleX / 0.25);
     double deltaYPct = wiggleY == 0 ? 0 : deltaY / (wiggleY / 0.25);
@@ -359,7 +364,7 @@ public abstract class DragViewZoomBase extends Composite {
    */
   protected void dragView(Point lastClick, Point moved) {
     // The offset is in absolute numbers relative to the pipeline/workflow graph metadata.
-    // The screen coordinates need to be corrected.  If the image is zoomed in we need to move less.
+    // The screen coordinates need to be corrected. If the image is zoomed in we need to move less.
     //
     double zoomFactor = PropsUi.getNativeZoomFactor() * Math.max(0.1, magnification);
     double deltaX = (lastClick.x - moved.x) / zoomFactor;
@@ -380,10 +385,12 @@ public abstract class DragViewZoomBase extends Composite {
     // That way we can adjust the offset accordingly to keep the screen centered on the mouse while
     // zooming in or out.
     //
-    if (mouseEvent.count > 0) {
-      zoomIn(mouseEvent);
-    } else {
-      zoomOut(mouseEvent);
+    if (MOUSE_WHEEL_ZOOM) { // DEEM-MOD
+      if (mouseEvent.count > 0) {
+        zoomIn(mouseEvent);
+      } else {
+        zoomOut(mouseEvent);
+      }
     }
   }
 }

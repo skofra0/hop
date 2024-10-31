@@ -23,6 +23,7 @@ import org.apache.hop.ui.core.FormDataBuilder;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.gui.GuiResource;
 import org.apache.hop.ui.core.widget.OsHelper;
+import org.apache.hop.ui.core.widget.TextComposite;
 import org.apache.hop.ui.core.widget.UndoRedoStack;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ExtendedModifyEvent;
@@ -57,7 +58,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 // DEEM-MOD
-public class StyledTextComp2 extends Composite {
+public class StyledTextComp2 extends TextComposite {
   private static final Class<?> PKG = StyledTextComp2.class;
   private static final int MAX_STACK_SIZE = 25;
 
@@ -86,6 +87,7 @@ public class StyledTextComp2 extends Composite {
       int args,
       boolean varsSensitive,
       boolean variableIconOnTop) {
+
     super(parent, SWT.NONE);
     textWidget = new StyledText(this, args);
     styledTextPopupmenu = new Menu(parent.getShell(), SWT.POP_UP);
@@ -104,7 +106,7 @@ public class StyledTextComp2 extends Composite {
           @Override
           public void keyPressed(KeyEvent e) {
             if (e.keyCode == 'h' && (e.stateMask & SWT.MOD1 & SWT.SHIFT) != 0) {
-              new StyledTextComp2Replace(styledTextPopupmenu.getShell(), textWidget).open();
+              new StyledTextCompReplace(styledTextPopupmenu.getShell(), textWidget).open();
             } else if (e.keyCode == 'z' && (e.stateMask & SWT.MOD1) != 0) {
               undo();
             } else if (e.keyCode == 'y' && (e.stateMask & SWT.MOD1) != 0) {
@@ -113,7 +115,7 @@ public class StyledTextComp2 extends Composite {
               bFullSelection = true;
               textWidget.selectAll();
             } else if (e.keyCode == 'f' && (e.stateMask & SWT.MOD1) != 0) {
-              new StyledTextComp2Find(
+              new StyledTextCompFind(
                       styledTextPopupmenu.getShell(),
                       textWidget,
                       BaseMessages.getString(PKG, "WidgetDialog.Styled.Find"))
@@ -198,16 +200,16 @@ public class StyledTextComp2 extends Composite {
     return textWidget.getSelectionText();
   }
 
+  public int getCaretOffset() {
+    return textWidget.getCaretOffset();
+  }
+
   public String getText() {
     return textWidget.getText();
   }
 
   public void setText(String text) {
     textWidget.setText(text);
-  }
-
-  public int getCaretOffset() {
-    return textWidget.getCaretOffset();
   }
 
   public int getLineAtOffset(int iOffset) {
@@ -225,6 +227,16 @@ public class StyledTextComp2 extends Composite {
 
   public void addModifyListener(ModifyListener lsMod) {
     textWidget.addModifyListener(lsMod);
+  }
+
+  @Override
+  public void addLineStyleListener() {
+    // No listener required
+  }
+
+  @Override
+  public void addLineStyleListener(List<String> sqlKeywords) {
+    // No listener required
   }
 
   public void addLineStyleListener(LineStyleListener lineStyler) {
@@ -273,28 +285,28 @@ public class StyledTextComp2 extends Composite {
   }
 
   private void buildingStyledTextMenu() {
-    MenuItem undoItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    final MenuItem undoItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     undoItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Undo")));
     undoItem.addListener(SWT.Selection, e -> undo());
 
-    MenuItem redoItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    final MenuItem redoItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     redoItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Redo")));
     redoItem.addListener(SWT.Selection, e -> redo());
 
     new MenuItem(styledTextPopupmenu, SWT.SEPARATOR);
-    MenuItem cutItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    final MenuItem cutItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     cutItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Cut")));
     cutItem.addListener(SWT.Selection, e -> textWidget.cut());
 
-    MenuItem copyItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    final MenuItem copyItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     copyItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Copy")));
     copyItem.addListener(SWT.Selection, e -> textWidget.copy());
 
-    MenuItem pasteItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    final MenuItem pasteItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     pasteItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Paste")));
     pasteItem.addListener(SWT.Selection, e -> textWidget.paste());
@@ -306,14 +318,14 @@ public class StyledTextComp2 extends Composite {
     selectAllItem.addListener(SWT.Selection, e -> textWidget.selectAll());
 
     new MenuItem(styledTextPopupmenu, SWT.SEPARATOR);
-    MenuItem findItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    final MenuItem findItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     findItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Find")));
     findItem.addListener(
         SWT.Selection,
         e -> {
-          StyledTextComp2Find stFind =
-              new StyledTextComp2Find(
+          StyledTextCompFind stFind =
+              new StyledTextCompFind(
                   textWidget.getShell(),
                   textWidget,
                   BaseMessages.getString(PKG, "WidgetDialog.Styled.FindString"));
@@ -326,8 +338,8 @@ public class StyledTextComp2 extends Composite {
     replaceItem.addListener(
         SWT.Selection,
         e -> {
-          StyledTextComp2Replace stReplace =
-              new StyledTextComp2Replace(textWidget.getShell(), textWidget);
+          StyledTextCompReplace stReplace =
+              new StyledTextCompReplace(textWidget.getShell(), textWidget);
           stReplace.open();
         });
 
