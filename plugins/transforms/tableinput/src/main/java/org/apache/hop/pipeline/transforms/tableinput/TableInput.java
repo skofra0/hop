@@ -91,6 +91,8 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
     Object[] parameters = new Object[] {};
     if (first) { // we just got started
 
+      // Object[] parameters; // DEEM-MOD
+      // IRowMeta parametersMeta; // DEEM-MOD
       first = false;
 
       // Make sure we read data from source transforms...
@@ -139,11 +141,10 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
         parametersMeta = new RowMeta();
       }
 
-      // DEEM-MOD
-      // if (meta.isExecuteEachInputRow() && (parameters == null || parametersMeta.size() == 0)) {
-      // setOutputDone(); // signal end to receiver(s)
-      // return false; // stop immediately, nothing to do here.
-      // }
+      // DEEM-MOD if (meta.isExecuteEachInputRow() && (parameters == null || parametersMeta.size() == 0)) {
+      // DEEM-MOD   setOutputDone(); // signal end to receiver(s)
+      // DEEM-MOD   return false; // stop immediately, nothing to do here.
+      // DEEM-MOD }
 
       boolean success = doQuery(parametersMeta, parameters);
       if (!success) {
@@ -177,7 +178,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
       // DEEM-MOD
       // Try to get another row from the input stream
       // if (meta.isExecuteEachInputRow()) {
-      if (data.infoStream.getTransformMeta() != null) {
+      if (data.infoStream.getTransformMeta() != null) { // DEEM-MOD
         Object[] nextRow = getRowFrom(data.rowSet);
         if (nextRow == null) { // Nothing more to get!
 

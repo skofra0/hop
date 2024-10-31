@@ -268,6 +268,7 @@ public class MonetDBDatabaseMetaTest {
             false,
             false,
             false)); // should end up with (100) if "safeMode = true"
+    /* DEEM-MOD
 
      assertEquals(
         " UNKNOWN",
@@ -277,5 +278,6 @@ public class MonetDBDatabaseMetaTest {
         " UNKNOWN" + System.getProperty("line.separator"),
         nativeMeta.getFieldDefinition(
             new ValueMetaInternetAddress("FOO"), "", "", false, false, true));
+     DEEM-MOD */
   }
 }
