@@ -100,7 +100,7 @@
         <!-- DEEM-MOD-->
         <asm.version>9.7.1</asm.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
-        <deem-insight.version>24.4.3</deem-insight.version>
+        <deem-insight.version>24.4.4-SNAPSHOT</deem-insight.version>
         <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision>
         <groovy.version>4.0.23</groovy.version>
         <httpccore.version>4.4.16</httpccore.version>
@@ -580,6 +580,21 @@
 				<configuration>
 					<rulesUri>
 						file://${maven.multiModuleProjectDirectory}/rules.xml</rulesUri>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>4.6</version>
+				<configuration>
+					<licenseSets>
+						<licenseSet>
+							<header>${maven.multiModuleProjectDirectory}/APACHE-2.txt</header>
+							<includes>
+								<include>**/*.java</include>
+							</includes>
+						</licenseSet>
+					</licenseSets>
 				</configuration>
 			</plugin>
 		</plugins>
