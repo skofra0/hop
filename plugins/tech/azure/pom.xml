@@ -30,7 +30,6 @@
     <name>Hop Plugins Technology Azure</name>
 
     <properties>
-        <azure-storage.version>8.6.6</azure-storage.version>
         <azure-eventhubs.version>3.3.0</azure-eventhubs.version>
         <azure-sdk-bom.version>1.2.29</azure-sdk-bom.version>
     </properties>
@@ -100,12 +99,6 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-file-datalake</artifactId>
-        </dependency>
-        <!-- DEM-MOD -->
-        <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-storage</artifactId>
-            <version>${azure-storage.version}</version>
         </dependency>
         <dependency>
             <groupId>com.microsoft.azure</groupId>

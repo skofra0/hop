@@ -30,14 +30,10 @@ public class ValueBigNumber implements IValue, Cloneable {
   private int precision;
 
   public ValueBigNumber() {
-    this.number = null;
-    this.length = -1;
-    this.precision = -1;
+    this(null);
   }
 
   public ValueBigNumber(BigDecimal number) {
-    // System.out.println("new ValueBigNumber("+number+")"); OK
-
     this.number = number;
     this.length = -1;
     this.precision = -1;

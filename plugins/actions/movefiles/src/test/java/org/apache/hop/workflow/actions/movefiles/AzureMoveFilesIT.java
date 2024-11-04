@@ -25,7 +25,6 @@ import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.specialized.AppendBlobClient;
-import com.microsoft.azure.storage.StorageException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -111,8 +110,7 @@ public class AzureMoveFilesIT {
   }
 
   @Before
-  public void setup()
-      throws URISyntaxException, InvalidKeyException, StorageException, IOException, HopException {
+  public void setup() throws URISyntaxException, InvalidKeyException, IOException, HopException {
     // Retrieve storage account from connection-string.
     final BlobContainerClient container = blobServiceClient.getBlobContainerClient(CONTAINER_NAME);
     deleteFiles(CONTAINER_NAME);
@@ -241,8 +239,7 @@ public class AzureMoveFilesIT {
     // azuriteContainer.stop();
   }
 
-  private void deleteFiles(String containerName)
-      throws URISyntaxException, InvalidKeyException, StorageException {
+  private void deleteFiles(String containerName) throws URISyntaxException, InvalidKeyException {
     final BlobContainerClient container = blobServiceClient.getBlobContainerClient(containerName);
     container.listBlobs().forEach(blob -> container.getBlobClient(blob.getName()).deleteIfExists());
   }
@@ -254,7 +251,7 @@ public class AzureMoveFilesIT {
   }
 
   private void uploadFileIntoContainer(String containerName, String... fileNames)
-      throws URISyntaxException, StorageException, IOException {
+      throws URISyntaxException, IOException {
 
     for (String fileName : fileNames) {
       BlobServiceClient blobServiceClient =
