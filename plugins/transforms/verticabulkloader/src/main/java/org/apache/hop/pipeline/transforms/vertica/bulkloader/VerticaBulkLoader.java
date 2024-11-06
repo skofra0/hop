@@ -141,9 +141,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
           if (inputFieldIdx < 0) {
             throw new HopTransformException(
                 BaseMessages.getString(
-                    PKG,
-                    "VerticaBulkLoader.Exception.FieldRequired",
-                    inputFieldName)); //$NON-NLS-1$
+                    PKG, "VerticaBulkLoader.Exception.FieldRequired", inputFieldName));
           }
           data.selectedRowFieldIndices[insertFieldIdx] = inputFieldIdx;
 
@@ -152,9 +150,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
           if (inputValueMeta == null) {
             throw new HopTransformException(
                 BaseMessages.getString(
-                    PKG,
-                    "VerticaBulkLoader.Exception.FailedToFindField",
-                    vbf.getFieldStream())); // $NON-NLS-1$
+                    PKG, "VerticaBulkLoader.Exception.FailedToFindField", vbf.getFieldStream()));
           }
           IValueMeta insertValueMeta = inputValueMeta.clone();
           insertValueMeta.setName(insertFieldName);
@@ -391,8 +387,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
           targetValueMeta.getLength(),
           targetValueMeta.getPrecision());
     }
-    throw new IllegalArgumentException(
-        "Column type " + targetColumnTypeName + " not supported."); // $NON-NLS-1$
+    throw new IllegalArgumentException("Column type " + targetColumnTypeName + " not supported.");
   }
 
   private void initializeWorker() {

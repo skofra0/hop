@@ -170,7 +170,7 @@ public class StandardizePhoneNumberMeta
               BaseMessages.getString(
                   PKG,
                   "StandardizePhoneNumberMeta.CheckResult.ReceivingFieldsFromPreviousTransforms",
-                  prev.size()), // $NON-NLS-1$
+                  prev.size()),
               transformMeta));
     }
 

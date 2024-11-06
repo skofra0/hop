@@ -1110,7 +1110,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog {
           shell,
           BaseMessages.getString(PKG, "SelectValuesDialog.FailedToGetFields.DialogTitle"),
           BaseMessages.getString(PKG, "SelectValuesDialog.FailedToGetFields.DialogMessage"),
-          ke); //$NON-NLS-2$
+          ke);
     }
   }
 

@@ -215,8 +215,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
 
     // Schema line...
     wlSchema = new Label(shell, SWT.RIGHT);
-    wlSchema.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.TargetSchema.Label")); // $NON-NLS-1$
+    wlSchema.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.TargetSchema.Label"));
     PropsUi.setLook(wlSchema);
     fdlSchema = new FormData();
     fdlSchema.left = new FormAttachment(0, 0);
@@ -358,8 +357,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
     // START OF KEY TAB ///
     // /
     wMainTab = new CTabItem(wTabFolder, SWT.NONE);
-    wMainTab.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.MainTab.CTabItem")); // $NON-NLS-1$
+    wMainTab.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.MainTab.CTabItem"));
 
     FormLayout mainLayout = new FormLayout();
     mainLayout.marginWidth = 3;
@@ -426,11 +424,9 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
     // ExceptionsLogFile line...
     wlExceptionsLogFile = new Label(wMainComp, SWT.RIGHT);
     wlExceptionsLogFile.setText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Label")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Label"));
     wlExceptionsLogFile.setToolTipText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Tooltip")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Tooltip"));
     PropsUi.setLook(wlExceptionsLogFile);
     fdlExceptionsLogFile = new FormData();
     fdlExceptionsLogFile.left = new FormAttachment(0, 0);
@@ -440,8 +436,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
 
     wExceptionsLogFile = new TextVar(variables, wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wExceptionsLogFile.setToolTipText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Tooltip")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Tooltip"));
     PropsUi.setLook(wExceptionsLogFile);
     wExceptionsLogFile.addModifyListener(lsMod);
     wExceptionsLogFile.addFocusListener(lsFocusLost);
@@ -454,11 +449,9 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
     // RejectedDataLogFile line...
     wlRejectedDataLogFile = new Label(wMainComp, SWT.RIGHT);
     wlRejectedDataLogFile.setText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Label")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Label"));
     wlRejectedDataLogFile.setToolTipText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Tooltip")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Tooltip"));
     PropsUi.setLook(wlRejectedDataLogFile);
     fdlRejectedDataLogFile = new FormData();
     fdlRejectedDataLogFile.left = new FormAttachment(0, 0);
@@ -468,8 +461,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
 
     wRejectedDataLogFile = new TextVar(variables, wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wRejectedDataLogFile.setToolTipText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Tooltip")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Tooltip"));
     PropsUi.setLook(wRejectedDataLogFile);
     wRejectedDataLogFile.addModifyListener(lsMod);
     wRejectedDataLogFile.addFocusListener(lsFocusLost);
@@ -481,10 +473,9 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
 
     // StreamName line...
     wlStreamName = new Label(wMainComp, SWT.RIGHT);
-    wlStreamName.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Label")); // $NON-NLS-1$
+    wlStreamName.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Label"));
     wlStreamName.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Tooltip")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Tooltip"));
     PropsUi.setLook(wlStreamName);
     FormData fdlStreamName = new FormData();
     fdlStreamName.left = new FormAttachment(0, 0);
@@ -494,7 +485,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
 
     wStreamName = new TextVar(variables, wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wStreamName.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Tooltip")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Tooltip"));
     PropsUi.setLook(wStreamName);
     wStreamName.addModifyListener(lsMod);
     wStreamName.addFocusListener(lsFocusLost);
@@ -512,8 +503,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
     //
     wFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
     wFieldsTab.setText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.FieldsTab.CTabItem.Title")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.FieldsTab.CTabItem.Title"));
 
     Composite wFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wFieldsComp);
@@ -525,8 +515,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
 
     // The fields table
     wlFields = new Label(wFieldsComp, SWT.NONE);
-    wlFields.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertFields.Label")); // $NON-NLS-1$
+    wlFields.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertFields.Label"));
     PropsUi.setLook(wlFields);
     FormData fdlUpIns = new FormData();
     fdlUpIns.left = new FormAttachment(0, 0);
@@ -545,13 +534,13 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
             BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ColumnInfo.TableField"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
             new String[] {""},
-            false); //$NON-NLS-1$
+            false);
     ciFields[1] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ColumnInfo.StreamField"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
             new String[] {""},
-            false); //$NON-NLS-1$
+            false);
     tableFieldColumns.add(ciFields[0]);
     wFields =
         new TableView(
@@ -564,16 +553,14 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
             props);
 
     wGetFields = new Button(wFieldsComp, SWT.PUSH);
-    wGetFields.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.GetFields.Button")); // $NON-NLS-1$
+    wGetFields.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.GetFields.Button"));
     fdGetFields = new FormData();
     fdGetFields.top = new FormAttachment(wlFields, margin);
     fdGetFields.right = new FormAttachment(100, 0);
     wGetFields.setLayoutData(fdGetFields);
 
     wDoMapping = new Button(wFieldsComp, SWT.PUSH);
-    wDoMapping.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.Button")); // $NON-NLS-1$
+    wDoMapping.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.Button"));
     fdDoMapping = new FormData();
     fdDoMapping.top = new FormAttachment(wGetFields, margin);
     fdDoMapping.right = new FormAttachment(100, 0);
@@ -1020,7 +1007,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
           shell,
           BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.FailedToGetFields.DialogTitle"),
           BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.FailedToGetFields.DialogMessage"),
-          ke); //$NON-NLS-1$ //$NON-NLS-2$
+          ke);
     }
   }
 
@@ -1052,7 +1039,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog {
                 BaseMessages.getString(
                     PKG,
                     "VerticaBulkLoaderDialog.FailedToFindField.Message",
-                    vbf.getFieldStream())); // $NON-NLS-1$
+                    vbf.getFieldStream()));
           }
         }
         prev = prevNew;

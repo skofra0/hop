@@ -58,8 +58,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class WarehouseManagerDialog extends ActionDialog implements IActionDialog {
 
-  private static final Class<?> PKG =
-      WarehouseManager.class; // for i18n purposes, needed by Translator2!! $NON-NLS-1$
+  private static final Class<?> PKG = WarehouseManager.class;
 
   private static final String[] MANAGEMENT_ACTION_DESCS =
       new String[] {

@@ -291,8 +291,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog {
 
     // Where clause // DEEM-MOD
     var wlWhereClause = new Label(shell, SWT.RIGHT);
-    wlWhereClause.setText(
-        BaseMessages.getString(PKG, "DatabaseLookupDialog.WhereClause.Label")); // $NON-NLS-1$
+    wlWhereClause.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.WhereClause.Label"));
     PropsUi.setLook(wlWhereClause);
     wlWhereClause.setEnabled(input.isCached());
     FormData fdlWhereClause = new FormData();

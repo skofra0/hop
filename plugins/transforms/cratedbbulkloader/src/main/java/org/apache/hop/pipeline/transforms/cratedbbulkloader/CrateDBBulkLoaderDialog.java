@@ -203,8 +203,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
 
     // Schema line...
     Label wlSchema = new Label(shell, SWT.RIGHT);
-    wlSchema.setText(
-        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.TargetSchema.Label")); // $NON-NLS-1$
+    wlSchema.setText(BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.TargetSchema.Label"));
     PropsUi.setLook(wlSchema);
     FormData fdlSchema = new FormData();
     fdlSchema.left = new FormAttachment(0, 0);
@@ -315,8 +314,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
 
     CTabItem wFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
     wFieldsTab.setText(
-        BaseMessages.getString(
-            PKG, "CrateDBBulkLoaderDialog.FieldsTab.TabItem.Label")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.FieldsTab.TabItem.Label"));
 
     Composite wFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wFieldsComp);
@@ -328,8 +326,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
 
     // The fields table
     Label wlFields = new Label(wFieldsComp, SWT.NONE);
-    wlFields.setText(
-        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.InsertFields.Label")); // $NON-NLS-1$
+    wlFields.setText(BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.InsertFields.Label"));
     PropsUi.setLook(wlFields);
     FormData fdlUpIns = new FormData();
     fdlUpIns.left = new FormAttachment(0, 0);
@@ -348,13 +345,13 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
             BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.ColumnInfo.TableField"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
             new String[] {""},
-            false); //$NON-NLS-1$
+            false);
     ciFields[1] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.ColumnInfo.StreamField"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
             new String[] {""},
-            false); //$NON-NLS-1$
+            false);
     tableFieldColumns.add(ciFields[0]);
     wFields =
         new TableView(
@@ -367,16 +364,14 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
             props);
 
     wGetFields = new Button(wFieldsComp, SWT.PUSH);
-    wGetFields.setText(
-        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.GetFields.Button")); // $NON-NLS-1$
+    wGetFields.setText(BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.GetFields.Button"));
     FormData fdGetFields = new FormData();
     fdGetFields.top = new FormAttachment(wlFields, margin);
     fdGetFields.right = new FormAttachment(100, 0);
     wGetFields.setLayoutData(fdGetFields);
 
     wDoMapping = new Button(wFieldsComp, SWT.PUSH);
-    wDoMapping.setText(
-        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.DoMapping.Button")); // $NON-NLS-1$
+    wDoMapping.setText(BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.DoMapping.Button"));
     FormData fdDoMapping = new FormData();
     fdDoMapping.top = new FormAttachment(wGetFields, margin);
     fdDoMapping.right = new FormAttachment(100, 0);
@@ -448,7 +443,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
 
     CTabItem wOptionsTab = new CTabItem(wTabFolder, SWT.NONE);
     wOptionsTab.setText(
-        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.AWSTab.TabItem.Label")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.AWSTab.TabItem.Label"));
 
     FormLayout optionsLayout = new FormLayout();
     optionsLayout.marginWidth = 3;
@@ -545,9 +540,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
       FocusListener lsFocusLost) {
 
     CTabItem wHttpTab = new CTabItem(wTabFolder, SWT.NONE);
-    wHttpTab.setText(
-        BaseMessages.getString(
-            PKG, "CrateDBBulkLoaderDialog.HttpTab.TabItem.Label")); // $NON-NLS-1$
+    wHttpTab.setText(BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.HttpTab.TabItem.Label"));
 
     FormLayout httpLayout = new FormLayout();
     httpLayout.marginWidth = 3;
@@ -617,9 +610,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
       FocusListener lsFocusLost) {
 
     CTabItem wMainTab = new CTabItem(wTabFolder, SWT.NONE);
-    wMainTab.setText(
-        BaseMessages.getString(
-            PKG, "CrateDBBulkLoaderDialog.MainTab.TabItem.Label")); // $NON-NLS-1$
+    wMainTab.setText(BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.MainTab.TabItem.Label"));
 
     FormLayout mainLayout = new FormLayout();
     mainLayout.marginWidth = 3;
@@ -683,7 +674,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
     // HttpEndpoint line...
     wlHttpEndpoint = new Label(wMainComp, SWT.RIGHT);
     wlHttpEndpoint.setText(
-        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.HTTPEndpoint.Label")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.HTTPEndpoint.Label"));
     PropsUi.setLook(wlHttpEndpoint);
     FormData fdlHttpEndpoint = new FormData();
     fdlHttpEndpoint.left = new FormAttachment(0, 0);
@@ -706,8 +697,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
     // Batch Size
     wlBatchSize = new Label(wMainComp, SWT.RIGHT);
     wlBatchSize.setText(
-        BaseMessages.getString(
-            PKG, "CrateDBBulkLoaderDialog.HTTPEndpointBatchSize.Label")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.HTTPEndpointBatchSize.Label"));
     PropsUi.setLook(wlBatchSize);
     FormData fdlBatchSize = new FormData();
     fdlBatchSize.left = new FormAttachment(0, 0);
@@ -1300,7 +1290,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
           shell,
           BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.FailedToGetFields.DialogTitle"),
           BaseMessages.getString(PKG, "CrateDBBulkLoaderDialog.FailedToGetFields.DialogMessage"),
-          ke); //$NON-NLS-1$ //$NON-NLS-2$
+          ke);
     }
   }
 
@@ -1332,7 +1322,7 @@ public class CrateDBBulkLoaderDialog extends BaseTransformDialog {
                 BaseMessages.getString(
                     PKG,
                     "CrateDBBulkLoaderDialog.FailedToFindField.Message",
-                    vbf.getStreamField())); // $NON-NLS-1$
+                    vbf.getStreamField()));
           }
         }
         prev = prevNew;

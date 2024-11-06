@@ -209,9 +209,7 @@ public class RedshiftBulkLoader
           if (inputFieldIdx < 0) {
             throw new HopTransformException(
                 BaseMessages.getString(
-                    PKG,
-                    "RedshiftBulkLoader.Exception.FieldRequired",
-                    inputFieldName)); //$NON-NLS-1$
+                    PKG, "RedshiftBulkLoader.Exception.FieldRequired", inputFieldName));
           }
           data.selectedRowFieldIndices[i] = inputFieldIdx;
 
@@ -220,9 +218,7 @@ public class RedshiftBulkLoader
           if (inputValueMeta == null) {
             throw new HopTransformException(
                 BaseMessages.getString(
-                    PKG,
-                    "RedshiftBulkLoader.Exception.FailedToFindField",
-                    vbf.getStreamField())); // $NON-NLS-1$
+                    PKG, "RedshiftBulkLoader.Exception.FailedToFindField", vbf.getStreamField()));
           }
           IValueMeta insertValueMeta = inputValueMeta.clone();
           insertValueMeta.setName(insertFieldName);

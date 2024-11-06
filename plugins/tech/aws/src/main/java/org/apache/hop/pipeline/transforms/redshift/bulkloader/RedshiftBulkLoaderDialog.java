@@ -203,8 +203,7 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
 
     // Schema line...
     Label wlSchema = new Label(shell, SWT.RIGHT);
-    wlSchema.setText(
-        BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.TargetSchema.Label")); // $NON-NLS-1$
+    wlSchema.setText(BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.TargetSchema.Label"));
     PropsUi.setLook(wlSchema);
     FormData fdlSchema = new FormData();
     fdlSchema.left = new FormAttachment(0, 0);
@@ -316,8 +315,7 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
       FocusListener lsFocusLost) {
 
     CTabItem wGeneralTab = new CTabItem(wTabFolder, SWT.NONE);
-    wGeneralTab.setText(
-        BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.GeneralTab.Label")); // $NON-NLS-1$
+    wGeneralTab.setText(BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.GeneralTab.Label"));
 
     FormLayout generalLayout = new FormLayout();
     generalLayout.marginWidth = 3;
@@ -515,8 +513,7 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
       CTabFolder wTabFolder, int margin, int middle, ModifyListener lsMod) {
 
     CTabItem wAwsAuthTab = new CTabItem(wTabFolder, SWT.NONE);
-    wAwsAuthTab.setText(
-        BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.AwsAuthTab.Label")); // $NON-NLS-1$
+    wAwsAuthTab.setText(BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.AwsAuthTab.Label"));
 
     Composite wAwsAuthComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wAwsAuthComp);
@@ -658,8 +655,7 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
   private void addFieldsTab(CTabFolder wTabFolder, int margin, int middle, ModifyListener lsMod) {
 
     CTabItem wFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
-    wFieldsTab.setText(
-        BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.FieldsTab.Label")); // $NON-NLS-1$
+    wFieldsTab.setText(BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.FieldsTab.Label"));
 
     Composite wFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wFieldsComp);
@@ -671,8 +667,7 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
 
     // The fields table
     Label wlFields = new Label(wFieldsComp, SWT.NONE);
-    wlFields.setText(
-        BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.InsertFields.Label")); // $NON-NLS-1$
+    wlFields.setText(BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.InsertFields.Label"));
     PropsUi.setLook(wlFields);
     FormData fdlUpIns = new FormData();
     fdlUpIns.left = new FormAttachment(0, 0);
@@ -691,13 +686,13 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
             BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.ColumnInfo.TableField"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
             new String[] {""},
-            false); //$NON-NLS-1$
+            false);
     ciFields[1] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.ColumnInfo.StreamField"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
             new String[] {""},
-            false); //$NON-NLS-1$
+            false);
     tableFieldColumns.add(ciFields[0]);
     wFields =
         new TableView(
@@ -710,16 +705,14 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
             props);
 
     wGetFields = new Button(wFieldsComp, SWT.PUSH);
-    wGetFields.setText(
-        BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.GetFields.Button")); // $NON-NLS-1$
+    wGetFields.setText(BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.GetFields.Button"));
     FormData fdGetFields = new FormData();
     fdGetFields.top = new FormAttachment(wlFields, margin);
     fdGetFields.right = new FormAttachment(100, 0);
     wGetFields.setLayoutData(fdGetFields);
 
     wDoMapping = new Button(wFieldsComp, SWT.PUSH);
-    wDoMapping.setText(
-        BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.DoMapping.Button")); // $NON-NLS-1$
+    wDoMapping.setText(BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.DoMapping.Button"));
     FormData fdDoMapping = new FormData();
     fdDoMapping.top = new FormAttachment(wGetFields, margin);
     fdDoMapping.right = new FormAttachment(100, 0);
@@ -1220,7 +1213,7 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
           shell,
           BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.FailedToGetFields.DialogTitle"),
           BaseMessages.getString(PKG, "RedshiftBulkLoaderDialog.FailedToGetFields.DialogMessage"),
-          ke); //$NON-NLS-1$ //$NON-NLS-2$
+          ke);
     }
   }
 
@@ -1252,7 +1245,7 @@ public class RedshiftBulkLoaderDialog extends BaseTransformDialog {
                 BaseMessages.getString(
                     PKG,
                     "RedshiftBulkLoaderDialog.FailedToFindField.Message",
-                    vbf.getStreamField())); // $NON-NLS-1$
+                    vbf.getStreamField()));
           }
         }
         prev = prevNew;

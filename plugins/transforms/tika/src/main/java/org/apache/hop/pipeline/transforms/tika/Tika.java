@@ -42,8 +42,7 @@ import org.apache.tika.metadata.Metadata;
 import org.json.simple.JSONObject;
 
 public class Tika extends BaseTransform<TikaMeta, TikaData> {
-  private static final Class<?> PKG =
-      TikaMeta.class; // for i18n purposes, needed by Translator2!! $NON-NLS-1$
+  private static final Class<?> PKG = TikaMeta.class;
 
   public Tika(
       TransformMeta transformMeta,

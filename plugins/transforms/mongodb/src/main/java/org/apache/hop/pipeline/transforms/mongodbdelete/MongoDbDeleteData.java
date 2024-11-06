@@ -364,13 +364,13 @@ public class MongoDbDeleteData extends BaseTransformData implements ITransformDa
   public static String cleansePath(String path) {
     // look for variables and convert any "." to "_"
 
-    int index = path.indexOf("${"); // $NON-NLS-1$
+    int index = path.indexOf("${");
 
     int endIndex = 0;
     String tempStr = path;
     while (index >= 0) {
       index += 2;
-      endIndex += tempStr.indexOf("}"); // $NON-NLS-1$
+      endIndex += tempStr.indexOf("}");
       if (endIndex > 0 && endIndex > index + 1) {
         String key = path.substring(index, endIndex);
 
@@ -386,7 +386,7 @@ public class MongoDbDeleteData extends BaseTransformData implements ITransformDa
         break;
       }
 
-      index = tempStr.indexOf("${"); // $NON-NLS-1$
+      index = tempStr.indexOf("${");
 
       if (index > 0) {
         index += endIndex;

@@ -134,8 +134,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
       if (strTransformScript.contains(valName)) {
         if (log.isDetailed()) {
           logDetailed(
-              BaseMessages.getString(
-                  PKG, "Script.Log.UsedValueName", String.valueOf(i), valName)); // $NON-NLS-3$
+              BaseMessages.getString(PKG, "Script.Log.UsedValueName", String.valueOf(i), valName));
         }
         data.fieldsUsed[nr] = i;
         nr++;
@@ -648,7 +647,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
     } catch (HopValueException e) {
       String location = "<unknown>";
       if (e.getCause() instanceof ScriptException ee) {
-        location = "--> " + ee.getLineNumber() + ":" + ee.getColumnNumber(); // $NON-NLS-1$
+        location = "--> " + ee.getLineNumber() + ":" + ee.getColumnNumber();
         //
       }
 

@@ -346,7 +346,7 @@ public class CrateDBBulkLoader extends BaseTransform<CrateDBBulkLoaderMeta, Crat
       if (inputFieldIdx < 0) {
         throw new HopTransformException(
             BaseMessages.getString(
-                PKG, "CrateDBBulkLoader.Exception.FieldRequired", inputFieldName)); // $NON-NLS-1$
+                PKG, "CrateDBBulkLoader.Exception.FieldRequired", inputFieldName));
       }
       data.selectedRowFieldIndices[i] = inputFieldIdx;
       String insertFieldName = vbf.getDatabaseField();
@@ -354,9 +354,7 @@ public class CrateDBBulkLoader extends BaseTransform<CrateDBBulkLoaderMeta, Crat
       if (inputValueMeta == null) {
         throw new HopTransformException(
             BaseMessages.getString(
-                PKG,
-                "CrateDBBulkLoader.Exception.FailedToFindField",
-                vbf.getStreamField())); // $NON-NLS-1$
+                PKG, "CrateDBBulkLoader.Exception.FailedToFindField", vbf.getStreamField()));
       }
       IValueMeta insertValueMeta = inputValueMeta.clone();
       insertValueMeta.setName(insertFieldName);

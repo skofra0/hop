@@ -194,10 +194,9 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
 
     // collection line
     Label wlCollection = new Label(wOutputComp, SWT.RIGHT);
-    wlCollection.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.Collection.Label")); // $NON-NLS-1$
+    wlCollection.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.Collection.Label"));
     wlCollection.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.Collection.TipText")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "MongoDbDeleteDialog.Collection.TipText"));
     PropsUi.setLook(wlCollection);
     fd = new FormData();
     fd.left = new FormAttachment(0, 0);
@@ -208,7 +207,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
     Button wbGetCollections = new Button(wOutputComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbGetCollections);
     wbGetCollections.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.GetCollections.Button")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "MongoDbDeleteDialog.GetCollections.Button"));
     fd = new FormData();
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(lastControl, 0);
@@ -232,10 +231,9 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
     // retries stuff
     Label retriesLab = new Label(wOutputComp, SWT.RIGHT);
     PropsUi.setLook(retriesLab);
-    retriesLab.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetries.Label")); // $NON-NLS-1$
+    retriesLab.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetries.Label"));
     retriesLab.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetries.TipText")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetries.TipText"));
     fd = new FormData();
     fd.left = new FormAttachment(0, -margin);
     fd.top = new FormAttachment(wCollection, margin);
@@ -255,7 +253,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
     Label retriesDelayLab = new Label(wOutputComp, SWT.RIGHT);
     PropsUi.setLook(retriesDelayLab);
     retriesDelayLab.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetriesDelay.Label")); // $NON-NLS-1$
+        BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetriesDelay.Label"));
     fd = new FormData();
     fd.left = new FormAttachment(0, -margin);
     fd.top = new FormAttachment(wtvWriteRetries, margin);
@@ -283,8 +281,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
     // --- start of the fields tab
     CTabItem mWQueryTab = new CTabItem(wTabFolder, SWT.NONE);
     mWQueryTab.setFont(GuiResource.getInstance().getFontDefault());
-    mWQueryTab.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.QueryTab.TabTitle")); // $NON-NLS-1$
+    mWQueryTab.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.QueryTab.TabTitle"));
     Composite wFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wFieldsComp);
     FormLayout filterLayout = new FormLayout();
@@ -479,10 +476,10 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
 
     // Buttons inherited from BaseStepDialog
     wOk = new Button(shell, SWT.PUSH);
-    wOk.setText(BaseMessages.getString(PKG, "System.Button.OK")); // $NON-NLS-1$
+    wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
 
     wCancel = new Button(shell, SWT.PUSH);
-    wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel")); // $NON-NLS-1$
+    wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
 
     setButtonPositions(new Button[] {wOk, wCancel}, margin, wTabFolder);
 
@@ -643,18 +640,11 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
 
   private void getData() {
     wConnection.setText(Const.NVL(currentMeta.getConnectionName(), ""));
-    wCollection.setText(Const.NVL(currentMeta.getCollection(), "")); // $NON-NLS-1$
+    wCollection.setText(Const.NVL(currentMeta.getCollection(), ""));
 
-    wtvWriteRetries.setText(
-        Const.NVL(
-            currentMeta.getWriteRetries(),
-            "" //$NON-NLS-1$
-                + currentMeta.nbRetries));
+    wtvWriteRetries.setText(Const.NVL(currentMeta.getWriteRetries(), "" + currentMeta.nbRetries));
     wtvWriteRetryDelay.setText(
-        Const.NVL(
-            currentMeta.getWriteRetryDelay(),
-            "" //$NON-NLS-1$
-                + currentMeta.nbRetries));
+        Const.NVL(currentMeta.getWriteRetryDelay(), "" + currentMeta.nbRetries));
 
     wbUseJsonQuery.setSelection(currentMeta.isUseJsonQuery());
     wcbEcuteForEachRow.setSelection(currentMeta.isExecuteForEachIncomingRow());
@@ -895,12 +885,12 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
   public static String prettyPrintDocStructure(String toFormat) {
     StringBuffer result = new StringBuffer();
     int indent = 0;
-    String source = toFormat.replaceAll("[ ]*,", ","); // $NON-NLS-1$ //$NON-NLS-2$
+    String source = toFormat.replaceAll("[ ]*,", ",");
     Element next = Element.OPEN_BRACE;
 
     while (source.length() > 0) {
       source = source.trim();
-      String toIndent = ""; // $NON-NLS-1$
+      String toIndent = "";
       int minIndex = Integer.MAX_VALUE;
       char targetChar = '{';
       if (source.indexOf('{') > -1 && source.indexOf('{') < minIndex) {
@@ -934,13 +924,13 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
           indent -= 2;
         }
         pad(result, indent);
-        String comma = ""; // $NON-NLS-1$
+        String comma = "";
         int offset = 1;
         if (source.length() >= 2 && source.charAt(1) == ',') {
-          comma = ","; // $NON-NLS-1$
+          comma = ",";
           offset = 2;
         }
-        result.append(targetChar).append(comma).append("\n"); // $NON-NLS-1$
+        result.append(targetChar).append(comma).append("\n");
         source = source.substring(offset, source.length());
       } else {
         pad(result, indent);
@@ -951,7 +941,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog {
           toIndent = source.substring(0, minIndex + 1);
           source = source.substring(minIndex + 1, source.length());
         }
-        result.append(toIndent.trim()).append("\n"); // $NON-NLS-1$
+        result.append(toIndent.trim()).append("\n");
       }
 
       if (next == Element.OPEN_BRACE || next == Element.OPEN_BRACKET) {

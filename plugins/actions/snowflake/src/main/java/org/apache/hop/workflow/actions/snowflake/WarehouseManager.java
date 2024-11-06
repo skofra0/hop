@@ -80,8 +80,7 @@ public class WarehouseManager extends ActionBase implements Cloneable, IAction {
   private static final String[] WAREHOUSE_TYPES = {"Standard", "Enterprise"};
 
   public static final String FAIL_IF_NOT_EXISTS = "failIfNotExists";
-  private static final Class<?> PKG =
-      WarehouseManager.class; // for i18n purposes, needed by Translator2!! $NON-NLS-1$
+  private static final Class<?> PKG = WarehouseManager.class;
   public static final String CONST_SPACES = "      ";
   public static final String CONST_IF_EXISTS = "IF EXISTS ";
   public static final String CONST_ALTER_WAREHOUSE = "ALTER WAREHOUSE ";
