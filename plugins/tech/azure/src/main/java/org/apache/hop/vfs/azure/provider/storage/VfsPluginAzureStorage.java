@@ -14,24 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.vfs.azure;
+package org.apache.hop.vfs.azure.provider.storage;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.core.vfs.plugin.IVfs;
 import org.apache.hop.core.vfs.plugin.VfsPlugin;
-import org.apache.hop.metadata.api.IHopMetadataProvider;
-import org.apache.hop.metadata.util.HopMetadataUtil;
-import org.apache.hop.vfs.azure.metadatatype.AzureMetadataType;
 
-@VfsPlugin(type = "azfs", typeDescription = "Azure VFS plugin - HOP")
-public class AzureVfsPlugin implements IVfs {
+@VfsPlugin(type = "azure", typeDescription = "Azure VFS plugin - Mircrosoft storage")
+public class VfsPluginAzureStorage implements IVfs {
   @Override
   public String[] getUrlSchemes() {
-    return new String[] {"azfs"}; // DEEM-MOD
+    return new String[] {"azure"};
   }
 
   @Override
@@ -41,19 +36,7 @@ public class AzureVfsPlugin implements IVfs {
 
   @Override
   public Map<String, FileProvider> getProviders(IVariables variables) {
-    Map<String, FileProvider> providers = new HashMap<>();
-    try {
-      IHopMetadataProvider metadataProvider =
-          HopMetadataUtil.getStandardHopMetadataProvider(variables);
-      List<AzureMetadataType> azureMetadataTypes =
-          metadataProvider.getSerializer(AzureMetadataType.class).loadAll();
-      for (AzureMetadataType azureMetadataType : azureMetadataTypes) {
-        providers.put(
-            azureMetadataType.getName(), new AzureFileProvider(variables, azureMetadataType));
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return providers;
+    FileProvider p = getProvider();
+    return Map.of("azure", p);
   }
 }

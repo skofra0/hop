@@ -33,6 +33,7 @@
        <azure-eventhubs.version>3.3.0</azure-eventhubs.version>
        <azure-sdk-core.version>1.54.0</azure-sdk-core.version>
        <azure-sdk-bom.version>1.2.29</azure-sdk-bom.version>
+	   <azure-storage.version>8.6.6</azure-storage.version>
     </properties>
 
     <dependencyManagement>
@@ -60,7 +61,12 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
+		<dependency> <!-- DEEM-MOD -->
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>azure-storage</artifactId>
+			<version>${azure-storage.version}</version>
+		</dependency>
+		<dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
             <exclusions>

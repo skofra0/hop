@@ -467,6 +467,17 @@
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi.version}</version>
             </dependency>
+			<dependency> <!-- DEEM-MOD -->
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml-full</artifactId>
+				<version>${poi.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>*</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-jaas</artifactId>

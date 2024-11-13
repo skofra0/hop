@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.vfs.azure;
+package org.apache.hop.vfs.azure.provider.storage;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.provider.UriParser;
 
 public class AzureFileName extends AbstractFileName {
 
-  protected AzureFileName(String scheme, String path, FileType type) {
+  protected AzureFileName(final String scheme, final String path, final FileType type) {
     super(scheme, path, type);
   }
 

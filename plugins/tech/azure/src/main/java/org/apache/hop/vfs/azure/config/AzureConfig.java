@@ -16,6 +16,12 @@
  */
 package org.apache.hop.vfs.azure.config;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import no.deem.core.json.Json;
+import no.deem.core.utils.Strings;
+import org.apache.hop.core.logging.LogChannel;
+
 public class AzureConfig {
 
   public static final String HOP_CONFIG_AZURE_CONFIG_KEY = "azure";
@@ -23,14 +29,20 @@ public class AzureConfig {
   private String account;
   private String key;
   private String emulatorUrl;
+  private String blockIncrement = "4096"; // DEEM-MOD
 
   public AzureConfig() {}
 
   public AzureConfig(AzureConfig config) {
-    this();
+    setConfig(config);
+  }
+
+  // DEEM-MOD
+  public void setConfig(AzureConfig config) {
     this.account = config.account;
     this.key = config.key;
     this.emulatorUrl = config.emulatorUrl;
+    this.blockIncrement = config.blockIncrement;
   }
 
   /**
@@ -79,5 +91,61 @@ public class AzureConfig {
    */
   public void setEmulatorUrl(String emulatorUrl) {
     this.emulatorUrl = emulatorUrl;
+  }
+
+  /**
+   * Gets blockIncrement
+   *
+   * @return value of blockIncrement
+   */
+  public String getBlockIncrement() {
+    return blockIncrement;
+  }
+
+  /**
+   * @param blockIncrement The blockIncrement to set
+   */
+  public void setBlockIncrement(String blockIncrement) {
+    this.blockIncrement = blockIncrement;
+  }
+
+  public void setConnectionString(String configStr) {
+    try {
+      if (configStr.startsWith("{")) {
+        AzureConfig azureConfig = Json.mapper().read(configStr, AzureConfig.class);
+        setConfig(azureConfig);
+
+      } else if (configStr.contains("AccountKey=") && configStr.contains("AccountName=")) {
+        var values = splitToMap(configStr, ";", "=");
+        setAccount(values.get("AccountName"));
+        setKey(values.get("AccountKey"));
+      }
+    } catch (Exception e) {
+      LogChannel.GENERAL.logError(
+          "Error reading Azure configuration, check property '"
+              + AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY
+              + "' in the Hop config json file",
+          e);
+    }
+  }
+
+  private Map<String, String> splitToMap(
+      String configStr, String lineSeparator, String keySeparator) {
+    if (Strings.isBlank(configStr)) {
+      return Map.of();
+    }
+    Map<String, String> values = new LinkedHashMap<>();
+    for (var line : Strings.splitToList(configStr, lineSeparator)) {
+      int pos = line.indexOf(keySeparator);
+      if (pos >= 0) {
+        String key = line.substring(0, pos);
+        String value = "";
+        if (pos < line.length()) {
+          value = line.substring(pos + 1);
+        }
+        values.put(key, value);
+      }
+    }
+    return values;
   }
 }

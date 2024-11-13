@@ -14,38 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.vfs.azure;
+package org.apache.hop.vfs.azure.provider.storage;
 
-import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileType;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import java.util.Collection;
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
-import org.apache.commons.vfs2.provider.UriParser;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
 
-public class AzureFileName extends AbstractFileName {
+public class AzureFileSystem extends AbstractFileSystem {
 
-  protected AzureFileName(String scheme, String path, FileType type) {
-    super(scheme, path, type);
-  }
+  private CloudBlobClient client;
 
-  public String getContainer() {
-    StringBuilder bui = new StringBuilder(getPath());
-    return UriParser.extractFirstElement(bui);
-  }
-
-  public String getPathAfterContainer() {
-    StringBuilder bui = new StringBuilder(getPath());
-    UriParser.extractFirstElement(bui);
-    return bui.toString();
+  public AzureFileSystem(
+      AzureFileName fileName, CloudBlobClient service, FileSystemOptions options) {
+    super(fileName, null, options);
+    this.client = service;
   }
 
   @Override
-  public FileName createName(String absPath, FileType type) {
-    return new AzureFileName(getScheme(), absPath, type);
+  protected void addCapabilities(Collection<Capability> capabilities) {
+    capabilities.addAll(AzureFileProvider.capabilities);
   }
 
   @Override
-  protected void appendRootUri(StringBuilder buffer, boolean addPassword) {
-    buffer.append(getScheme());
-    buffer.append("://");
+  protected FileObject createFile(AbstractFileName name) throws Exception {
+    return new AzureFileObject(name, this, client);
   }
 }

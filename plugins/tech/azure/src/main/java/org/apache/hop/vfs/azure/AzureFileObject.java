@@ -316,15 +316,15 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
       DataLakeFileClient fileClient = fileSystemClient.getFileClient(currentFilePath.substring(1));
 
       // Get the new blob reference
-      //      CloudBlobContainer newContainer =
-      //          service.getContainerReference(((AzureFileName) newfile.getName()).getContainer());
-      //      CloudBlob newBlob =
-      //          newContainer.getBlobReferenceFromServer(
-      //              ((AzureFileName) newfile.getName()).getPathAfterContainer().substring(1));
+      // CloudBlobContainer newContainer =
+      // service.getContainerReference(((AzureFileName) newfile.getName()).getContainer());
+      // CloudBlob newBlob =
+      // newContainer.getBlobReferenceFromServer(
+      // ((AzureFileName) newfile.getName()).getPathAfterContainer().substring(1));
       // Start the copy operation
       fileClient.rename(
           containerName, ((AzureFileName) newfile.getName()).getPathAfterContainer().substring(1));
-      //      newBlob.startCopy(cloudBlob.getUri());
+      // newBlob.startCopy(cloudBlob.getUri());
       // Delete the original blob
       // doDelete();
     } else {
@@ -412,12 +412,16 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
   }
 
   private static String removeTrailingSlash(String itemPath) {
-    while (itemPath.endsWith("/")) itemPath = itemPath.substring(0, itemPath.length() - 1);
+    while (itemPath.endsWith("/")) {
+      itemPath = itemPath.substring(0, itemPath.length() - 1);
+    }
     return itemPath;
   }
 
   private static String removeLeadingSlash(String relpath) {
-    while (relpath.startsWith("/")) relpath = relpath.substring(1);
+    while (relpath.startsWith("/")) {
+      relpath = relpath.substring(1);
+    }
     return relpath;
   }
 }

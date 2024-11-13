@@ -291,7 +291,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
     int type = v.getType();
     switch (type) {
-      case IValueMeta.TYPE_TIMESTAMP, IValueMeta.TYPE_DATE:
+      case IValueMeta.TYPE_TIMESTAMP, IValueMeta.TYPE_DATE: // DEEM-MOD
         if ((length >= 8 && length <= 10)) { // DEEM-MOD
           retval += "DATE"; // DEEM-MOD
         } else {
@@ -306,7 +306,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
         if (isSupportsBooleanDataType()) {
           retval += "BIT";
         } else {
-          retval += "CHAR(1)";
+          retval += "NCHAR(1)"; // DEEM-MOD
         }
         break;
       case IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_BIGNUMBER:
@@ -324,7 +324,9 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
             if (length > 18 || (supportIntAsDecimal && length > 0)) { // DEEM-MOD
               retval += "DECIMAL(" + length + ",0)";
             } else {
-              if (length > 9) {
+              if (length > 9
+                  && !(length == 11
+                      && "INT".equalsIgnoreCase(v.getOriginalColumnTypeName()))) { // DEEM-MOD
                 retval += "BIGINT";
               } else {
                 retval += "INT";

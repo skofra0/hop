@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -84,7 +84,6 @@ public class AzureFileProvider extends AbstractOriginatingFileProvider {
   }
 
   public AzureFileProvider(IVariables variables, AzureMetadataType azureMetadataType) {
-    super();
     this.variables = variables;
     this.azureMetadataType = azureMetadataType;
     setFileNameParser(new AzureCustomFileNameParser(azureMetadataType.getName()));

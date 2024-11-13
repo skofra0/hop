@@ -14,38 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hop.vfs.azure;
+package org.apache.hop.vfs.azure.provider.blobs;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
-import org.apache.commons.vfs2.provider.UriParser;
 
 public class AzureFileName extends AbstractFileName {
 
-  protected AzureFileName(String scheme, String path, FileType type) {
+  private final String account;
+  private final String container;
+
+  public AzureFileName(
+      String scheme, String account, String container, String path, FileType type) {
     super(scheme, path, type);
+    this.account = account;
+    this.container = container;
+  }
+
+  public String getAccount() {
+    return account;
   }
 
   public String getContainer() {
-    StringBuilder bui = new StringBuilder(getPath());
-    return UriParser.extractFirstElement(bui);
-  }
-
-  public String getPathAfterContainer() {
-    StringBuilder bui = new StringBuilder(getPath());
-    UriParser.extractFirstElement(bui);
-    return bui.toString();
+    return container;
   }
 
   @Override
-  public FileName createName(String absPath, FileType type) {
-    return new AzureFileName(getScheme(), absPath, type);
+  public FileName createName(String absPath, FileType fileType) {
+    return new AzureFileName(getScheme(), this.account, this.container, absPath, fileType);
   }
 
   @Override
   protected void appendRootUri(StringBuilder buffer, boolean addPassword) {
     buffer.append(getScheme());
     buffer.append("://");
+    buffer.append(account);
+    buffer.append(".blob.core.windows.net/");
+    buffer.append(container);
   }
 }

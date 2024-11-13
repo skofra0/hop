@@ -52,12 +52,14 @@ public final class LogbackInitializer {
   private Map<String, String> loggerProperties = Map.of();
   private WrappedPath logPath;
   private boolean debug = false;
+  private boolean activateLogFiles = false;
 
   public LogbackInitializer() {
-    SemanticVersion version = Versions.getSemanticVersion("deem-integrator");
+    SemanticVersion version = Versions.getIntegratorVersion();
     WrappedPath basePath = FileLocatorService.getApplicationRoot();
     Application.consoleOut("Starting " + version);
-    if (basePath.toString().endsWith("assemblies\\static\\src\\main\\resources")) {
+    if (basePath.toString().endsWith("assemblies\\static\\src\\main\\resources")
+        || basePath.toString().endsWith("\\engine")) {
       debug = true;
       basePath = WrappedPath.of(System.getenv(HOME_FOLDER));
     }
@@ -86,6 +88,7 @@ public final class LogbackInitializer {
 
     addAppenders(context);
     setRootLogLevel(context, ROOT_LEVEL);
+
     context.getLogger("com.microsoft.sqlserver.jdbc.internals.TDS.TOKEN").setLevel(Level.ERROR);
     Slf4j.setPerformedConfig();
 
@@ -103,8 +106,10 @@ public final class LogbackInitializer {
 
   private void addAppenders(LoggerContext logCtx) {
     addConsoleAppender(logCtx, CONSOLE_PATTERN, Level.INFO);
-    addLogAppender(logCtx, "error", Level.ERROR, LOG_PATTERN, 1, 7, 2, true, Level.ERROR);
-    // addLogAppender(logCtx, "integrator", Level.DEBUG, LOG_PATTERN, 1, 7, 10, true, Level.INFO)
+    if (activateLogFiles) {
+      addLogAppender(logCtx, "error", Level.ERROR, LOG_PATTERN, 1, 7, 2, true, Level.ERROR);
+      // addLogAppender(logCtx, "integrator", Level.DEBUG, LOG_PATTERN, 1, 7, 10, true, Level.INFO)
+    }
   }
 
   private void setRootLogLevel(LoggerContext logCtx, final Level newLevel) {
