@@ -153,7 +153,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
       if (StringUtils.isBlank(fieldName)) {
         continue;
       }
-      final List<String> values = new ArrayList();
+      final List<String> values = new ArrayList<>();
       for (int j = startIndex; j < getFieldsTable().getColumns().length; j++) {
         values.add(item.getText(j));
       }
@@ -168,7 +168,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
       final boolean reloadAllFields) {
     // incoming field names
     final String[] incomingFieldNames = getFieldNames(meta);
-    final List<String> newFieldNames = new ArrayList();
+    final List<String> newFieldNames = new ArrayList<>();
     for (final String incomingFieldName : incomingFieldNames) {
       final TableItem item = new TableItem(getFieldsTable().table, SWT.NONE);
       int columnIndexOffset = getFieldsTable().hasIndexColumn() ? 1 : 0;
