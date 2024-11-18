@@ -54,5 +54,22 @@
             <version>${org.eclipse.platform.version}</version>
             <scope>provided</scope>
         </dependency>
+
+		<!-- DEEM-MOD DEBUG -->        
+        <dependency>
+            <groupId>org.apache.hop</groupId>
+            <artifactId>hop-core-deem</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hop</groupId>
+            <artifactId>hop-assemblies-plugins</artifactId>
+            <version>${project.version}</version>
+           <scope>provided</scope>
+            <type>zip</type>
+        </dependency>
+
+        
     </dependencies>
 </project>

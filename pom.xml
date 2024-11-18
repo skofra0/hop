@@ -108,6 +108,7 @@
         <jackson.version>2.18.1</jackson.version>
         <jackson.databind.version>2.18.1</jackson.databind.version>
         <janino.version>3.1.12</janino.version>
+        <poi.version>5.3.0</poi.version>
         <jasperreports-fonts.version>6.20.0</jasperreports-fonts.version>
         <jasperreports.version>6.21.3</jasperreports.version>
         <json-smart.version>2.5.1</json-smart.version>
