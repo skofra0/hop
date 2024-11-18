@@ -97,7 +97,7 @@ echo ===[Environment Settings - hop-gui.bat]===================================
 echo.
 echo Java identified as %_HOP_JAVA%
 echo.
-echo HOP_OPTIONS=%HOP_OPTIONS%
+REM DEEM-MOD echo HOP_OPTIONS=%HOP_OPTIONS%
 echo.
 echo Command to start Hop will be:
 echo %_HOP_JAVA% -classpath %CLASSPATH% -Djava.library.path=%LIBSPATH% %HOP_OPTIONS% org.apache.hop.ui.hopgui.HopGui

@@ -79,7 +79,7 @@ echo ===[Environment Settings - hop-server.bat]=================================
 echo.
 echo Java identified as %_HOP_JAVA%
 echo.
-echo HOP_OPTIONS=%HOP_OPTIONS%
+REM DEEM-MOD echo HOP_OPTIONS=%HOP_OPTIONS%
 echo.
 echo.
 rem ===[Collect command line arguments...]======================================

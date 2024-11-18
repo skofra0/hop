@@ -76,7 +76,7 @@ echo ===[Environment Settings - hop-conf.bat]===================================
 echo.
 echo Java identified as %_HOP_JAVA%
 echo.
-echo HOP_OPTIONS=%HOP_OPTIONS%
+REM DEEM-MOD echo HOP_OPTIONS=%HOP_OPTIONS%
 echo.
 rem ===[Collect command line arguments...]======================================
 if [%1]==[DEBUG] (
