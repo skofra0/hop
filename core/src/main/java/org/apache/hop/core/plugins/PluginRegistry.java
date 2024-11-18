@@ -292,6 +292,8 @@ public class PluginRegistry {
           return "BulkLoader";
         case "mysql-text-loader":
           return "BulkLoader";
+        case "deem-jsoninput":
+          return "JsonInput";
         default:
           return id;
       }
