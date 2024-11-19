@@ -389,7 +389,8 @@ public class GuiResource {
     colorRed = new Color(display, props.contrastColor(255, 0, 0));
     colorDarkRed = new Color(display, props.contrastColor(192, 57, 43));
     colorGreen = new Color(display, props.contrastColor(0, 255, 0));
-    colorDarkGreen = new Color(display, props.contrastColor(16, 172, 132));
+    // DEEM-MOD (16, 172, 132) -> (63, 127, 95)
+    colorDarkGreen = new Color(display, props.contrastColor(63, 127, 95));
     colorBlue = new Color(display, props.contrastColor(0, 0, 255));
     colorYellow = new Color(display, props.contrastColor(255, 255, 0));
     colorMagenta = new Color(display, props.contrastColor(255, 0, 255));
