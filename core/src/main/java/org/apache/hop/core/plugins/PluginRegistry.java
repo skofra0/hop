@@ -286,8 +286,8 @@ public class PluginRegistry {
           return "PipelineExecutor";
         case "TextFileInput":
           return "TextFileInput2";
-        case "data-lake-input":
-          return "cloud-api-input";
+        case "TypeExitExcelWriterStep":
+          return "TypeExitExcelWriterTransform";
         case "IndexedTableOutput":
           return "BulkLoader";
         case "mysql-text-loader":
