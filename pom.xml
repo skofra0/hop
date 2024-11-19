@@ -107,7 +107,7 @@
         <license.licenseName>apache_v2</license.licenseName>
 
 		<!-- DEEM-MOD -->    
-		<deem-insight.version>24.4.2-SNAPSHOT</deem-insight.version>
+		<deem-insight.version>24.4.2</deem-insight.version>
 	    <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision> 
 		<pentaho-reporting.version>9.0.0.3-582</pentaho-reporting.version>
 		<jasperreports.version>6.21.3</jasperreports.version>
@@ -125,7 +125,7 @@
         <postgresql.version>42.7.4</postgresql.version>
 		<junit.jupiter.version>5.10.3</junit.jupiter.version>
 		<slf4j.version>2.0.16</slf4j.version>
-		<logback.version>1.5.11</logback.version>
+		<logback.version>1.5.12</logback.version>
 		
 
         <!-- Third-party dependencies -->
@@ -167,7 +167,7 @@
         <jackson.version>2.18.0</jackson.version>
         <jakarta.version>3.1.0</jakarta.version>
         <jakarta-mail.version>2.0.1</jakarta-mail.version>
-        <jandex.version>3.2.2</jandex.version>
+        <jandex.version>3.2.3</jandex.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jetty.version>9.4.54.v20240208</jetty.version>
         <joda-time.version>2.12.7</joda-time.version>
