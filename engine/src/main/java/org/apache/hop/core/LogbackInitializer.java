@@ -42,7 +42,7 @@ public final class LogbackInitializer {
     Application.consoleOut("Starting " + version);
     if (basePath.toString().endsWith("assemblies\\static\\src\\main\\resources")) {
       debug = true;
-      basePath = WrappedPath.ofNullable(System.getenv(HOME_FOLDER));
+      basePath = WrappedPath.of(System.getenv(HOME_FOLDER));
     }
     logPath = basePath.getPath("logs");
     loggerProperties = new HashMap<>();
