@@ -67,7 +67,7 @@ public class KettleConst {
                 {"step_name", "transform_name"},
                 {"step_description", "transform_description"},
                 // ExcelWriter
-                {"extention", "extension"},
+                // {"extention", "extension"}, // DEEM-MOD
                 // Formula
                 // {"formula_string", "formula"}, // DEEM-MOD
                 // XML Join
