@@ -18,8 +18,10 @@ package org.apache.hop.ui.hopgui.styled.rpc;
 
 import java.util.LinkedList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.i18n.BaseMessages;
+import org.apache.hop.ui.core.ConstUi;
 import org.apache.hop.ui.core.FormDataBuilder;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.gui.GuiResource;
@@ -166,6 +168,7 @@ public class StyledTextComp2 extends TextComposite {
     dt.setTransfer(TextTransfer.getInstance());
     dt.addDropListener(
         new DropTargetAdapter() {
+          @Override
           public void dragOver(DropTargetEvent e) {
             textWidget.setFocus();
             Point location = xParent.getDisplay().map(null, textWidget, e.x, e.y);
@@ -190,6 +193,7 @@ public class StyledTextComp2 extends TextComposite {
             }
           }
 
+          @Override
           public void drop(DropTargetEvent event) {
             // Set the buttons text to be the text being dropped
             textWidget.insert((String) event.data);
@@ -201,6 +205,7 @@ public class StyledTextComp2 extends TextComposite {
     return textWidget.getSelectionText();
   }
 
+  @Override
   public int getCaretOffset() {
     return textWidget.getCaretOffset();
   }
@@ -211,10 +216,6 @@ public class StyledTextComp2 extends TextComposite {
 
   public void setText(String text) {
     textWidget.setText(text);
-  }
-
-  public int getLineAtOffset(int iOffset) {
-    return textWidget.getLineAtOffset(iOffset);
   }
 
   public void insert(String strInsert) {
@@ -286,6 +287,7 @@ public class StyledTextComp2 extends TextComposite {
   }
 
   private void buildingStyledTextMenu() {
+
     final MenuItem undoItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     undoItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Undo")));
@@ -300,22 +302,37 @@ public class StyledTextComp2 extends TextComposite {
     final MenuItem cutItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     cutItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Cut")));
+    cutItem.setImage(
+        GuiResource.getInstance()
+            .getImage("ui/images/cut.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
     cutItem.addListener(SWT.Selection, e -> textWidget.cut());
 
     final MenuItem copyItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     copyItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Copy")));
+    copyItem.setImage(
+        GuiResource.getInstance()
+            .getImage("ui/images/copy.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
     copyItem.addListener(SWT.Selection, e -> textWidget.copy());
 
     final MenuItem pasteItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     pasteItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Paste")));
+    pasteItem.setImage(
+        GuiResource.getInstance()
+            .getImage("ui/images/paste.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
     pasteItem.addListener(SWT.Selection, e -> textWidget.paste());
+
+    new MenuItem(styledTextPopupmenu, SWT.SEPARATOR);
 
     MenuItem selectAllItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     selectAllItem.setText(
         OsHelper.customizeMenuitemText(
             BaseMessages.getString(PKG, "WidgetDialog.Styled.SelectAll")));
+    selectAllItem.setImage(
+        GuiResource.getInstance()
+            .getImage(
+                "ui/images/select-all.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
     selectAllItem.addListener(SWT.Selection, e -> textWidget.selectAll());
 
     new MenuItem(styledTextPopupmenu, SWT.SEPARATOR);
@@ -346,12 +363,11 @@ public class StyledTextComp2 extends TextComposite {
 
     textWidget.addMenuDetectListener(
         e -> {
-          styledTextPopupmenu.getItem(0).setEnabled(!undoStack.isEmpty());
-          styledTextPopupmenu.getItem(1).setEnabled(!redoStack.isEmpty());
-
-          styledTextPopupmenu.getItem(5).setEnabled(checkPaste());
-          styledTextPopupmenu.getItem(3).setEnabled(textWidget.getSelectionCount() > 0);
-          styledTextPopupmenu.getItem(4).setEnabled(textWidget.getSelectionCount() > 0);
+          undoItem.setEnabled(!undoStack.isEmpty());
+          redoItem.setEnabled(!redoStack.isEmpty());
+          pasteItem.setEnabled(checkPaste());
+          cutItem.setEnabled(textWidget.getSelectionCount() > 0);
+          copyItem.setEnabled(textWidget.getSelectionCount() > 0);
         });
     textWidget.setMenu(styledTextPopupmenu);
   }
@@ -409,21 +425,28 @@ public class StyledTextComp2 extends TextComposite {
    * @return The caret line number, starting from 1.
    */
   public int getLineNumber() {
-    return getLineAtOffset(getCaretOffset()) + 1;
+    return textWidget.getLineAtOffset(getCaretOffset()) + 1;
   }
 
   /**
    * @return The caret column number, starting from 1.
    */
   public int getColumnNumber() {
-    String scr = getText();
-    int colnr = 0;
-    int posnr = getCaretOffset();
-    while (posnr > 0 && scr.charAt(posnr - 1) != '\n' && scr.charAt(posnr - 1) != '\r') {
-      posnr--;
-      colnr++;
+    String text = textWidget.getText();
+    if (StringUtils.isEmpty(text)) {
+      return 1;
     }
-    return colnr + 1;
+
+    int columnNumber = 1;
+    int textPosition = textWidget.getCaretOffset();
+    while (textPosition > 0
+        && text.charAt(textPosition - 1) != '\n'
+        && text.charAt(textPosition - 1) != '\r') {
+      textPosition--;
+      columnNumber++;
+    }
+
+    return columnNumber;
   }
 
   // Start Functions for Undo / Redo on wSrcipt

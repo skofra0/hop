@@ -92,7 +92,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
   @Injection(name = "INC_TIME_IN_FILENAME")
   protected boolean timeInFilename;
 
-  /** The file extention in case of a generated filename */
+  /** The file extension in case of a generated filename */
   @Injection(name = "EXTENSION")
   protected String extension;
 

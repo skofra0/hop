@@ -35,6 +35,7 @@ import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.gui.GuiResource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
@@ -53,8 +54,6 @@ import org.eclipse.swt.widgets.ToolTip;
 public class ControlSpaceKeyAdapter extends KeyAdapter {
 
   private static final Class<?> PKG = ControlSpaceKeyAdapter.class;
-
-  private static final PropsUi props = PropsUi.getInstance();
 
   private final IGetCaretPosition getCaretPositionInterface;
 
@@ -225,14 +224,15 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
       if (list.getSelectionCount() <= 0) {
         return;
       }
-      if (control instanceof Text) {
-        ((Text) control).insert(extra);
-      } else if (control instanceof CCombo) {
-        CCombo combo = (CCombo) control;
+      if (control instanceof Text text) {
+        text.insert(extra);
+      } else if (control instanceof CCombo combo) {
         combo.setText(
             extra); // We can't know the location of the cursor yet. All we can do is overwrite.
-      } else if (control instanceof StyledTextComp) {
-        ((StyledTextComp) control).insert(extra);
+      } else if (control instanceof TextComposite sText) {
+        sText.insert(extra);
+      } else if (control instanceof StyledText sText) {
+        sText.insert(extra);
       }
     }
     if (!shell.isDisposed()) {

@@ -16,6 +16,7 @@
  */
 package org.apache.hop.ui.core.widget;
 
+import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hop.core.variables.IVariables;
@@ -25,18 +26,31 @@ import org.apache.hop.ui.core.FormDataBuilder;
 import org.apache.hop.ui.core.PropsUi;
 import org.apache.hop.ui.core.gui.GuiResource;
 import org.apache.hop.ui.core.widget.highlight.SQLValuesHighlight;
+import org.apache.hop.ui.hopgui.styled.rpc.StyledTextCompFind;
+import org.apache.hop.ui.hopgui.styled.rpc.StyledTextCompReplace;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ExtendedModifyEvent;
+import org.eclipse.swt.custom.ExtendedModifyListener;
 import org.eclipse.swt.custom.LineStyleListener;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetAdapter;
+import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -48,12 +62,18 @@ import org.eclipse.swt.widgets.MenuItem;
 
 public class SQLStyledTextComp extends TextComposite {
   private static final Class<?> PKG = SQLStyledTextComp.class;
+  private static final int MAX_STACK_SIZE = 25;
 
   // Modification for Undo/Redo on Styled Text
   private final StyledText textWidget;
   private final Menu styledTextPopupmenu;
   private final Composite xParent;
   private Image image;
+
+  private List<UndoRedoStack> undoStack = new LinkedList<>();
+  private List<UndoRedoStack> redoStack = new LinkedList<>();
+  private boolean bFullSelection = false;
+  private KeyListener kls;
 
   public SQLStyledTextComp(IVariables variables, Composite parent, int args) {
     this(variables, parent, args, true, false);
@@ -78,10 +98,36 @@ public class SQLStyledTextComp extends TextComposite {
     this.setLayout(new FormLayout());
 
     buildingStyledTextMenu();
+    addUndoRedoSupport();
 
     // Default layout without variables
     textWidget.setLayoutData(
         new FormDataBuilder().top().left().right(100, 0).bottom(100, 0).result());
+
+    kls =
+        new KeyAdapter() {
+          @Override
+          public void keyPressed(KeyEvent e) {
+            if (e.keyCode == 'h' && (e.stateMask & SWT.MOD1 & SWT.SHIFT) != 0) {
+              new StyledTextCompReplace(styledTextPopupmenu.getShell(), textWidget).open();
+            } else if (e.keyCode == 'z' && (e.stateMask & SWT.MOD1) != 0) {
+              undo();
+            } else if (e.keyCode == 'y' && (e.stateMask & SWT.MOD1) != 0) {
+              redo();
+            } else if (e.keyCode == 'a' && (e.stateMask & SWT.MOD1) != 0) {
+              bFullSelection = true;
+              textWidget.selectAll();
+            } else if (e.keyCode == 'f' && (e.stateMask & SWT.MOD1) != 0) {
+              new StyledTextCompFind(
+                      styledTextPopupmenu.getShell(),
+                      textWidget,
+                      BaseMessages.getString(PKG, "WidgetDialog.Styled.Find"))
+                  .open();
+            }
+          }
+        };
+
+    textWidget.addKeyListener(kls);
 
     // Special layout for variables decorator
     if (varsSensitive) {
@@ -116,6 +162,43 @@ public class SQLStyledTextComp extends TextComposite {
                 .result());
       }
     }
+
+    // Create the drop target on the StyledText
+    DropTarget dt = new DropTarget(textWidget, DND.DROP_MOVE);
+    dt.setTransfer(TextTransfer.getInstance());
+    dt.addDropListener(
+        new DropTargetAdapter() {
+          @Override
+          public void dragOver(DropTargetEvent e) {
+            textWidget.setFocus();
+            Point location = xParent.getDisplay().map(null, textWidget, e.x, e.y);
+            location.x = Math.max(0, location.x);
+            location.y = Math.max(0, location.y);
+            try {
+              int offset = textWidget.getOffsetAtPoint(new Point(location.x, location.y));
+              textWidget.setCaretOffset(offset);
+            } catch (IllegalArgumentException ex) {
+              int maxOffset = textWidget.getCharCount();
+              Point maxLocation = textWidget.getLocationAtOffset(maxOffset);
+              if (location.y >= maxLocation.y) {
+                if (location.x >= maxLocation.x) {
+                  textWidget.setCaretOffset(maxOffset);
+                } else {
+                  int offset = textWidget.getOffsetAtPoint(new Point(location.x, maxLocation.y));
+                  textWidget.setCaretOffset(offset);
+                }
+              } else {
+                textWidget.setCaretOffset(maxOffset);
+              }
+            }
+          }
+
+          @Override
+          public void drop(DropTargetEvent event) {
+            // Set the buttons text to be the text being dropped
+            textWidget.insert((String) event.data);
+          }
+        });
   }
 
   public String getSelectionText() {
@@ -201,6 +284,17 @@ public class SQLStyledTextComp extends TextComposite {
 
   private void buildingStyledTextMenu() {
 
+    final MenuItem undoItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    undoItem.setText(
+        OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Undo")));
+    undoItem.addListener(SWT.Selection, e -> undo());
+
+    final MenuItem redoItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    redoItem.setText(
+        OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Redo")));
+    redoItem.addListener(SWT.Selection, e -> redo());
+
+    new MenuItem(styledTextPopupmenu, SWT.SEPARATOR);
     final MenuItem cutItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
     cutItem.setText(
         OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Cut")));
@@ -236,6 +330,32 @@ public class SQLStyledTextComp extends TextComposite {
             .getImage(
                 "ui/images/select-all.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
     selectAllItem.addListener(SWT.Selection, e -> textWidget.selectAll());
+
+    new MenuItem(styledTextPopupmenu, SWT.SEPARATOR);
+    final MenuItem findItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    findItem.setText(
+        OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Find")));
+    findItem.addListener(
+        SWT.Selection,
+        e -> {
+          StyledTextCompFind stFind =
+              new StyledTextCompFind(
+                  textWidget.getShell(),
+                  textWidget,
+                  BaseMessages.getString(PKG, "WidgetDialog.Styled.FindString"));
+          stFind.open();
+        });
+    MenuItem replaceItem = new MenuItem(styledTextPopupmenu, SWT.PUSH);
+    replaceItem.setText(
+        OsHelper.customizeMenuitemText(BaseMessages.getString(PKG, "WidgetDialog.Styled.Replace")));
+    replaceItem.setAccelerator(SWT.MOD1 | 'H');
+    replaceItem.addListener(
+        SWT.Selection,
+        e -> {
+          StyledTextCompReplace stReplace =
+              new StyledTextCompReplace(textWidget.getShell(), textWidget);
+          stReplace.open();
+        });
 
     textWidget.addMenuDetectListener(
         e -> {
@@ -303,7 +423,8 @@ public class SQLStyledTextComp extends TextComposite {
   /**
    * @return The caret line number, starting from 1.
    */
-  public int getLineNumber() {
+  // DEEM-MOD
+  public int getLineNumberOld() {
     String text = textWidget.getText();
     if (StringUtils.isEmpty(text)) {
       return 1;
@@ -319,6 +440,13 @@ public class SQLStyledTextComp extends TextComposite {
     }
 
     return rowNumber;
+  }
+
+  /**
+   * @return The caret line number, starting from 1.
+   */
+  public int getLineNumber() {
+    return textWidget.getLineAtOffset(getCaretOffset()) + 1;
   }
 
   /**
@@ -348,5 +476,126 @@ public class SQLStyledTextComp extends TextComposite {
 
   public void addLineStyleListener(LineStyleListener lineStyler) {
     textWidget.addLineStyleListener(lineStyler);
+  }
+
+  // Start Functions for Undo / Redo on wSrcipt
+  private void addUndoRedoSupport() {
+
+    textWidget.addSelectionListener(
+        new SelectionListener() {
+          public void widgetSelected(SelectionEvent event) {
+            if (textWidget.getSelectionCount() == textWidget.getCharCount()) {
+              bFullSelection = true;
+              try {
+                event.wait(2);
+              } catch (Exception e) {
+                // Ignore errors
+              }
+            }
+          }
+
+          public void widgetDefaultSelected(SelectionEvent event) {}
+        });
+
+    textWidget.addExtendedModifyListener(
+        new ExtendedModifyListener() {
+          public void modifyText(ExtendedModifyEvent event) {
+            int iEventLength = event.length;
+            int iEventStartPostition = event.start;
+
+            // Unterscheidung um welche Art es sich handelt Delete or Insert
+            String newText = textWidget.getText();
+            String repText = event.replacedText;
+            String oldText = "";
+            int iEventType = -1;
+
+            // if((event.length!=newText.length()) || newText.length()==1){
+            if ((event.length != newText.length()) || (bFullSelection)) {
+              if (repText != null && repText.length() > 0) {
+                oldText =
+                    newText.substring(0, event.start)
+                        + repText
+                        + newText.substring(event.start + event.length);
+                iEventType = UndoRedoStack.DELETE;
+                iEventLength = repText.length();
+              } else {
+                oldText =
+                    newText.substring(0, event.start)
+                        + newText.substring(event.start + event.length);
+                iEventType = UndoRedoStack.INSERT;
+              }
+
+              if ((oldText != null && oldText.length() > 0)
+                  || (iEventStartPostition == event.length)) {
+                UndoRedoStack urs =
+                    new UndoRedoStack(
+                        iEventStartPostition, newText, oldText, iEventLength, iEventType);
+                if (undoStack.size() == MAX_STACK_SIZE) {
+                  undoStack.remove(undoStack.size() - 1);
+                }
+                undoStack.add(0, urs);
+              }
+            }
+            bFullSelection = false;
+          }
+        });
+  }
+
+  private void undo() {
+    if (!undoStack.isEmpty()) {
+      UndoRedoStack urs = undoStack.remove(0);
+      if (redoStack.size() == MAX_STACK_SIZE) {
+        redoStack.remove(redoStack.size() - 1);
+      }
+      UndoRedoStack rro =
+          new UndoRedoStack(
+              urs.getCursorPosition(),
+              urs.getReplacedText(),
+              textWidget.getText(),
+              urs.getEventLength(),
+              urs.getType());
+      bFullSelection = false;
+      textWidget.setText(urs.getReplacedText());
+      if (urs.getType() == UndoRedoStack.INSERT) {
+        textWidget.setCaretOffset(urs.getCursorPosition());
+      } else if (urs.getType() == UndoRedoStack.DELETE) {
+        textWidget.setCaretOffset(urs.getCursorPosition() + urs.getEventLength());
+        textWidget.setSelection(
+            urs.getCursorPosition(), urs.getCursorPosition() + urs.getEventLength());
+        if (textWidget.getSelectionCount() == textWidget.getCharCount()) {
+          bFullSelection = true;
+        }
+      }
+      redoStack.add(0, rro);
+    }
+  }
+
+  private void redo() {
+    if (!redoStack.isEmpty()) {
+      UndoRedoStack urs = redoStack.remove(0);
+      if (undoStack.size() == MAX_STACK_SIZE) {
+        undoStack.remove(undoStack.size() - 1);
+      }
+      UndoRedoStack rro =
+          new UndoRedoStack(
+              urs.getCursorPosition(),
+              urs.getReplacedText(),
+              textWidget.getText(),
+              urs.getEventLength(),
+              urs.getType());
+      bFullSelection = false;
+      textWidget.setText(urs.getReplacedText());
+      if (urs.getType() == UndoRedoStack.INSERT) {
+        textWidget.setCaretOffset(urs.getCursorPosition());
+      } else if (urs.getType() == UndoRedoStack.DELETE) {
+        textWidget.setCaretOffset(urs.getCursorPosition() + urs.getEventLength());
+        textWidget.setSelection(
+            urs.getCursorPosition(), urs.getCursorPosition() + urs.getEventLength());
+        if (textWidget.getSelectionCount() == textWidget.getCharCount()) {
+          bFullSelection = true;
+        }
+      }
+      undoStack.add(0, rro);
+    }
   }
 }

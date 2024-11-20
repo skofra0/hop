@@ -26,6 +26,7 @@ import org.apache.hop.ui.core.gui.GuiResource;
 import org.apache.hop.ui.core.widget.IGetCaretPosition;
 import org.apache.hop.ui.core.widget.IInsertText;
 import org.apache.hop.ui.core.widget.OsHelper;
+import org.apache.hop.ui.core.widget.TextComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.StyledText;
@@ -76,6 +77,7 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
       final Control control,
       final IGetCaretPosition getCaretPositionInterface,
       final IInsertText insertTextInterface) {
+
     this.variables = variables;
     this.control = control;
     this.getCaretPositionInterface = getCaretPositionInterface;
@@ -217,17 +219,15 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
       if (list.getSelectionCount() <= 0) {
         return;
       }
-      if (control instanceof Text) {
-        Text text = (Text) control;
+      if (control instanceof Text text) {
         text.insert(extra);
-      } else if (control instanceof CCombo) {
-        ((CCombo) control)
-            .setText(
-                extra); // We can't know the location of the cursor yet. All we can do is overwrite.
-      } else if (control instanceof StyledTextComp2) {
-        ((StyledTextComp2) control).insert(extra);
-      } else if (control instanceof StyledText) {
-        ((StyledText) control).insert(extra);
+      } else if (control instanceof CCombo combo) {
+        combo.setText(
+            extra); // We can't know the location of the cursor yet. All we can do is overwrite.
+      } else if (control instanceof TextComposite sText) {
+        sText.insert(extra);
+      } else if (control instanceof StyledText sText) {
+        sText.insert(extra);
       }
     }
     if (!shell.isDisposed()) {

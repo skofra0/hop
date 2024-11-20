@@ -339,7 +339,9 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
     boolean hasCapability = fileType.hasCapability(permission);
     boolean enable = hasCapability && active;
     if (menuItem != null && enable != menuItem.isEnabled()) {
-      menuItem.setEnabled(enable);
+      if (!menuItem.isDisposed()) { // DEEM-MOD
+        menuItem.setEnabled(enable);
+      }
     }
     menuEnabledMap.put(id, enable);
     return menuItem;
