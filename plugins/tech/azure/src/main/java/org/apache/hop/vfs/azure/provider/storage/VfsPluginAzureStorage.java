@@ -20,12 +20,13 @@ import java.util.Map;
 import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.core.vfs.plugin.IVfs;
+import org.apache.hop.core.vfs.plugin.VfsPlugin;
 
-// @VfsPlugin(type = "azure", typeDescription = "Azure VFS plugin - Mircrosoft storage")
+@VfsPlugin(type = "azure-old", typeDescription = "Azure VFS plugin - Mircrosoft storage (OLD)")
 public class VfsPluginAzureStorage implements IVfs {
   @Override
   public String[] getUrlSchemes() {
-    return new String[] {"azure"};
+    return new String[] {"azure-old"};
   }
 
   @Override
@@ -35,7 +36,6 @@ public class VfsPluginAzureStorage implements IVfs {
 
   @Override
   public Map<String, FileProvider> getProviders(IVariables variables) {
-    FileProvider p = getProvider();
-    return Map.of("azure", p);
+    return Map.of();
   }
 }
