@@ -625,7 +625,10 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
 
     if (data.db != null && !data.isCanceled) {
       synchronized (data.db) {
-        data.db.cancelQuery();
+        var db = data.db;
+        if (db != null) {
+          db.cancelQuery();
+        }
       }
       data.isCanceled = true;
     }

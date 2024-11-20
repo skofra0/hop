@@ -653,13 +653,13 @@
             <artifactId>hop-databases-vertica</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-misc-async</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
-        </dependency> -->
+        </dependency>
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-misc-debug</artifactId>
@@ -1646,5 +1646,6 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+        
     </dependencies>
 </project>
