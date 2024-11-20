@@ -33,6 +33,9 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -85,10 +88,10 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
   public static final String CONST_SERVER = "server";
   public static final String CONST_DESTINATION = "destination";
 
-  private String server;
-
   public static final String DEFAULT_CONFIGFILE = "${MAIL_CONFIG_FILE}"; // DEEM-MOD
   private String configFile = ""; // DEEM-MOD
+
+  private String server;
 
   private String destination;
 
@@ -197,7 +200,9 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
     retval.append(super.getXml());
 
-    retval.append("      ").append(XmlHandler.addTagValue("configFile", configFile)); // DEEM-MOD
+    retval
+        .append(CONST_SPACES)
+        .append(XmlHandler.addTagValue("configFile", configFile)); // DEEM-MOD
     retval.append(CONST_SPACES).append(XmlHandler.addTagValue(CONST_SERVER, server));
     retval.append(CONST_SPACES).append(XmlHandler.addTagValue("port", port));
     retval.append(CONST_SPACES).append(XmlHandler.addTagValue(CONST_DESTINATION, destination));
@@ -667,61 +672,85 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
     // create some properties and get the default Session
     Properties props = new Properties();
 
-    // DEEM-MOD TODO
-    boolean usingConfig = isUsingConfigFile();
-    String protocol = "smtp";
-    String dataServer = this.server;
-    String dataPort = this.port;
-    String dataAuthenticationUser = this.authenticationUser;
-    String dataAuthenticationPassword = this.authenticationPassword;
-    boolean dataUsingAuthentication = this.usingAuthentication;
+    // DEEM-MOD
+    var data = new MailData();
+    data.usingConfig = isUsingConfigFile();
+    data.protocol = "smtp";
+    data.server = this.server;
+    data.port = this.port;
+    data.authenticationUser = this.authenticationUser;
+    data.authenticationPassword = this.authenticationPassword;
+    data.usingAuthentication = this.usingAuthentication;
 
-    if (Utils.isEmpty(server)) {
-      logError(BaseMessages.getString(PKG, "ActionMail.Error.HostNotSpecified"));
-
-      result.setNrErrors(1L);
-      result.setResult(false);
-      return result;
-    }
-
-    if (usingSecureAuthentication) {
-      if (usexoauth2) {
-        props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
-      }
-      if (secureConnectionType.equals("TLS")) {
-        // Allow TLS authentication
-        props.put("mail.smtp.starttls.enable", "true");
-      } else if (secureConnectionType.equals("TLS 1.2")) {
-        // Allow TLS 1.2 authentication
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-      } else {
-
-        protocol = "smtps";
-        // required to get rid of a SSL exception :
-        // nested exception is:
-        // javax.net.ssl.SSLException: Unsupported record version Unknown
-        props.put("mail.smtps.quitwait", "false");
+    if (data.usingConfig) {
+      String path = resolve(getConfigFile());
+      try (InputStream inStream = Files.newInputStream(Paths.get(path))) {
+        props.load(inStream);
+        if (!Utils.toStringNullToEmpty(props.get("mail.smtps.host")).isEmpty()) {
+          data.protocol = "smtps";
+        }
+        data.server = Utils.toStringNullToEmpty(props.get(CONST_MAIL + data.protocol + ".host"));
+        data.authenticationUser =
+            Utils.toStringNullToEmpty(props.get(CONST_MAIL + data.protocol + ".user"));
+        data.authenticationPassword =
+            Utils.toStringNullToEmpty(props.get(CONST_MAIL + data.protocol + ".password"));
+        data.usingAuthentication =
+            Utils.toStringNullToEmpty(props.get(CONST_MAIL + data.protocol + ".auth"))
+                .equalsIgnoreCase("true");
+        data.port = Utils.toStringNullToEmpty(props.get(CONST_MAIL + data.protocol + ".port"));
+      } catch (IOException e) {
+        logError("Problem while reading config file: " + e.toString());
+        result.setNrErrors(1);
       }
     }
-
-    props.put(CONST_MAIL + protocol + ".host", resolve(server));
-    if (!Utils.isEmpty(port)) {
-      props.put(CONST_MAIL + protocol + ".port", resolve(port));
-    }
-
-    if (log.isDebug()) {
-      props.put("mail.debug", "true");
-    }
-
-    if (usingAuthentication) {
-      props.put(CONST_MAIL + protocol + ".auth", "true");
-    }
-
-    Session session = Session.getInstance(props);
-    session.setDebug(log.isDebug());
 
     try {
+      if (!data.usingConfig) {
+        if (usingSecureAuthentication) {
+          if (usexoauth2) {
+            props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
+          }
+          if (secureConnectionType.equals("TLS")) {
+            // Allow TLS authentication
+            props.put("mail.smtp.starttls.enable", "true");
+          } else if (secureConnectionType.equals("TLS 1.2")) {
+            // Allow TLS 1.2 authentication
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+          } else {
+
+            data.protocol = "smtps";
+            // required to get rid of a SSL exception :
+            // nested exception is:
+            // javax.net.ssl.SSLException: Unsupported record version Unknown
+            props.put("mail.smtps.quitwait", "false");
+          }
+        }
+
+        props.put(CONST_MAIL + data.protocol + ".host", resolve(data.server));
+        if (!Utils.isEmpty(data.port)) {
+          props.put(CONST_MAIL + data.protocol + ".port", resolve(data.port));
+        }
+        if (data.usingAuthentication) {
+          props.put(CONST_MAIL + data.protocol + ".auth", "true");
+        }
+      }
+
+      if (isDebug()) {
+        props.put("mail.debug", "true");
+      }
+
+      if (Utils.isEmpty(data.server)) {
+        logError(BaseMessages.getString(PKG, "ActionMail.Error.HostNotSpecified"));
+        result.setNrErrors(1L);
+        result.setResult(false);
+        return result;
+      }
+
+      Session session = Session.getInstance(props);
+      session.setDebug(isDebug());
+      // DEEM-MOD END
+
       // create a message
       Message msg = new MimeMessage(session);
 
@@ -819,7 +848,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
             .append(endRow);
         messageText.append("-----").append(endRow);
         messageText
-            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.JobName") + "    : ")
+            .append(BaseMessages.getString(PKG, "ActionMail.Log.Comment.WorkflowName") + "    : ")
             .append(parentWorkflow.getWorkflowMeta().getName())
             .append(endRow);
         messageText
@@ -1067,8 +1096,8 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
           String realImageFile = resolve(embeddedimages[i]);
           String realcontenID = resolve(contentids[i]);
           if (messageText.indexOf("cid:" + realcontenID) < 0) {
-            if (log.isDebug()) {
-              log.logDebug("Image [" + realImageFile + "] is not used in message body!");
+            if (isDebug()) {
+              logDebug("Image [" + realImageFile + "] is not used in message body!");
             }
           } else {
             try {
@@ -1077,7 +1106,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
               if (imageFile.exists() && imageFile.getType() == FileType.FILE) {
                 found = true;
               } else {
-                log.logError("We can not find [" + realImageFile + "] or it is not a file");
+                logError("We can not find [" + realImageFile + "] or it is not a file");
               }
               if (found) {
                 // Create part for the image
@@ -1090,12 +1119,12 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
                 // Add part to multi-part
                 parts.addBodyPart(messageBodyPart);
                 nrEmbeddedImages++;
-                log.logBasic("Image '" + fds.getName() + "' was embedded in message.");
+                logBasic("Image '" + fds.getName() + "' was embedded in message.");
               }
             } catch (Exception e) {
-              log.logError(
+              logError(
                   "Error embedding image [" + realImageFile + "] in message : " + e.toString());
-              log.logError(Const.getStackTracker(e));
+              logError(Const.getStackTracker(e));
               result.setNrErrors(1);
             } finally {
               if (imageFile != null) {
@@ -1121,21 +1150,21 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
       Transport transport = null;
       try {
-        transport = session.getTransport(protocol);
-        String authPass = getPassword(authenticationPassword);
+        transport = session.getTransport(data.protocol);
+        String authPass = getPassword(data.authenticationPassword); // DEEM-MOD
 
-        if (usingAuthentication) {
-          if (!Utils.isEmpty(port)) {
+        if (data.usingAuthentication) { // DEEM-MOD
+          if (!Utils.isEmpty(data.port)) {
             transport.connect(
-                resolve(Const.NVL(server, "")),
-                Integer.parseInt(resolve(Const.NVL(port, ""))),
-                resolve(Const.NVL(authenticationUser, "")),
-                authPass);
+                resolve(Const.NVL(data.server, "")),
+                Integer.parseInt(resolve(Const.NVL(data.port, ""))),
+                resolve(Const.NVL(data.authenticationUser, "")),
+                authPass); // DEEM-MOD
           } else {
             transport.connect(
-                resolve(Const.NVL(server, "")),
-                resolve(Const.NVL(authenticationUser, "")),
-                authPass);
+                resolve(Const.NVL(data.server, "")),
+                resolve(Const.NVL(data.authenticationUser, "")),
+                authPass); // DEEM-MOD
           }
         } else {
           transport.connect();
@@ -1155,9 +1184,7 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
       Exception ex = mex;
       do {
-        if (ex instanceof SendFailedException) {
-          SendFailedException sfex = (SendFailedException) ex;
-
+        if (ex instanceof SendFailedException sfex) {
           Address[] invalid = sfex.getInvalidAddresses();
           if (invalid != null) {
             logError("    ** Invalid Addresses");
@@ -1184,8 +1211,8 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
             }
           }
         }
-        if (ex instanceof MessagingException) {
-          ex = ((MessagingException) ex).getNextException();
+        if (ex instanceof MessagingException messagingException) {
+          ex = messagingException.getNextException();
         } else {
           ex = null;
         }
@@ -1350,5 +1377,16 @@ public class ActionMail extends ActionBase implements Cloneable, IAction {
 
   public String getPassword(String authPassword) {
     return Encr.decryptPasswordOptionallyEncrypted(resolve(Const.NVL(authPassword, "")));
+  }
+
+  // DEEM-MOD
+  public static class MailData {
+    boolean usingConfig = false;
+    boolean usingAuthentication = false;
+    String server = "";
+    String port = "";
+    String protocol = "smtp";
+    String authenticationUser = "";
+    String authenticationPassword = "";
   }
 }
