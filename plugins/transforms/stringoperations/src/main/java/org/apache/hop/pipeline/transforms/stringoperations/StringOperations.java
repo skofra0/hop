@@ -134,6 +134,12 @@ public class StringOperations extends BaseTransform<StringOperationsMeta, String
         case StringOperationsMeta.MASK_ESCAPE_SQL:
           rcode = Const.escapeSql(rcode);
           break;
+        case StringOperationsMeta.MASK_ESCAPE_JS: // DEEM-MOD
+          rcode = Const.escapeJs(rcode);
+          break;
+        case StringOperationsMeta.MASK_UNESCAPE_JS: // DEEM-MOD
+          rcode = Const.unEscapeJs(rcode);
+          break;
         default:
           break;
       }

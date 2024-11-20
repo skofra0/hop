@@ -167,10 +167,20 @@ public class StringOperationsMeta
         BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.EscapeSQL"),
         BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.EscapeHTML"),
         BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.UnEscapeHTML"),
+        "Escape JavaScript",
+        "Unescape JavaScript"
       };
 
   public static final String[] maskXMLCode = {
-    "none", "escapexml", "cdata", "unescapexml", "escapesql", "escapehtml", "unescapehtml"
+    "none",
+    "escapexml",
+    "cdata",
+    "unescapexml",
+    "escapesql",
+    "escapehtml",
+    "unescapehtml",
+    "escapejs", // DEEM-MOD
+    "unescapejs" // DEEM-MOD
   };
 
   public static final int MASK_NONE = 0;
@@ -180,6 +190,8 @@ public class StringOperationsMeta
   public static final int MASK_ESCAPE_SQL = 4;
   public static final int MASK_ESCAPE_HTML = 5;
   public static final int MASK_UNESCAPE_HTML = 6;
+  public static final int MASK_ESCAPE_JS = 7; // DEEM-MOD
+  public static final int MASK_UNESCAPE_JS = 8; // DEEM-MOD
 
   // remove special characters
   public static final String[] removeSpecialCharactersCode = {
