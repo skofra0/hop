@@ -2681,6 +2681,34 @@ public class Const {
   }
 
   /**
+   * Escape JavaScript/Java/Json content. i.e. replace characters with &amp;values;
+   *
+   * @param content content
+   * @return escaped content
+   */
+  // DEEM-MOD
+  public static String escapeJava(String content) {
+    if (Utils.isEmpty(content)) {
+      return content;
+    }
+    return StringEscapeUtils.escapeJava(content);
+  }
+
+  /**
+   * UnEscape JavaScript/Java/Json content. i.e. replace characters with &amp;values;
+   *
+   * @param content content
+   * @return unescaped content
+   */
+  // DEEM-MOD
+  public static String unEscapeJava(String content) {
+    if (Utils.isEmpty(content)) {
+      return content;
+    }
+    return StringEscapeUtils.unescapeJava(content);
+  }
+
+  /**
    * Remove CR / LF from String - Better performance version - Doesn't NPE - 40 times faster on an
    * empty string - 2 times faster on a mixed string - 25% faster on 2 char string with only CRLF in
    * it
