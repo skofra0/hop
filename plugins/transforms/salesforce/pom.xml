@@ -30,7 +30,7 @@
     <name>Hop Plugins Transforms Salesforce</name>
 
     <properties>
-        <com.force.api.version>58.0.0</com.force.api.version>
+        <com.force.api.version>62.0.0</com.force.api.version>
     </properties>
 
     <dependencies>
