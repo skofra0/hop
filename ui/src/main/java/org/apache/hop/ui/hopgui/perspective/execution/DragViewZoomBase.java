@@ -16,7 +16,7 @@
  */
 package org.apache.hop.ui.hopgui.perspective.execution;
 
-import no.deem.core.utils.Objects;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.hop.core.gui.DPoint;
 import org.apache.hop.core.gui.Point;
 import org.apache.hop.core.gui.plugin.key.GuiKeyboardShortcut;
@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 
 public abstract class DragViewZoomBase extends Composite {
   public static final boolean MOUSE_WHEEL_ZOOM =
-      Objects.isTrue(EnvUtil.getSystemProperty("MOUSE_WHEEL_ZOOM", "N")); // DEEM-MOD
+      BooleanUtils.toBoolean(EnvUtil.getSystemProperty("MOUSE_WHEEL_ZOOM", "N")); // DEEM-MOD
 
   protected Canvas canvas;
   protected DPoint offset;

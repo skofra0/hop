@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import no.deem.core.json.Json;
 import no.deem.core.utils.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.hop.core.logging.LogChannel;
 
 public class AzureConfig {
@@ -131,7 +132,7 @@ public class AzureConfig {
 
   private Map<String, String> splitToMap(
       String configStr, String lineSeparator, String keySeparator) {
-    if (Strings.isBlank(configStr)) {
+    if (StringUtils.isBlank(configStr)) {
       return Map.of();
     }
     Map<String, String> values = new LinkedHashMap<>();

@@ -16,7 +16,7 @@
  */
 package org.apache.hop.databases.monetdb;
 
-import no.deem.core.utils.Objects;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.database.BaseDatabaseMeta;
 import org.apache.hop.core.database.DatabaseMeta;
@@ -44,7 +44,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   public static final boolean SAFE_MODE = false; // DEEM-MOD
 
   protected static boolean supportIntAsDecimal =
-      Objects.isTrue(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y"));
+      BooleanUtils.toBoolean(System.getProperty("MONETDB_SUPPORT_INT_AS_DECIMAL", "Y"));
 
   protected static final String FIELDNAME_PROTECTOR = "_";
 

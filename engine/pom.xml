@@ -31,7 +31,7 @@
     <properties>
         <commons-validator.version>1.9.0</commons-validator.version>
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
-        <jersey2.version>2.43</jersey2.version>
+        <jersey2.version>2.45</jersey2.version>
         <snappy-java.version>1.1.10.5</snappy-java.version>
     </properties>
 
