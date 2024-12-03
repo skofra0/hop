@@ -24,7 +24,7 @@
 
     <groupId>org.apache.hop</groupId>
     <artifactId>hop-web-integration-tests</artifactId>
-    <version>2.10.0</version>
+    <version>2.10.1</version>
 
     <name>Hop Web Integration Tests</name>
 

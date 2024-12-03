@@ -25,7 +25,7 @@
 
     <groupId>org.apache.hop</groupId>
     <artifactId>hop</artifactId>
-    <version>2.10.0</version>
+    <version>2.10.1</version>
     <packaging>pom</packaging>
 
     <name>Hop Orchestration Platform</name>
@@ -76,7 +76,7 @@
     <scm>
         <connection>scm:git:https://gitbox.apache.org/repos/asf/hop.git</connection>
         <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/hop.git</developerConnection>
-        <tag>2.10.0-rc1</tag>
+        <tag>2.10.1</tag>
         <url>https://gitbox.apache.org/repos/asf?p=hop.git;a=summary</url>
     </scm>
 
@@ -100,7 +100,7 @@
         <!-- DEEM-MOD-->
         <asm.version>9.7.1</asm.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
-        <deem-insight.version>24.4.10</deem-insight.version>
+        <deem-insight.version>24.4.12</deem-insight.version>
         <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision>
         <groovy.version>4.0.23</groovy.version>
         <httpccore.version>4.4.16</httpccore.version>
