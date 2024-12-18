@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.apache.hop</groupId>
         <artifactId>hop</artifactId>
-        <version>2.10.1</version>
+        <version>2.10.0</version>
     </parent>
     <artifactId>hop-core-deem</artifactId>
     <name>Hop - Core - Deem</name>
@@ -63,12 +63,6 @@
             <artifactId>deem-cloudapi-jsonrpc2</artifactId>
             <version>${deem-insight.version}</version>
         </dependency>
-        <!-- 
-        <dependency>
-            <groupId>no.deem.insight</groupId>
-            <artifactId>deem-cloudapi-mvxapi-m3-client</artifactId>
-            <version>${deem-insight.version}</version>
-        </dependency> -->
         <dependency>
             <groupId>no.deem.insight</groupId>
             <artifactId>deem-core</artifactId>
@@ -115,7 +109,7 @@
             <artifactId>org.eclipse.jgit.http.apache</artifactId>
             <version>${dependency.jgit.revision}</version>
         </dependency>
-        <!-- DEEM-MOD -->
+
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
