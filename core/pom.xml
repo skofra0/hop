@@ -58,6 +58,10 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-avro</artifactId>
         </dependency>
+        <dependency> <!-- DEEM-MOD -->
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -364,11 +368,6 @@
         <dependency>
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis-ext</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.javassist</groupId>

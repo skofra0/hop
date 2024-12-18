@@ -62,25 +62,6 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
     Object[] r = getRow(); // this also waits for a previous transform to be finished.
     if (r == null) { // no more input to be expected...
       if (first && meta.isTruncateTable() && !meta.isOnlyWhenHaveRows()) {
-        // DEEM-MOD start : Auto create tables when running workflow
-        String schemaTable =
-            data.db
-                .getDatabaseMeta()
-                .getQuotedSchemaTableCombination(
-                    variables, meta.getSchemaName(), meta.getTableName());
-        if (getVariable("DI_AUTO_CREATE_TABLES", "N").startsWith("Y")
-            && !data.db.checkTableExists(resolve(schemaTable))) {
-          IRowMeta prev =
-              getPipelineMeta().getPrevTransformFields(variables, getTransformMeta().getName());
-          SqlStatement sql =
-              meta.getSqlStatements(
-                  variables, getPipelineMeta(), getTransformMeta(), prev, metadataProvider);
-          if (!sql.hasError() && sql.hasSql()) {
-            data.db.execStatements(sql.getSql());
-          }
-        }
-        // DEEM-MOD end
-
         truncateTable();
       }
       return false;
@@ -209,7 +190,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
               "Unable to find field [" + meta.getPartitioningField() + "] in the input row!");
         }
 
-        if (Boolean.TRUE.equals(meta.isPartitioningDaily())) {
+        if (meta.isPartitioningDaily()) {
           data.dateFormater = new SimpleDateFormat("yyyyMMdd");
         } else {
           data.dateFormater = new SimpleDateFormat("yyyyMM");
@@ -573,11 +554,31 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
     return false;
   }
 
-  void truncateTable() throws HopDatabaseException {
+  void truncateTable() throws HopException {
     if (!meta.isPartitioningEnabled() && !meta.isTableNameInField()) {
       // Only the first one truncates in a non-partitioned transform copy
       //
       if (meta.isTruncateTable() && ((getCopy() == 0) || !Utils.isEmpty(getPartitionId()))) {
+
+        // DEEM-MOD start : Auto create tables when running workflow
+        String schemaTable =
+            data.db
+                .getDatabaseMeta()
+                .getQuotedSchemaTableCombination(
+                    variables, meta.getSchemaName(), meta.getTableName());
+        if (getVariable("DI_AUTO_CREATE_TABLES", "N").startsWith("Y")
+            && !data.db.checkTableExists(resolve(schemaTable))) {
+          IRowMeta prev =
+              getPipelineMeta().getPrevTransformFields(variables, getTransformMeta().getName());
+          SqlStatement sql =
+              meta.getSqlStatements(
+                  variables, getPipelineMeta(), getTransformMeta(), prev, metadataProvider);
+          if (!sql.hasError() && sql.hasSql()) {
+            data.db.execStatements(sql.getSql());
+          }
+        }
+        // DEEM-MOD end
+
         data.db.truncateTable(resolve(meta.getSchemaName()), resolve(meta.getTableName()));
       }
     }
