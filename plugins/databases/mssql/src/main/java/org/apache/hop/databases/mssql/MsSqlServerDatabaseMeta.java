@@ -291,7 +291,7 @@ public class MsSqlServerDatabaseMeta extends BaseDatabaseMeta implements IDataba
 
     int type = v.getType();
     switch (type) {
-      case IValueMeta.TYPE_TIMESTAMP, IValueMeta.TYPE_DATE: // DEEM-MOD
+      case IValueMeta.TYPE_TIMESTAMP, IValueMeta.TYPE_DATE:
         if ((length >= 8 && length <= 10)) { // DEEM-MOD
           retval += "DATE"; // DEEM-MOD
         } else {

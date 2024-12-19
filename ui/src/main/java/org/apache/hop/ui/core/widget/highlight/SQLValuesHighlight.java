@@ -101,7 +101,7 @@ public class SQLValuesHighlight implements LineStyleListener {
         new Color[] {
           GuiResource.getInstance().getColorBlack(), // black
           GuiResource.getInstance().getColorRed(), // red
-          GuiResource.getInstance().getColorDarkGreen(), // green DEEM-MOD DI (63, 127, 95)
+          GuiResource.getInstance().getColorDarkGreen(), // green
           GuiResource.getInstance().getColorBlue(), // blue
           GuiResource.getInstance().getColorMagenta() // SQL Functions / Rose
         };

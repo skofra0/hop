@@ -224,8 +224,8 @@ public class ControlSpaceKeyAdapter extends KeyAdapter {
       if (list.getSelectionCount() <= 0) {
         return;
       }
-      if (control instanceof Text text) {
-        text.insert(extra);
+      if (control instanceof Text textControl) {
+        textControl.insert(extra);
       } else if (control instanceof CCombo combo) {
         combo.setText(
             extra); // We can't know the location of the cursor yet. All we can do is overwrite.

@@ -147,8 +147,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
         parametersMeta = new RowMeta();
       }
 
-      // DEEM-MOD if (meta.isExecuteEachInputRow() && (parameters == null || parametersMeta.size()
-      // == 0)) {
+      // DEEM-MOD if (meta.isExecuteEachInputRow() && (parameters == null || parametersMeta.size() == 0)) {
       // DEEM-MOD   setOutputDone(); // signal end to receiver(s)
       // DEEM-MOD   return false; // stop immediately, nothing to do here.
       // DEEM-MOD }

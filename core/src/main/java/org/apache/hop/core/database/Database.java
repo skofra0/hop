@@ -4375,7 +4375,6 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * Return SQL CREATION statement for a Table
    *
    * @param tableName The table to create
-   * @throws HopDatabaseException
    */
   public String getDDLCreationTable(String tableName, IRowMeta fields) {
     String retval;
@@ -4687,7 +4686,6 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    *     statement. If false separate statements will be isolated and executed.
    * @return a Result object indicating the number of lines read, deleted, inserted, updated, ...
    * @throws HopDatabaseException in case anything goes wrong.
-   * @sendSinglestatement send one statement
    */
   public Result execStatementsFromFile(String filename, boolean sendSinglestatement)
       throws HopException {

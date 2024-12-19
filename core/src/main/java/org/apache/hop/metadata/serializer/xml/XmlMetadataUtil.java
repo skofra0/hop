@@ -173,8 +173,8 @@ public class XmlMetadataUtil {
         } else {
           xml += XmlHandler.addTagValue(tag, ((Enum) value).name());
         }
-      } else if (value instanceof java.util.List listItems) {
-        if (!listItems.isEmpty()) { // DEEM-MOD
+      } else if (value instanceof java.util.List list) {
+        if (!list.isEmpty()) { // DEEM-MOD
 
           // Serialize a list of values
           // Use the key on the annotation to open a new block
@@ -186,7 +186,7 @@ public class XmlMetadataUtil {
 
           // Add the elements...
           //
-          for (Object listItem : listItems) {
+          for (Object listItem : list) {
             xml +=
                 serializeObjectToXml(
                     property,

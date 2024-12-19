@@ -85,7 +85,7 @@ public class JavaHighlight implements LineStyleListener {
         new Color[] {
           GuiResource.getInstance().getColorBlack(), // black
           GuiResource.getInstance().getColorRed(), // red
-          GuiResource.getInstance().getColorDarkGreen(), // green // DEEM-MOD
+          GuiResource.getInstance().getColorDarkGreen(), // green
           GuiResource.getInstance().getColorBlue(), // blue
           GuiResource.getInstance().getColorOrange() // orange
         };
