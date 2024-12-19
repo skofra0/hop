@@ -8,6 +8,7 @@
     </parent>
     <artifactId>hop-core-deem</artifactId>
     <name>Hop - Core - Deem</name>
+    <version>24.2.10.2</version>
 
     <inceptionYear>2023</inceptionYear>
     <organization>

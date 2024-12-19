@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-core-deem</artifactId>
-            <version>${project.version}</version>
+            <version>${deem-integrator.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

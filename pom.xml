@@ -98,9 +98,10 @@
 
     <properties>
         <!-- DEEM-MOD-->
+        <deem-integrator.version>24.2.10.2</deem-integrator.version>
+        <deem-insight.version>24.4.19</deem-insight.version>
         <asm.version>9.7.1</asm.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
-        <deem-insight.version>24.4.15</deem-insight.version>
         <dependency.jgit.revision>6.10.0.202406032230-r</dependency.jgit.revision>
         <groovy.version>4.0.23</groovy.version>
         <httpccore.version>4.4.16</httpccore.version>
